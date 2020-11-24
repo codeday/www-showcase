@@ -1,0 +1,13 @@
+#import "../../components/ProjectDetails.gql"
+
+query ProjectByIdQuery ($id: String!) {
+  showcase {
+    project(id: $id) {
+      ...ProjectDetailsFragment
+      name
+      members {
+        username
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+mutation CreateProjectMutation ($name: String!, $type: ShowcaseProjectType!, $description: String) {
+  showcase {
+    createProject(project: { name: $name, type: $type, description: $description}) {
+      id
+    }
+  }
+}

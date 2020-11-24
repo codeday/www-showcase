@@ -1,0 +1,20 @@
+module.exports = {
+  serverRuntimeConfig: {
+    auth0: {
+      clientId: process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET,
+      domain: process.env.AUTH0_DOMAIN,
+    },
+    showcase: {
+      audience: process.env.SHOWCASE_AUDIENCE,
+      secret: process.env.SHOWCASE_SECRET,
+      allowCreate: process.env.SHOWCASE_ALLOW_CREATE === 'true',
+      eventGroup: process.env.SHOWCASE_EVENT_GROUP,
+      program: process.env.SHOWCASE_PROGRAM,
+      availableSubevents: process.env.SHOWCASE_AVAILABLE_SUBEVENTS.split(',') || [],
+    },
+  },
+  publicRuntimeConfig: {
+    appUrl: process.env.APP_URL,
+  },
+};

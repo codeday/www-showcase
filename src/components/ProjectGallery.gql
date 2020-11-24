@@ -1,0 +1,16 @@
+fragment ProjectGalleryFragment on ShowcaseMedia {
+  type
+  topic
+  galleryImage: image(fillBlur: true, strategy: FILL, height: 600, width: 800)
+  fullImage: image(strategy: CLIP, height: 1080, width: 1920)
+  stream
+  download
+}
+
+mutation UploadMediaMutation($upload: ShowcaseUpload!, $topic: ShowcaseTopic!, $type: ShowcaseType!, $projectId: String!) {
+  showcase {
+    uploadMedia(upload: $upload, topic: $topic, type: $type, project: $projectId) {
+      ...ProjectGalleryFragment
+    }
+  }
+}

@@ -1,0 +1,19 @@
+fragment ProjectMembersFragment on ShowcaseMember {
+  username
+  account {
+    name
+    picture(transform: { width: 32, height: 32, fit: FILL })
+  }
+}
+
+mutation AddMember($projectId: String!, $username: String!) {
+  showcase {
+    addMember(project: $projectId, username: $username)
+  }
+}
+
+mutation RemoveMember($projectId: String!, $username: String!) {
+  showcase {
+    removeMember(project: $projectId, username: $username)
+  }
+}

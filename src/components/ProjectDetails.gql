@@ -1,0 +1,69 @@
+#import  "./ProjectMembers.gql"
+#import "./ProjectGallery.gql"
+
+fragment ProjectDetailsFragment on ShowcaseProject {
+  id
+  name
+  type
+  description
+  priorExperience
+  codeLink
+  viewLink
+  media {
+    coverImage: image(fillBlur: true, strategy: FILL, height: 600, width: 1400)
+    type
+    topic
+    ...ProjectGalleryFragment
+  }
+  members {
+    ...ProjectMembersFragment
+  }
+}
+
+mutation ProjectEditName ($projectId: String!, $name: String!) {
+  showcase {
+    editProject(id: $projectId, project: { name: $name }) {
+      id
+    }
+  }
+}
+
+mutation ProjectEditType ($projectId: String!, $type: ShowcaseProjectType!) {
+  showcase {
+    editProject(id: $projectId, project: { type: $type }) {
+      id
+    }
+  }
+}
+
+mutation ProjectEditDescription ($projectId: String!, $description: String) {
+  showcase {
+    editProject(id: $projectId, project: { description: $description }) {
+      id
+    }
+  }
+}
+
+mutation ProjectEditPriorExperience ($projectId: String!, $priorExperience: String) {
+  showcase {
+    editProject(id: $projectId, project: { priorExperience: $priorExperience }) {
+      id
+    }
+  }
+}
+
+mutation ProjectEditCodeLink ($projectId: String!, $codeLink: String) {
+  showcase {
+    editProject(id: $projectId, project: { codeLink: $codeLink }) {
+      id
+    }
+  }
+}
+
+mutation ProjectEditViewLink ($projectId: String!, $viewLink: String) {
+  showcase {
+    editProject(id: $projectId, project: { viewLink: $viewLink }) {
+      id
+    }
+  }
+}
