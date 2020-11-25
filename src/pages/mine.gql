@@ -1,0 +1,8 @@
+#import "../components/ProjectPreview.gql"
+query MineQuery($username: String!) {
+  showcase {
+    projects(where: { user: $username }) {
+      ...ProjectPreviewFragment
+    }
+  }
+}

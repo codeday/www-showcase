@@ -1,0 +1,8 @@
+#import "../components/ProjectPreview.gql"
+query IndexQuery {
+  showcase {
+    projects {
+      ...ProjectPreviewFragment
+    }
+  }
+}

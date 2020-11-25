@@ -17,7 +17,11 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }
 
   return (
     <Grid templateColumns="100% minmax(0, 1fr)" style={{ clear: 'both' }}>
-      <Input onChange={(e) => setUsername(e.target.value)} value={username} />
+      <Input
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        placeholder="CodeDay Username"
+      />
       <Button
         variant="ghost"
         isLoading={isSubmitting}
