@@ -1,0 +1,5 @@
+mutation ProjectMemberRemoveMutation($projectId: String!, $username: String!) {
+  showcase {
+    removeMember(project: $projectId, username: $username)
+  }
+}

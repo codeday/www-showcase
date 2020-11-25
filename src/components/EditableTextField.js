@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import { useToasts } from '@codeday/topo/utils';
+import UiEdit from '@codeday/topocons/Icon/UiEdit';
 import { tryAuthenticatedApiQuery } from '../util/api';
 
 export default function EditableTextField({
@@ -71,7 +72,12 @@ export default function EditableTextField({
     onClick={() => { if (!isEditing && token) { setIsEditing(true); } }}
     {...props}
   >
-    {isEditing ? editingBox : (savedValue || `(Nothing here yet... click to edit.)`)}
+    {isEditing ? editingBox : (
+      <>
+        {savedValue || (token ? `(Nothing here yet... click to edit.)` : '')}
+        {token && <UiEdit />}
+      </>
+    )}
   </Box>;
 }
 EditableTextField.propTypes = {
