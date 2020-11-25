@@ -4,10 +4,14 @@ import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import { useToasts } from '@codeday/topo/utils';
 import UiEdit from '@codeday/topocons/Icon/UiEdit';
+import nl2br from 'react-nl2br';
 import { tryAuthenticatedApiQuery } from '../util/api';
 
 export default function EditableTextField({
-  name, params, initialValue, component: Component, gql, token, onUpdate, componentProps, ...props
+  name, params, initialValue,
+  component: Component, viewComponent: ViewComponent,
+  gql, token, onUpdate, componentProps,
+  ...props
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -68,23 +72,24 @@ export default function EditableTextField({
     </>
   );
 
-  return <Box
+  return <ViewComponent
     onClick={() => { if (!isEditing && token) { setIsEditing(true); } }}
     {...props}
   >
     {isEditing ? editingBox : (
       <>
-        {savedValue || (token ? `(Nothing here yet... click to edit.)` : '')}
+        {nl2br(savedValue)}
         {token && <UiEdit />}
       </>
     )}
-  </Box>;
+  </ViewComponent>;
 }
 EditableTextField.propTypes = {
   name: PropTypes.string.isRequired,
   params: PropTypes.object,
   initialValue: PropTypes.string,
   component: PropTypes.elementType.isRequired,
+  viewComponent: PropTypes.elementType,
   gql: PropTypes.object.isRequired,
   token: PropTypes.string,
   onUpdate: PropTypes.func,
@@ -96,4 +101,5 @@ EditableTextField.defaultProps = {
   token: null,
   onUpdate: () => {},
   componentProps: {},
+  viewComponent: Box,
 };

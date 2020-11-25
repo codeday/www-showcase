@@ -23,10 +23,11 @@
     "next-auth": "^3.1.0",
     "next-seo": "^4.7.3",
     "prop-types": "^15.7.2",
-    "react": "16.13.1",
+    "react": "^17.0.1",
     "react-dom": "16.13.1",
     "react-hook-form": "^6.11.5",
     "react-load-script": "^0.0.6",
+    "react-nl2br": "^1.0.1",
     "truncate": "^2.1.0"
   },
   "devDependencies": {

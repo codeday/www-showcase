@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
-import { Heading } from '@codeday/topo/Atom/Text';
+import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
 import EditableTextField from './EditableTextField';
@@ -56,10 +56,10 @@ export default function ProjectDetails({ project, editToken }) {
               <Heading as="h3" fontSize="2xl" mt={8}>Prior Experience</Heading>
               <EditableTextField
                 component={Textarea}
-                name="description"
+                name="priorExperience"
                 params={{ projectId: project.id }}
-                initialValue={project.description}
-                gql={ProjectEditDescription}
+                initialValue={project.priorExperience}
+                gql={ProjectEditPriorExperience}
                 token={editToken}
                 cursor={editToken && 'pointer'}
                 componentProps={{ height: 48 }}
@@ -70,6 +70,49 @@ export default function ProjectDetails({ project, editToken }) {
 
         {/* Meta Column */}
         <Box>
+          {(project.codeLink || project.viewLink || editToken) && (
+            <Box mb={8}>
+              <Heading as="h3" fontSize="2xl" mt={8}>Links</Heading>
+              {(project.viewLink || editToken) && (
+                <Box>
+                  {editToken && <Text d="inline-block" mb={0} mr={1} bold>View: </Text>}
+                  <EditableTextField
+                    component={Input}
+                    viewComponent={editToken ? Box : Link}
+                    name="viewLink"
+                    params={{ projectId: project.id }}
+                    initialValue={editToken ? project.viewLink : 'View/Download'}
+                    gql={ProjectEditViewLink}
+                    token={editToken}
+                    cursor="pointer"
+                    d="inline-block"
+                    href={project.viewLink}
+                    target="_blank"
+                  />
+                </Box>
+              )}
+
+              {(project.codeLink || editToken) && (
+                <Box>
+                  {editToken && <Text d="inline-block" mb={0} mr={1} bold>Code: </Text>}
+                  <EditableTextField
+                    component={Input}
+                    viewComponent={editToken ? Box : Link}
+                    name="codeLink"
+                    params={{ projectId: project.id }}
+                    initialValue={editToken ? project.codeLink : 'Code'}
+                    gql={ProjectEditCodeLink}
+                    token={editToken}
+                    cursor="pointer"
+                    d="inline-block"
+                    href={project.codeLink}
+                    target="_blank"
+                  />
+                </Box>
+              )}
+            </Box>
+          )}
+
           <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
           <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
         </Box>
