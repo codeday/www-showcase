@@ -24,6 +24,7 @@ export default function ProjectMembers({
     <Box>
       {editedMembers.filter((member) => !!member.account).map((member) => (
         <ProjectMember
+          key={member.username}
           projectId={projectId}
           member={member}
           editToken={editToken}
@@ -41,7 +42,7 @@ export default function ProjectMembers({
 
 ProjectMembers.propTypes = {
   projectId: PropTypes.string.isRequired,
-  members: PropTypes.object.isRequired,
+  members: PropTypes.arrayOf(PropTypes.object).isRequired,
   editToken: PropTypes.string,
   onMemberAdded: PropTypes.func,
   onMemberRemoved: PropTypes.func,

@@ -21,7 +21,7 @@ export default function ViewEditProject({ project, token }) {
 
   return (
     <Page slug={`/project/${project.id}`} title={project.name}>
-      <Content>
+      <Content mt={-8}>
         <ProjectDetails project={project} editToken={token} />
       </Content>
     </Page>

@@ -14,10 +14,23 @@ import {
   ProjectEditCodeLink,
   ProjectEditViewLink,
 } from './ProjectDetails.gql';
+import ProjectGallery from './ProjectGallery';
+import { MEDIA_TOPICS } from '../util/mediaTopics';
+import Image from '@codeday/topo/Atom/Image';
 
-export default function ProjectDetails({ project, editToken }) {
+const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
+
+export default function ProjectDetails({ project, editToken, ...props }) {
+  const preferredMedia = (project.media || [])
+    .filter((item) => item.type === 'IMAGE')
+    .sort((a, b) => {
+      return TOPIC_PREFERENCES.indexOf(a.topic) - TOPIC_PREFERENCES.indexOf(b.type);
+    });
   return (
-    <Box>
+    <Box {...props}>
+      {preferredMedia.length > 0 && (
+        <Image src={preferredMedia[0].coverImage} alt="" />
+      )}
       <EditableTextField
         as="h1"
         fontSize="5xl"
@@ -66,13 +79,20 @@ export default function ProjectDetails({ project, editToken }) {
               />
             </>
           )}
+
+          {(project.media?.length > 0 || editToken) && (
+            <>
+              <Heading as="h3" fontSize="2xl" mt={8}>Media</Heading>
+              <ProjectGallery media={project.media} projectId={project.id} editToken={editToken} />
+            </>
+          )}
         </Box>
 
         {/* Meta Column */}
         <Box>
           {(project.codeLink || project.viewLink || editToken) && (
             <Box mb={8}>
-              <Heading as="h3" fontSize="2xl" mt={8}>Links</Heading>
+              <Heading as="h3" fontSize="2xl">Links</Heading>
               {(project.viewLink || editToken) && (
                 <Box>
                   {editToken && <Text d="inline-block" mb={0} mr={1} bold>View: </Text>}

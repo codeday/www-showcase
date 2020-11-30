@@ -1,4 +1,5 @@
 fragment ProjectGalleryFragment on ShowcaseMedia {
+  id
   type
   topic
   galleryImage: image(fillBlur: true, strategy: FILL, height: 600, width: 800)
@@ -7,10 +8,16 @@ fragment ProjectGalleryFragment on ShowcaseMedia {
   download
 }
 
-mutation UploadMediaMutation($upload: ShowcaseUpload!, $topic: ShowcaseTopic!, $type: ShowcaseType!, $projectId: String!) {
+mutation UploadMediaMutation($upload: Upload!, $topic: ShowcaseMediaTopic!, $type: ShowcaseMediaType!, $projectId: String!) {
   showcase {
     uploadMedia(upload: $upload, topic: $topic, type: $type, project: $projectId) {
       ...ProjectGalleryFragment
     }
+  }
+}
+
+mutation DeleteMediaMutation($id: String!) {
+  showcase {
+    deleteMedia(id: $id)
   }
 }
