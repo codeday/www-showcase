@@ -180,10 +180,10 @@
     eslint-plugin-react-hooks "^2.3.0"
     eslint-plugin-sonarjs "^0.5.0"
 
-"@codeday/topo@^3.34.0":
-  version "3.34.0"
-  resolved "https://registry.yarnpkg.com/@codeday/topo/-/topo-3.34.0.tgz#feeec8fffd2bdd906cfaa22576ca0e1914c9e1db"
-  integrity sha512-C4hYK7OQuzDGHuYhe8Q4vnUDYj5cpFpb8NRY/LdClwMcTZWdnRAZQwZyu5s8PQquWtuIYHEjDFxZZbwOwUVUzw==
+"@codeday/topo@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@codeday/topo/-/topo-3.36.0.tgz#fda0aca0d2a29e97c2894f9443741aaaaa3dab55"
+  integrity sha512-dv6xsvhv9Mt4YgGXLETK7MzgtFizYAEb00DcuvxpxCMITAjCofm+ysDZjhw1ImUC3MzwDMGxFKwCQo0QVrFc8g==
   dependencies:
     "@accessible/use-id" "^1.1.1"
     "@chakra-ui/core" "^0.7.0"
@@ -192,6 +192,7 @@
     "@tylermenezes/cognitoforms-react" "^1.1.0"
     fathom-react "^1.0.1"
     form-data "^3.0.0"
+    graphql "^15.4.0"
     graphql-request "^3.3.0"
     react-load-script "^0.0.6"
     react-toast-notifications "^2.4.0"
