@@ -35,6 +35,7 @@ export async function getServerSideProps({ req, res, params: { projectId } }) {
 
   if (error) {
     res.statusCode = 404;
+    console.error(error);
     return {
       props: {},
     };
