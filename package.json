@@ -25,9 +25,11 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "16.13.1",
+    "react-hls-player": "^1.1.0",
     "react-hook-form": "^6.11.5",
     "react-load-script": "^0.0.6",
     "react-nl2br": "^1.0.1",
+    "react-responsive-modal": "^6.0.0",
     "react-star-ratings": "^2.3.0",
     "truncate": "^2.1.0"
   },

@@ -3,6 +3,9 @@ mutation ProjectMemberAddMutation($projectId: String!, $username: String!) {
   showcase {
     addMember(project: $projectId, username: $username) {
       ...ProjectMembersFragment
+      account {
+        discordId
+      }
     }
   }
 }

@@ -11,14 +11,14 @@ export default function ProjectMediaItemBox({ media, projectId, editToken, child
   const { success, error } = useToasts();
 
   return (
-    <Box position="relative" {...props}>
+    <Box position="relative" bg="black" textAlign="center" {...props}>
       {editToken && (
         <Box
           cursor="pointer"
           position="absolute"
+          zIndex={1000}
           top={0}
           right={0}
-          bg="black"
           color="white"
           p={1}
           onClick={async () => {

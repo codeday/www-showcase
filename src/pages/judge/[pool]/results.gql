@@ -1,0 +1,26 @@
+query JudgingPoolResultsQuery {
+  showcase {
+    myJudgingPool {
+      name
+      judgingCriteria {
+        id
+        name
+        weight
+      }
+      results {
+        value
+        subScores {
+          judgingCriteria {
+            id
+            name
+          }
+          value
+        }
+        project {
+          name
+          type
+        }
+      }
+    }
+  }
+}

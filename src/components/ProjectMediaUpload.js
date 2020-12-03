@@ -9,6 +9,8 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 import { UploadMediaMutation } from './ProjectGallery.gql';
 import Text from '@codeday/topo/Atom/Text';
 
+const WARN_FILE_SIZE = 1024 * 1024 * 5;
+const MAX_FILE_SIZE = 1024 * 1024 * 75;
 const MIME_IMAGE = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
 const MIME_VIDEO = ['video/mp4'];
 
@@ -16,7 +18,7 @@ export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...p
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [topic, setTopic] = useState('');
   const fileUploadRef = useRef();
-  const { success, error } = useToasts();
+  const { success, error, info } = useToasts();
 
   if (!editToken) return <></>;
 
@@ -65,7 +67,19 @@ export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...p
             return;
           }
 
+          // Is the file really big.
+          if (file.size > MAX_FILE_SIZE) {
+            error(`Files must be smaller than ${Math.floor(file.size/(1024*1024))}MB`);
+            return;
+          }
+
           setIsSubmitting(true);
+
+          if (file.size > WARN_FILE_SIZE) {
+            info(`Your file is uploading, but at ${Math.floor(file.size/(1024*1024))}MB, it might take a while.`);
+          } else {
+            info(`Your file is uploading.`);
+          }
 
           const { result, error: resultError } = await tryAuthenticatedApiQuery(
             UploadMediaMutation,
@@ -76,9 +90,9 @@ export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...p
           if (resultError) {
             error(resultError?.response?.errors[0]?.message || resultError.message);
           } else {
-            success('Media was uploaded.');
+            success('Media was uploaded and is processing...');
             setTopic('');
-            onAdded(result?.showcase?.uploadMedia);
+            setTimeout(() => onAdded(result?.showcase?.uploadMedia), 2000)
           }
 
           setIsSubmitting(false);

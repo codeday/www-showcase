@@ -3,17 +3,32 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import Content from '@codeday/topo/Molecule/Content';
 import Box from '@codeday/topo/Atom/Box';
-import { Heading } from '@codeday/topo/Atom/Text';
+import Text, { Heading } from '@codeday/topo/Atom/Text';
 import Page from '../components/Page';
+import ForceLoginPage from '../components/ForceLoginPage';
 import CreateProjectForm from '../components/CreateProjectForm';
 import { mintAllTokens } from '../util/token';
 import { tryAuthenticatedApiQuery } from '../util/api';
-import { CreateProjectMutation } from './create.gql';
+import { CreateProjectMutation, CreateProjectAccountLinkedQuery } from './create.gql';
 
-export default function Create({ tokens }) {
+export default function Create({ tokens, logIn, linkAccount }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  if (logIn) {
+    return <ForceLoginPage />
+  }
+
+  if (linkAccount) {
+    return (
+      <Page>
+        <Content>
+          <Text>Please link your account to Discord first. (Follow the instruction in #link-account.)</Text>
+        </Content>
+      </Page>
+    );
+  }
 
   return (
     <Page slug="/create">
@@ -45,6 +60,22 @@ export default function Create({ tokens }) {
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
+  if (!session) {
+    return {
+      props: { logIn: true },
+    };
+  }
+
+  const { result, error } = await tryAuthenticatedApiQuery(
+    CreateProjectAccountLinkedQuery,
+    { username: session.user.name }
+  );
+
+  if (!result?.account?.getUser?.discordId) {
+    return {
+      props: { linkAccount: true },
+    };
+  }
 
   return {
     props: {

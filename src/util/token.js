@@ -1,4 +1,4 @@
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import getConfig from 'next/config';
 
 const { serverRuntimeConfig } = getConfig();
@@ -28,4 +28,22 @@ export function mintToken(session, subEvent) {
 export function mintAllTokens(session) {
   return serverRuntimeConfig.showcase.availableSubevents
     .reduce((accum, event) => ({ ...accum, [event]: mintToken(session, event) }), {});
+}
+
+export function mintJudgingToken(originalJudgingToken, username) {
+  const {
+    e, g, p, r, j, jvr,
+  } = verify(
+    originalJudgingToken,
+    serverRuntimeConfig.showcase.secret,
+    { audience: 'www-showcase' }
+  );
+
+  return sign(
+    {
+      e, g, p, r, j, jvr, u: username,
+    },
+    serverRuntimeConfig.showcase.secret,
+    { audience: serverRuntimeConfig.showcase.audience }
+  );
 }

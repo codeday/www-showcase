@@ -5,3 +5,11 @@ mutation CreateProjectMutation ($name: String!, $type: ShowcaseProjectType!, $de
     }
   }
 }
+
+query CreateProjectAccountLinkedQuery ($username: String!) {
+  account {
+    getUser(where: { username: $username }, fresh: true ) {
+      discordId
+    }
+  }
+}

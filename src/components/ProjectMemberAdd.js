@@ -11,7 +11,7 @@ import { ProjectMemberRemoveMutation } from './ProjectMember.gql';
 export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }) {
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { success, error } = useToasts();
+  const { success, error, info } = useToasts();
 
   if (!editToken) return <></>;
 
@@ -45,6 +45,12 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }
           // already exists" error if they try to add that username again).
           } else if (!result?.showcase?.addMember?.account) {
             error(`${username} is not a valid username.`);
+            tryAuthenticatedApiQuery(ProjectMemberRemoveMutation, { projectId, username }, editToken);
+
+          // TODO(@tylermenezes) Probably a better way to define requirements like a linked Discord.
+          } else if (!result?.showcase?.addMember?.account?.discordId) {
+            error(`${username} hasn't linked their Discord.`);
+            info(`Follow the instructions in #link-account.`);
             tryAuthenticatedApiQuery(ProjectMemberRemoveMutation, { projectId, username }, editToken);
 
           // Everything looks good!

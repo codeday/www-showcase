@@ -1,0 +1,27 @@
+#import "../../../components/JudgingScorecard.gql"
+#import "../../../components/ProjectDetails.gql"
+
+query JudgingPoolQuery {
+  showcase {
+    myJudgingPool {
+      ...JudgingScorecardFragment
+      projects(needsJudging: true) {
+        id
+        ...JudgingScorecardProjectFragment
+        ...ProjectDetailsFragment
+      }
+    }
+  }
+}
+
+query JudgingNextProjectQuery {
+  showcase {
+    myJudgingPool {
+      projects(needsJudging: true) {
+        id
+        ...JudgingScorecardProjectFragment
+        ...ProjectDetailsFragment
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+fragment JudgingScorecardFragment on ShowcaseJudgingPool {
+  name
+  judgingCriteria {
+    id
+    name
+    weight
+  }
+}
+
+fragment JudgingScorecardProjectFragment on ShowcaseProject {
+  userJudgement {
+    judgingCriteria {
+      id
+    }
+    value
+  }
+}
+
+mutation JudgingScorecardSubmitJudgement($project: String!, $judgingCriteria: String!, $value: Float!) {
+  showcase {
+    judgeProject(project: $project, judgingCriteria: $judgingCriteria, value: $value)
+  }
+}
