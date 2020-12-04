@@ -34,5 +34,6 @@ export async function getStaticProps() {
     props: {
       projects: result?.showcase?.projects || [],
     },
+    revalidate: 240,
   };
 }
