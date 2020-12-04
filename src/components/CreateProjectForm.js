@@ -34,6 +34,10 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
               <option value={availableTokens[displayName]}>{displayName}</option>
             ))}
           </Controller>
+          <Text color="current.textLight">
+            Pick the option where you, the creator of the team are located. You can work with people from anywhere.
+            This is only used for judging.
+          </Text>
           <Text bold color="red.800" mb={0}>{errors?.token ? errors.token.message : ''}</Text>
         </>
       )}
