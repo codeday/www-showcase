@@ -7,18 +7,28 @@ import Button from '@codeday/topo/Atom/Button';
 import { useToasts } from '@codeday/topo/utils';
 import { ProjectMemberRemoveMutation } from './ProjectMember.gql';
 import { tryAuthenticatedApiQuery } from '../util/api';
+import { Tooltip } from '@chakra-ui/core';
 
 export default function ProjectMember({
   projectId, member, editToken, onMemberRemoved,
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
-
+  const discordMention = "@" + member.account.discordInformation.username + "#" + member.account.discordInformation.discriminator;
+  const [tooltipText, setTooltipText] = useState(discordMention);
   return (
     <Box fontSize="lg" style={{ clear: 'both' }}>
       <Image mb={2} src={member.account.picture} alt="" float="left" mr={2} height="1.5em" rounded="full" />
       <Box float="left">
-        <Text mb={0}>{member.account.name}</Text>
+        <Tooltip hasArrow label={tooltipText} placement="auto" fontSize="md">
+          <Text mb={0} style={{borderBottom: "1px dotted #000", textDecoration: "none"}}
+            onClick={() => {
+              navigator.clipboard.writeText(discordMention); 
+              setTooltipText("Copied!"); setTimeout(() => 
+              {setTooltipText(discordMention)}, 1000);}}> 
+            {member.account.name} 
+          </Text>
+        </Tooltip>
         {editToken && (
           <Button
             mt={-3}
