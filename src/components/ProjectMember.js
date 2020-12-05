@@ -14,21 +14,34 @@ export default function ProjectMember({
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
-  const discordMention = "@" + member.account.discordInformation.username + "#" + member.account.discordInformation.discriminator;
-  const [tooltipText, setTooltipText] = useState(discordMention);
+  const { discordInformation, picture, name } = member.account;
+
+  const [tooltipText, setTooltipText] = useState(discordInformation?.handle);
   return (
     <Box fontSize="lg" style={{ clear: 'both' }}>
-      <Image mb={2} src={member.account.picture} alt="" float="left" mr={2} height="1.5em" rounded="full" />
+      <Image mb={2} src={picture} alt="" float="left" mr={2} height="1.5em" rounded="full" />
       <Box float="left">
-        <Tooltip hasArrow label={tooltipText} placement="auto" fontSize="md">
-          <Text mb={0} style={{borderBottom: "1px dotted #000", textDecoration: "none"}}
-            onClick={() => {
-              navigator.clipboard.writeText(discordMention); 
-              setTooltipText("Copied!"); setTimeout(() => 
-              {setTooltipText(discordMention)}, 1000);}}> 
-            {member.account.name} 
+        {discordInformation ? (
+          <Tooltip hasArrow label={tooltipText} placement="auto" fontSize="md">
+            <Text
+              mb={0}
+              borderBottom={1}
+              borderBottomStyle="dotted"
+              borderBottomColor="current.light"
+              onClick={() => {
+                navigator.clipboard.writeText(discordInformation.handle);
+                setTooltipText("Copied!");
+                setTimeout(() => setTooltipText(discordInformation.handle), 1000);
+              }}
+            >
+              {name}
+            </Text>
+          </Tooltip>
+        ) : (
+          <Text mb={0}>
+            {name}
           </Text>
-        </Tooltip>
+        )}
         {editToken && (
           <Button
             mt={-3}
