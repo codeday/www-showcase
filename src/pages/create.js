@@ -11,7 +11,7 @@ import { mintAllTokens } from '../util/token';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { CreateProjectMutation, CreateProjectAccountLinkedQuery } from './create.gql';
 
-export default function Create({ tokens, logIn, linkAccount }) {
+export default function Create({ tokens, logIn, linkAccount, username }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -24,7 +24,10 @@ export default function Create({ tokens, logIn, linkAccount }) {
     return (
       <Page>
         <Content>
-          <Text>Please link your account to Discord first. (Follow the instruction in #link-account.)</Text>
+          <Text>
+            Please link your account to Discord first. (Follow the instruction in #link-account.)
+            You're logged in with the CodeDay username: {username}
+          </Text>
         </Content>
       </Page>
     );
@@ -73,7 +76,7 @@ export async function getServerSideProps({ req }) {
 
   if (!result?.account?.getUser?.discordId) {
     return {
-      props: { linkAccount: true },
+      props: { linkAccount: true, username: session.user.name },
     };
   }
 
