@@ -2,6 +2,10 @@ fragment ProjectMembersFragment on ShowcaseMember {
   username
   account {
     name
+    discordInformation{
+      username
+      discriminator
+    }
     picture(transform: { width: 32, height: 32, fit: FILL })
   }
 }
