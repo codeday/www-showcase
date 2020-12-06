@@ -10,7 +10,7 @@ import { UploadMediaMutation } from './ProjectGallery.gql';
 import Text from '@codeday/topo/Atom/Text';
 
 const WARN_FILE_SIZE = 1024 * 1024 * 5;
-const MAX_FILE_SIZE = 1024 * 1024 * 75;
+const MAX_FILE_SIZE = 1024 * 1024 * 125;
 const MIME_IMAGE = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
 const MIME_VIDEO = ['video/mp4'];
 
@@ -69,8 +69,7 @@ export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...p
 
           // Is the file really big.
           if (file.size > MAX_FILE_SIZE) {
-            error(`Files must be smaller than ${Math.floor(file.size/(1024*1024))}MB`);
-            return;
+            error(`You might have a problem uploading files larger than ${Math.floor(MAX_FILE_SIZE/(1024*1024))}MB`);
           }
 
           setIsSubmitting(true);
