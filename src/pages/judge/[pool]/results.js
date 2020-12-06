@@ -40,7 +40,7 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
                 {r.project.name}
               </Box>
               <Box as="td">{PROJECT_TYPES[r.project.type] || r.project.type}</Box>
-              <Box as="td">{r.count}</Box>
+              <Box as="td" textAlign="center">{r.count}</Box>
               <Box as="td" textAlign="center">{Math.floor(r.value * 100)}%</Box>
               {sortedCriteria.map((c) => (
                 <Box as="td" textAlign="center" borderLeftWidth={2}>
