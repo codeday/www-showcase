@@ -5,7 +5,7 @@ query JudgingPoolQuery {
   showcase {
     myJudgingPool {
       ...JudgingScorecardFragment
-      projects(needsJudging: true) {
+      projects(needsJudging: true, take: 1) {
         id
         ...JudgingScorecardProjectFragment
         ...ProjectDetailsFragment
@@ -17,7 +17,7 @@ query JudgingPoolQuery {
 query JudgingNextProjectQuery {
   showcase {
     myJudgingPool {
-      projects(needsJudging: true) {
+      projects(needsJudging: true, take: 2) {
         id
         ...JudgingScorecardProjectFragment
         ...ProjectDetailsFragment
