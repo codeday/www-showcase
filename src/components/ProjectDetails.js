@@ -21,6 +21,7 @@ import Image from '@codeday/topo/Atom/Image';
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 
 function makeProperLink(link) {
+  if (!link) return null;
   return link.startsWith('http') ? link : `http://${link}`;
 }
 
