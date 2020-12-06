@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
+import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import Content from '@codeday/topo/Molecule/Content';
 import Page from '../../../components/Page';
 import { mintJudgingToken } from '../../../util/token';
@@ -37,7 +37,7 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
           {results.map((r, i) => (
             <Box as="tr" bg={i%2 === 1 && 'current.border'}>
               <Box as="td" style={{ whiteSpace: 'nowrap' }} pl={2} pr={4} pt={1} pb={1} fontWeight="bold">
-                {r.project.name}
+                <Link href={`/project/${r.project.id}`} target="_blank">{r.project.name}</Link>
               </Box>
               <Box as="td">{PROJECT_TYPES[r.project.type] || r.project.type}</Box>
               <Box as="td" textAlign="center">{r.count}</Box>
