@@ -25,6 +25,7 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
           <Box as="tr" borderBottomWidth={2}>
             <Box as="td"></Box>
             <Box as="td"></Box>
+            <Box as="td" p={4} textAlign="center" fontWeight="bold">Vote Count</Box>
             <Box as="td" p={4} textAlign="center" fontWeight="bold">Overall</Box>
             {sortedCriteria.map((c) => (
               <Box as="td" p={4} textAlign="center" fontWeight="bold" borderLeftWidth={2}>
@@ -39,6 +40,7 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
                 {r.project.name}
               </Box>
               <Box as="td">{PROJECT_TYPES[r.project.type] || r.project.type}</Box>
+              <Box as="td">{r.count}</Box>
               <Box as="td" textAlign="center">{Math.floor(r.value * 100)}%</Box>
               {sortedCriteria.map((c) => (
                 <Box as="td" textAlign="center" borderLeftWidth={2}>

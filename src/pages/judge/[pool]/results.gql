@@ -9,6 +9,7 @@ query JudgingPoolResultsQuery {
       }
       results {
         value
+        count
         subScores {
           judgingCriteria {
             id
