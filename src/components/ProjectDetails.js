@@ -20,6 +20,10 @@ import Image from '@codeday/topo/Atom/Image';
 
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 
+function makeProperLink(link) {
+  return link.startsWith('http') ? link : `http://${link}`;
+}
+
 export default function ProjectDetails({ project, editToken, ...props }) {
   const preferredMedia = (project.media || [])
     .filter((item) => item.type === 'IMAGE')
@@ -106,7 +110,7 @@ export default function ProjectDetails({ project, editToken, ...props }) {
                     token={editToken}
                     cursor="pointer"
                     d="inline-block"
-                    href={project.viewLink}
+                    href={makeProperLink(project.viewLink)}
                     target="_blank"
                   />
                 </Box>
@@ -125,7 +129,7 @@ export default function ProjectDetails({ project, editToken, ...props }) {
                     token={editToken}
                     cursor="pointer"
                     d="inline-block"
-                    href={project.codeLink}
+                    href={makeProperLink(project.codeLink)}
                     target="_blank"
                   />
                 </Box>
