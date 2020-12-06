@@ -66,7 +66,7 @@ export default function ProjectDetails({ project, editToken, ...props }) {
 
           {(project.priorExperience || editToken) && (
             <>
-              <Heading as="h3" fontSize="2xl" mt={8}>Prior Experience</Heading>
+              <Heading as="h3" fontSize="2xl" mt={8}>Team Members' Prior Experience</Heading>
               <EditableTextField
                 component={Textarea}
                 name="priorExperience"
