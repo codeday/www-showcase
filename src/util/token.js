@@ -6,7 +6,7 @@ const { serverRuntimeConfig } = getConfig();
 // TODO(@tylermenezes): At some point we need to fix this that region, eventId, etc. are automatically determined.
 //                      Not sure what the best way to do that is right now.
 export function mintToken(session, subEvent) {
-  const { name: u } = session.user;
+  const { name: u, admin: a } = session.user;
   const createProps = {
     e: `${serverRuntimeConfig.showcase.program}.${serverRuntimeConfig.showcase.eventGroup}.${subEvent}`,
     g: serverRuntimeConfig.showcase.eventGroup,
@@ -15,7 +15,7 @@ export function mintToken(session, subEvent) {
   };
 
   return sign({
-    a: false,
+    a,
     u,
     ...(serverRuntimeConfig.showcase.allowCreate && subEvent ? createProps : {}),
   },

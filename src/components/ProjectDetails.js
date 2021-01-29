@@ -17,6 +17,7 @@ import {
 import ProjectGallery from './ProjectGallery';
 import { MEDIA_TOPICS } from '../util/mediaTopics';
 import Image from '@codeday/topo/Atom/Image';
+import ProjectFeature from './ProjectFeature';
 
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 
@@ -137,6 +138,8 @@ export default function ProjectDetails({ project, editToken, ...props }) {
               )}
             </Box>
           )}
+
+          <ProjectFeature projectId={project.id} featured={project.featured} editToken={editToken} />
 
           <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
           <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />

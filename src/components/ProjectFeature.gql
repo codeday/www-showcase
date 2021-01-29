@@ -1,0 +1,5 @@
+mutation ProjectSetFeatured ($projectId: String!, $isFeatured: Boolean) {
+  showcase {
+    featureProject(id: $projectId, isFeatured: $isFeatured)
+  }
+}

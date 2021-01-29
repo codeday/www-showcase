@@ -1,5 +1,6 @@
 #import  "./ProjectMembers.gql"
 #import "./ProjectGallery.gql"
+#import "./ProjectFeature.gql"
 
 fragment ProjectDetailsFragment on ShowcaseProject {
   id
@@ -9,6 +10,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   priorExperience
   codeLink
   viewLink
+  featured
   media {
     coverImage: image(fillBlur: true, strategy: FILL, height: 600, width: 1400)
     type
