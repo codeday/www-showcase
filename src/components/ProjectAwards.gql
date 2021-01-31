@@ -1,0 +1,37 @@
+fragment AvailableAwardFragment on CmsAward {
+  id
+  name
+  ranking
+  programs(limit: 1) {
+    items {
+      webname
+    }
+  }
+}
+
+fragment ProjectAwardFragment on ShowcaseAward {
+  id
+  modifier
+  info {
+    ranking
+    name
+    description
+    icon {
+      url(transform: { width: 64, height: 64, resizeStrategy: PAD })
+    }
+  }
+}
+
+mutation AwardAdd($project: String!, $type: String!, $modifier: String) {
+  showcase {
+    addAward(project: $project, type: $type, modifier: $modifier) {
+      ...ProjectAwardFragment
+    }
+  }
+}
+
+mutation AwardRemove ($id: String!) {
+  showcase {
+    removeAward(id: $id)
+  }
+}

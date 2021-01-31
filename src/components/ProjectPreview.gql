@@ -2,9 +2,26 @@ fragment ProjectPreviewFragment on ShowcaseProject {
   id
   name
   type
+  featured
+  eventGroup {
+    title
+  }
+  program {
+    name
+  }
   media {
     image(fillBlur: true, strategy: FILL, height: 250, width: 600)
     type
     topic
+  }
+  awards {
+    type
+    modifier
+    info {
+      name
+      icon {
+        url(transform: { width: 64, height: 64, resizeStrategy: PAD })
+      }
+    }
   }
 }

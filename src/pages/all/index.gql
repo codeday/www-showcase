@@ -1,0 +1,8 @@
+#import "../../components/ProjectPreview.gql"
+query IndexQuery ($take: Float!, $skip: Float!) {
+  showcase {
+    projects (take: $take, skip: $skip) {
+      ...ProjectPreviewFragment
+    }
+  }
+}

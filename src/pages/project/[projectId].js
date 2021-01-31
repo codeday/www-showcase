@@ -8,7 +8,7 @@ import { mintToken } from '../../util/token';
 import { tryAuthenticatedApiQuery } from '../../util/api';
 import { ProjectByIdQuery } from './projectId.gql';
 
-export default function ViewEditProject({ project, token }) {
+export default function ViewEditProject({ project, token, user, availableAwards }) {
   if (!project) {
     return (
       <Page>
@@ -22,7 +22,7 @@ export default function ViewEditProject({ project, token }) {
   return (
     <Page slug={`/project/${project.id}`} title={project.name}>
       <Content mt={-8}>
-        <ProjectDetails project={project} editToken={token} />
+        <ProjectDetails project={project} editToken={token} user={user} availableAwards={availableAwards} />
       </Content>
     </Page>
   );
@@ -44,6 +44,8 @@ export async function getServerSideProps({ req, res, params: { projectId } }) {
   return {
     props: {
       project: result?.showcase?.project,
+      availableAwards: result?.cms?.awards?.items,
+      user: session?.user || null,
       token: session
         && (
           result?.showcase?.project?.members?.map((m) => m.username).includes(session.user.name)

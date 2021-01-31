@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "rm -rf ./node_modules/.cache ./next; next dev",
+    "dev": "rm -rf ./node_modules/.cache ./.next; next dev",
     "build": "rm -rf ./node_modules/.cache ./.next; next build",
     "start": "next start"
   },

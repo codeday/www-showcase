@@ -15,6 +15,7 @@ import {
   ProjectEditViewLink,
 } from './ProjectDetails.gql';
 import ProjectGallery from './ProjectGallery';
+import ProjectAwards from './ProjectAwards';
 import { MEDIA_TOPICS } from '../util/mediaTopics';
 import Image from '@codeday/topo/Atom/Image';
 import ProjectFeature from './ProjectFeature';
@@ -26,7 +27,9 @@ function makeProperLink(link) {
   return link.startsWith('http') ? link : `http://${link}`;
 }
 
-export default function ProjectDetails({ project, editToken, ...props }) {
+export default function ProjectDetails({ project, editToken, user, availableAwards, ...props }) {
+  const isAdmin = user?.admin;
+
   const preferredMedia = (project.media || [])
     .filter((item) => item.type === 'IMAGE')
     .sort((a, b) => {
@@ -98,6 +101,27 @@ export default function ProjectDetails({ project, editToken, ...props }) {
         <Box>
           {(project.codeLink || project.viewLink || editToken) && (
             <Box mb={8}>
+              <ProjectFeature
+                projectId={project.id}
+                featured={project.featured}
+                editToken={editToken}
+                isAdmin={isAdmin}
+              />
+
+              {(isAdmin || project.awards.length > 0) && (
+                <>
+                  <Heading as="h3" fontSize="xl" mb={2}>Awards</Heading>
+                  <ProjectAwards
+                    projectId={project.id}
+                    awards={project.awards}
+                    editToken={editToken}
+                    availableAwards={availableAwards}
+                    isAdmin={isAdmin}
+                    mb={8}
+                  />
+                </>
+              )}
+
               <Heading as="h3" fontSize="2xl">Links</Heading>
               {(project.viewLink || editToken) && (
                 <Box>
@@ -138,8 +162,6 @@ export default function ProjectDetails({ project, editToken, ...props }) {
               )}
             </Box>
           )}
-
-          <ProjectFeature projectId={project.id} featured={project.featured} editToken={editToken} />
 
           <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
           <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />

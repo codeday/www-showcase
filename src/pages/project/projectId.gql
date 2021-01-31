@@ -1,6 +1,15 @@
 #import "../../components/ProjectDetails.gql"
+#import "../../components/ProjectAwards.gql"
 
 query ProjectByIdQuery ($id: String!) {
+
+  cms {
+    awards(limit: 40) {
+      items {
+        ...AvailableAwardFragment
+      }
+    }
+  }
   showcase {
     project(id: $id) {
       ...ProjectDetailsFragment

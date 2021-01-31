@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { useSession } from 'next-auth/client';
 import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { ProjectSetFeatured } from './ProjectFeature.gql';
 
-export default function ProjectFeature({ projectId, editToken, featured, ...props }) {
+export default function ProjectFeature({ projectId, editToken, featured, isAdmin, ...props }) {
   const [isFeatured, setIsFeatured] = useState(featured);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [session] = useSession();
   const { success, error } = useToasts();
 
-  if (!session?.user?.admin) return <></>;
+  if (!isAdmin) return <></>;
 
   return (
     <Box mb={8} {...props}>

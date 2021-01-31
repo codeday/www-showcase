@@ -1,6 +1,7 @@
 #import  "./ProjectMembers.gql"
 #import "./ProjectGallery.gql"
 #import "./ProjectFeature.gql"
+#import "./ProjectAwards.gql"
 
 fragment ProjectDetailsFragment on ShowcaseProject {
   id
@@ -19,6 +20,9 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   }
   members {
     ...ProjectMembersFragment
+  }
+  awards {
+    ...ProjectAwardFragment
   }
 }
 
