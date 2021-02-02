@@ -9,7 +9,7 @@ import ProjectList from '../../components/ProjectList';
 import { IndexQuery } from './index.gql';
 
 const PER_PAGE = 20;
-export default function Home({ projects, page }) {
+export default function Home({ projects, page, slug }) {
   return (
     <Page slug="/">
       <Content>
@@ -19,11 +19,11 @@ export default function Home({ projects, page }) {
             <Grid templateColumns="1fr 1fr" mt={8} gap={8}>
               <Box>
                 {page > 1 && (
-                  <Link href={`/all/${page - 1}`}>&laquo; Previous Page</Link>
+                  <Link href={`/${slug}/${page - 1}`}>&laquo; Previous Page</Link>
                 )}
               </Box>
               <Box textAlign="right">
-                <Link href={`/all/${page + 1}`}>Next Page &raquo;</Link>
+                <Link href={`/${slug}/${page + 1}`}>Next Page &raquo;</Link>
               </Box>
             </Grid>
           </>
@@ -38,17 +38,44 @@ Home.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export async function getServerSideProps({ params }) {
+const FILTER_MAPS = {
+  'e': 'event',
+  'g': 'eventGroup',
+  'p': 'program',
+  'all': null,
+};
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const filterKey = FILTER_MAPS[params.filter];
+  const [pageOrFilter, nullOrPage] = params.args;
+
+  if (typeof filterKey === 'undefined') {
+    throw new Error(`${params.filter} is not a valid filter.`);
+  }
+
+  const where = filterKey ? { [filterKey]: pageOrFilter } : undefined;
+  const page = Number(filterKey ? nullOrPage : pageOrFilter) || 1;
+
   const { result, error } = await tryAuthenticatedApiQuery(IndexQuery, {
     take: PER_PAGE,
-    skip: ((Number(params?.p) || 1) - 1) * PER_PAGE
+    skip: page * PER_PAGE,
+    where,
   });
   if (error) console.error(error);
 
   return {
     props: {
       projects: result?.showcase?.projects || [],
-      page: Number(params?.p) || 1,
+      page: page,
+      slug: `${params.filter}${filterKey ? `/${pageOrFilter}` : ''}`,
     },
+    revalidate: 60,
   };
 }

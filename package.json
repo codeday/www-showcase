@@ -23,6 +23,7 @@
     "next-auth": "^3.1.0",
     "next-seo": "^4.7.3",
     "prop-types": "^15.7.2",
+    "random-seed": "^0.3.0",
     "react": "^17.0.1",
     "react-dom": "16.13.1",
     "react-hls-player": "^1.1.0",

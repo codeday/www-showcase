@@ -18,7 +18,9 @@ export default function Home({ projects }) {
           <>
             <ProjectList projects={projects} />
             <Box textAlign="center" mt={8}>
-              <Button as="a" href="/all/1" variantColor="blue">Browse All Projects</Button>
+              <Button as="a" href="/all" m={1} variantColor="blue">Browse All</Button>
+              <Button as="a" href="/p/virtual" m={1} variantColor="blue">Browse Virtual CodeDay</Button>
+              <Button as="a" href="/p/labs" m={1} variantColor="blue">Browse CodeDay Labs</Button>
             </Box>
           </>
         ) : (
