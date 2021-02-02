@@ -41,7 +41,7 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const { result, error } = await tryAuthenticatedApiQuery(MineQuery, { username: session.user.name });
+  const { result, error } = await tryAuthenticatedApiQuery(MineQuery, { username: session.user.nickname });
   if (error) console.error(error);
 
   return {
