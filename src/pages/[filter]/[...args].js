@@ -65,7 +65,7 @@ export async function getStaticProps({ params }) {
 
   const { result, error } = await tryAuthenticatedApiQuery(IndexQuery, {
     take: PER_PAGE,
-    skip: page * PER_PAGE,
+    skip: (page - 1) * PER_PAGE,
     where,
   });
   if (error) console.error(error);
