@@ -71,12 +71,12 @@ export async function getServerSideProps({ req }) {
 
   const { result, error } = await tryAuthenticatedApiQuery(
     CreateProjectAccountLinkedQuery,
-    { username: session.user.name }
+    { id: session.user.sub }
   );
 
   if (!result?.account?.getUser?.discordId) {
     return {
-      props: { linkAccount: true, username: session.user.name },
+      props: { linkAccount: true, username: session.user.nickname },
     };
   }
 

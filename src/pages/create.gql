@@ -6,9 +6,9 @@ mutation CreateProjectMutation ($name: String!, $type: ShowcaseProjectType!, $de
   }
 }
 
-query CreateProjectAccountLinkedQuery ($username: String!) {
+query CreateProjectAccountLinkedQuery ($id: ID!) {
   account {
-    getUser(where: { username: $username }, fresh: true ) {
+    getUser(where: { id: $id }, fresh: true ) {
       discordId
     }
   }
