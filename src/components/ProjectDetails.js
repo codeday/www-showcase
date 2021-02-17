@@ -19,6 +19,8 @@ import ProjectAwards from './ProjectAwards';
 import { MEDIA_TOPICS } from '../util/mediaTopics';
 import Image from '@codeday/topo/Atom/Image';
 import ProjectFeature from './ProjectFeature';
+import ProjectDelete from './ProjectDelete';
+import ProjectSubmit from './ProjectSubmit';
 
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 
@@ -52,9 +54,13 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
         token={editToken}
         cursor={editToken && 'pointer'}
         componentProps={{ d: 'inline-block', width: 'md', fontSize: '3xl' }}
+        lineHeight={1}
       />
+      {project.eventGroup && (
+        <Text color="current.textLight" fontSize="lg" fontWeight="bold" mb={0}>{project.eventGroup.title}</Text>
+      )}
 
-      <Grid templateColumns={{ base: '1fr', lg: '3fr 1fr' }} gap={8}>
+      <Grid templateColumns={{ base: '1fr', lg: '3fr minmax(0, 1fr)' }} gap={8} mt={8}>
 
         {/* Main Column */}
         <Box>
@@ -106,6 +112,15 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
                 featured={project.featured}
                 editToken={editToken}
                 isAdmin={isAdmin}
+                d="inline-block"
+                m={2}
+              />
+              <ProjectDelete
+                projectId={project.id}
+                editToken={editToken}
+                isAdmin={isAdmin}
+                d="inline-block"
+                m={2}
               />
 
               {(isAdmin || project.awards.length > 0) && (
@@ -122,7 +137,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
                 </>
               )}
 
-              <Heading as="h3" fontSize="2xl">Links</Heading>
+              <Heading as="h3" fontSize="xl">Links</Heading>
               {(project.viewLink || editToken) && (
                 <Box>
                   {editToken && <Text d="inline-block" mb={0} mr={1} bold>View: </Text>}
@@ -165,6 +180,8 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
 
           <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
           <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
+
+          <ProjectSubmit mt={6} project={project} />
         </Box>
       </Grid>
     </Box>

@@ -3,10 +3,10 @@ import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
-import { ProjectSetFeatured } from './ProjectFeature.gql';
+import { ProjectDeleteMutation } from './ProjectDelete.gql';
 
-export default function ProjectFeature({ projectId, editToken, featured, isAdmin, ...props }) {
-  const [isFeatured, setIsFeatured] = useState(featured);
+export default function ProjectDelete({ projectId, editToken, isAdmin, ...props }) {
+  const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
 
@@ -19,11 +19,19 @@ export default function ProjectFeature({ projectId, editToken, featured, isAdmin
         disabled={isSubmitting}
         onClick={async () => {
           if (isSubmitting) return;
+          if (!isConfirming) {
+            setIsSubmitting(true);
+            setTimeout(() => {
+              setIsSubmitting(false);
+              setIsConfirming(true);
+            }, 1000);
+            return;
+          }
 
           setIsSubmitting(true);
           const { error: resultError } = await tryAuthenticatedApiQuery(
-            ProjectSetFeatured,
-            { projectId, isFeatured: !isFeatured },
+            ProjectDeleteMutation,
+            { projectId },
             editToken
           );
 
@@ -31,14 +39,13 @@ export default function ProjectFeature({ projectId, editToken, featured, isAdmin
           if (resultError) {
             error(resultError?.response?.errors[0]?.message || resultError.message);
           } else {
-            success(`Project was ${isFeatured ? 'un-featured' : 'featured'}.`);
-            setIsFeatured(!isFeatured);
+            success(`Project was deleted. This page may remain cached for a few minutes.`);
           }
 
           setIsSubmitting(false);
         }}
       >
-        {isFeatured ? 'Un-Feature' : 'Feature'}
+        {isConfirming ? 'Really Delete?' : 'Delete'}
       </Button>
     </Box>
   )

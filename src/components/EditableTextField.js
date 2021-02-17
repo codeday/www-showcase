@@ -79,7 +79,7 @@ export default function EditableTextField({
     {isEditing ? editingBox : (
       <>
         {nl2br(savedValue)}
-        {token && <UiEdit />}
+        {token && <Box as="span" color="gray.800" fontSize="md" fontWeight={400} ml={2}><UiEdit /> edit</Box>}
       </>
     )}
   </ViewComponent>;

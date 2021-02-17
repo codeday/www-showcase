@@ -15,7 +15,7 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
 
   const doSubmit = handleSubmit((data) => !isSubmitting && onSubmit({
     ...data,
-    token: hasMultipleTokenOptions ? data.token : availableTokens[0],
+    token: hasMultipleTokenOptions ? data.token : availableTokens[0].token,
   }));
 
   return (
@@ -30,12 +30,12 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             rules={{ required: { value: true, message: "Select where you'd like to create a project."} }}
           >
             <option value=""></option>
-            {Object.keys(availableTokens).map((displayName) => (
-              <option value={availableTokens[displayName]}>{displayName}</option>
+            {availableTokens.map((t) => (
+              <option value={t.token}>{t.name}</option>
             ))}
           </Controller>
           <Text color="current.textLight">
-            Pick the option where you, the creator of the team are located. You can work with people from anywhere.
+            Pick the event where you, the creator, are participating. You can work with people from anywhere.
             This is only used for judging.
           </Text>
           <Text bold color="red.800" mb={0}>{errors?.token ? errors.token.message : ''}</Text>

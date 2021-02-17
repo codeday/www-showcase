@@ -2,6 +2,7 @@
 #import "./ProjectGallery.gql"
 #import "./ProjectFeature.gql"
 #import "./ProjectAwards.gql"
+#import "./ProjectSubmit.gql"
 
 fragment ProjectDetailsFragment on ShowcaseProject {
   id
@@ -12,6 +13,9 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   codeLink
   viewLink
   featured
+  eventGroup {
+    title
+  }
   media {
     coverImage: image(fillBlur: true, strategy: FILL, height: 600, width: 1400)
     type
@@ -24,6 +28,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   awards {
     ...ProjectAwardFragment
   }
+  ...ProjectSubmitFragment
 }
 
 mutation ProjectEditName ($projectId: String!, $name: String!) {

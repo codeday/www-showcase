@@ -48,7 +48,7 @@ export async function getServerSideProps({ req, res, params: { projectId } }) {
       user: session?.user || null,
       token: session
         && (
-          result?.showcase?.project?.members?.map((m) => m.username).includes(session.user.name)
+          result?.showcase?.project?.members?.map((m) => m.username).includes(session.user.nickname)
           || session.user.admin
         )
           ? token

@@ -71,7 +71,7 @@ export async function getServerSideProps({ req, res, params: { pool } }) {
     };
   }
 
-  const backendToken = mintJudgingToken(pool, session.user.name);
+  const backendToken = mintJudgingToken(pool, session.user.nickname);
   const { result, error } = await tryAuthenticatedApiQuery(JudgingPoolQuery, {}, backendToken);
 
   if (error) {

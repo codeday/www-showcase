@@ -9,7 +9,14 @@ import ForceLoginPage from '../components/ForceLoginPage';
 import CreateProjectForm from '../components/CreateProjectForm';
 import { mintAllTokens } from '../util/token';
 import { tryAuthenticatedApiQuery } from '../util/api';
-import { CreateProjectMutation, CreateProjectAccountLinkedQuery } from './create.gql';
+import { CreateProjectMutation, CreateProjectQuery } from './create.gql';
+
+// How long before the event starts/after the event ends will creation be allowed.
+const PRE_POST_GRACE_PERIOD = 1000 * 60 * 60 * 24;
+
+function getIso(offset) {
+    return (new Date(new Date().getTime() + offset)).toISOString();
+}
 
 export default function Create({ tokens, logIn, linkAccount, username }) {
   const router = useRouter();
@@ -27,6 +34,18 @@ export default function Create({ tokens, logIn, linkAccount, username }) {
           <Text>
             Please link your account to Discord first. (Follow the instruction in #link-account.)
             You're logged in with the CodeDay username: {username}
+          </Text>
+        </Content>
+      </Page>
+    );
+  }
+
+  if (!tokens || tokens.length === 0) {
+    return (
+      <Page>
+        <Content>
+          <Text>
+            You can't create projects right now. Try checking back during an event!
           </Text>
         </Content>
       </Page>
@@ -70,8 +89,12 @@ export async function getServerSideProps({ req }) {
   }
 
   const { result, error } = await tryAuthenticatedApiQuery(
-    CreateProjectAccountLinkedQuery,
-    { id: session.user.sub }
+    CreateProjectQuery,
+    {
+      id: session.user.sub,
+      start: getIso(PRE_POST_GRACE_PERIOD),
+      end: getIso(-1 * PRE_POST_GRACE_PERIOD),
+    }
   );
 
   if (!result?.account?.getUser?.discordId) {
@@ -80,9 +103,12 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  return {
-    props: {
-      tokens: mintAllTokens(session),
-    },
-  };
+  const event = result?.cms?.events?.items[0];
+  if (event && event.program?.webname && event?.id && event?.subEventIds) {
+    return {
+      props: {
+        tokens: mintAllTokens(session, event.program.webname, event.id, event.subEventIds)
+      }
+    }
+  } else return { props: {} };
 }

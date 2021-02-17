@@ -1,0 +1,5 @@
+fragment ProjectSubmitFragment on ShowcaseProject {
+  projectSubmitInfo: eventGroup {
+    awardsAt
+  }
+}

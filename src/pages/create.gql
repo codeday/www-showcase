@@ -6,10 +6,25 @@ mutation CreateProjectMutation ($name: String!, $type: ShowcaseProjectType!, $de
   }
 }
 
-query CreateProjectAccountLinkedQuery ($id: ID!) {
+query CreateProjectQuery ($id: ID!, $start: CmsDateTime!, $end: CmsDateTime!) {
   account {
     getUser(where: { id: $id }, fresh: true ) {
       discordId
+    }
+  }
+
+  cms {
+    events (
+      where: { startsAt_lt: $start, endsAt_gt: $end },
+      limit: 1
+    ) {
+      items {
+        id
+        program {
+          webname
+        }
+        subEventIds
+      }
     }
   }
 }
