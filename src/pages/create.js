@@ -13,12 +13,13 @@ import { CreateProjectMutation, CreateProjectQuery } from './create.gql';
 
 // How long before the event starts/after the event ends will creation be allowed.
 const PRE_POST_GRACE_PERIOD = 1000 * 60 * 60 * 24;
+const PRE_POST_GRACE_PERIOD_ADMIN = 1000 * 60 * 60 * 24 * 14;
 
 function getIso(offset) {
     return (new Date(new Date().getTime() + offset)).toISOString();
 }
 
-export default function Create({ tokens, logIn, linkAccount, username }) {
+export default function Create({ tokens, eventGroupTitle, logIn, linkAccount, username }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -62,6 +63,7 @@ export default function Create({ tokens, logIn, linkAccount, username }) {
           </Box>
         )}
         <CreateProjectForm
+          eventGroupTitle={eventGroupTitle}
           availableTokens={tokens}
           isSubmitting={isSubmitting}
           onSubmit={async ({ token, ...params }) => {
@@ -82,18 +84,20 @@ export default function Create({ tokens, logIn, linkAccount, username }) {
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
-  if (!session) {
+  if (!session?.user) {
     return {
       props: { logIn: true },
     };
   }
 
+  const gracePeriod = session.user.admin ? PRE_POST_GRACE_PERIOD_ADMIN : PRE_POST_GRACE_PERIOD;
+
   const { result, error } = await tryAuthenticatedApiQuery(
     CreateProjectQuery,
     {
       id: session.user.sub,
-      start: getIso(PRE_POST_GRACE_PERIOD),
-      end: getIso(-1 * PRE_POST_GRACE_PERIOD),
+      start: getIso(gracePeriod),
+      end: getIso(-1 * gracePeriod),
     }
   );
 
@@ -107,6 +111,7 @@ export async function getServerSideProps({ req }) {
   if (event && event.program?.webname && event?.id && event?.subEventIds) {
     return {
       props: {
+        eventGroupTitle: event.title,
         tokens: mintAllTokens(session, event.program.webname, event.id, event.subEventIds)
       }
     }
