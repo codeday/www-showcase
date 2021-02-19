@@ -12,7 +12,7 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 import { CreateProjectMutation, CreateProjectQuery } from './create.gql';
 
 // How long before the event starts/after the event ends will creation be allowed.
-const PRE_POST_GRACE_PERIOD = 1000 * 60 * 60 * 24;
+const PRE_POST_GRACE_PERIOD = 1000 * 60 * 15;
 const PRE_POST_GRACE_PERIOD_ADMIN = 1000 * 60 * 60 * 24 * 14;
 
 function getIso(offset) {

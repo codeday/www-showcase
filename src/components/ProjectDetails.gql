@@ -14,6 +14,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   viewLink
   featured
   eventGroup {
+    id
     title
   }
   media {

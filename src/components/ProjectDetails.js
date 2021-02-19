@@ -57,7 +57,16 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
         lineHeight={1}
       />
       {project.eventGroup && (
-        <Text color="current.textLight" fontSize="lg" fontWeight="bold" mb={0}>{project.eventGroup.title}</Text>
+        <Link
+          color="current.textLight"
+          fontSize="lg"
+          fontWeight="bold"
+          textDecoration="none"
+          mb={0}
+          href={`/g/${project.eventGroup.id}`}
+        >
+          {project.eventGroup.title}
+        </Link>
       )}
 
       <Grid templateColumns={{ base: '1fr', lg: '3fr minmax(0, 1fr)' }} gap={8} mt={8}>
