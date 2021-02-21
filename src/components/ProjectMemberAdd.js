@@ -34,7 +34,7 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }
             setIsSubmitting(true);
             const { result, error: resultError } = await tryAuthenticatedApiQuery(
               ProjectMemberAddMutation,
-              { projectId, username },
+              { projectId, username: username.trim() },
               editToken
             );
 
