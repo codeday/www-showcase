@@ -18,4 +18,13 @@ module.exports = {
   publicRuntimeConfig: {
     appUrl: process.env.APP_URL,
   },
+  async redirects() {
+    return [
+      {
+        source: '/all',
+        destination: '/all/1',
+        permanent: true,
+      },
+    ]
+  },
 };
