@@ -5,9 +5,9 @@ import Button from '@codeday/topo/Atom/Button';
 import { useToasts } from '@codeday/topo/utils';
 import { DateTime } from 'luxon';
 
-export default function ProjectSubmit({ project, ...props }) {
+export default function ProjectSubmit({ project, editToken, ...props }) {
   const { info } = useToasts();
-  if (!project.projectSubmitInfo?.awardsAt) return <></>;
+  if (!project.projectSubmitInfo?.awardsAt || !editToken) return <></>;
   if (DateTime.local() > DateTime.fromISO(project.projectSubmitInfo.awardsAt)) return <></>;
 
   return (

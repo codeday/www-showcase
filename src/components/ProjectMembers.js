@@ -31,6 +31,7 @@ export default function ProjectMembers({
           onMemberRemoved={onMemberRemoved}
         />
       ))}
+      <Box d="block" style={{ clear: 'both' }} />
       <ProjectMemberAdd
         projectId={projectId}
         editToken={editToken}
