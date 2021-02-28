@@ -114,78 +114,80 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
 
         {/* Meta Column */}
         <Box>
-          {(project.codeLink || project.viewLink || editToken) && (
-            <Box mb={8}>
-              <ProjectFeature
-                projectId={project.id}
-                featured={project.featured}
-                editToken={editToken}
-                isAdmin={isAdmin}
-                d="inline-block"
-                m={2}
-              />
-              <ProjectDelete
-                projectId={project.id}
-                editToken={editToken}
-                isAdmin={isAdmin}
-                d="inline-block"
-                m={2}
-              />
+          <Box mb={8}>
+            <ProjectFeature
+              projectId={project.id}
+              featured={project.featured}
+              editToken={editToken}
+              isAdmin={isAdmin}
+              d="inline-block"
+              m={2}
+            />
+            <ProjectDelete
+              projectId={project.id}
+              editToken={editToken}
+              isAdmin={isAdmin}
+              d="inline-block"
+              m={2}
+            />
 
-              {(isAdmin || project.awards.length > 0) && (
-                <>
-                  <Heading as="h3" fontSize="xl" mb={2}>Awards</Heading>
-                  <ProjectAwards
-                    projectId={project.id}
-                    awards={project.awards}
-                    editToken={editToken}
-                    availableAwards={availableAwards}
-                    isAdmin={isAdmin}
-                    mb={8}
-                  />
-                </>
-              )}
+            {(isAdmin || project.awards.length > 0) && (
+              <>
+                <Heading as="h3" fontSize="xl" mb={2}>Awards</Heading>
+                <ProjectAwards
+                  projectId={project.id}
+                  awards={project.awards}
+                  editToken={editToken}
+                  availableAwards={availableAwards}
+                  isAdmin={isAdmin}
+                  mb={8}
+                />
+              </>
+            )}
 
-              <Heading as="h3" fontSize="xl">Links</Heading>
-              {(project.viewLink || editToken) && (
-                <Box>
-                  {editToken && <Text d="inline-block" mb={0} mr={1} bold>View: </Text>}
-                  <EditableTextField
-                    component={Input}
-                    viewComponent={editToken ? Box : Link}
-                    name="viewLink"
-                    params={{ projectId: project.id }}
-                    initialValue={editToken ? project.viewLink : 'View/Download'}
-                    gql={ProjectEditViewLink}
-                    token={editToken}
-                    cursor="pointer"
-                    d="inline-block"
-                    href={makeProperLink(project.viewLink)}
-                    target="_blank"
-                  />
-                </Box>
-              )}
+            <Heading as="h3" fontSize="xl">Links</Heading>
+            {(project.viewLink || editToken) && (
+              <Box>
+                {editToken && <Text d="inline-block" mb={0} mr={1} bold>View: </Text>}
+                <EditableTextField
+                  component={Input}
+                  viewComponent={editToken ? Box : Link}
+                  name="viewLink"
+                  params={{ projectId: project.id }}
+                  initialValue={editToken ? project.viewLink : 'View/Download'}
+                  gql={ProjectEditViewLink}
+                  token={editToken}
+                  cursor="pointer"
+                  d="inline-block"
+                  href={makeProperLink(project.viewLink)}
+                  target="_blank"
+                />
+              </Box>
+            )}
 
-              {(project.codeLink || editToken) && (
-                <Box>
-                  {editToken && <Text d="inline-block" mb={0} mr={1} bold>Code: </Text>}
-                  <EditableTextField
-                    component={Input}
-                    viewComponent={editToken ? Box : Link}
-                    name="codeLink"
-                    params={{ projectId: project.id }}
-                    initialValue={editToken ? project.codeLink : 'Code'}
-                    gql={ProjectEditCodeLink}
-                    token={editToken}
-                    cursor="pointer"
-                    d="inline-block"
-                    href={makeProperLink(project.codeLink)}
-                    target="_blank"
-                  />
-                </Box>
-              )}
+            {(project.codeLink || editToken) && (
+              <Box>
+                {editToken && <Text d="inline-block" mb={0} mr={1} bold>Code: </Text>}
+                <EditableTextField
+                  component={Input}
+                  viewComponent={editToken ? Box : Link}
+                  name="codeLink"
+                  params={{ projectId: project.id }}
+                  initialValue={editToken ? project.codeLink : 'Code'}
+                  gql={ProjectEditCodeLink}
+                  token={editToken}
+                  cursor="pointer"
+                  d="inline-block"
+                  href={makeProperLink(project.codeLink)}
+                  target="_blank"
+                />
+              </Box>
+            )}
+
+            <Box>
+              <Link href={`/project/${project.id}`} mb={0} mr={1} fontWeight="bold">Showcase Permalink</Link>
             </Box>
-          )}
+          </Box>
 
           {typeof project.members !== 'undefined' && (
             <>
