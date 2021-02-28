@@ -12,7 +12,7 @@ import Text from '@codeday/topo/Atom/Text';
 const WARN_FILE_SIZE = 1024 * 1024 * 5;
 const MAX_FILE_SIZE = 1024 * 1024 * 125;
 const MIME_IMAGE = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-const MIME_VIDEO = ['video/mp4'];
+const MIME_VIDEO = ['video/mp4', 'video/mov', 'video/quicktime', 'video/webm', 'video/x-msvideo', 'video/x-matroska'];
 
 export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...props }) {
   const [isSubmitting, setIsSubmitting] = useState(false);

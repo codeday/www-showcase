@@ -6,6 +6,7 @@ import ProjectMediaImage from './ProjectMediaImage';
 import ProjectMediaVideo from './ProjectMediaVideo';
 import ProjectMediaItemBox from './ProjectMediaItemBox';
 import ProjectMediaUpload from './ProjectMediaUpload';
+import { Link } from '@codeday/topo/Atom/Text';
 
 export default function ProjectGallery({ projectId, media: initialMedia, editToken }) {
   const [modalContent, setModalContent] = useState(null);
@@ -24,6 +25,16 @@ export default function ProjectGallery({ projectId, media: initialMedia, editTok
       <Modal open={modalContent} onClose={() => setModalContent(null)}>
         {modalContent}
       </Modal>
+      {editToken && (
+        <Box p={4} mb={4} bg="blue.50" color="blue.800" borderWidth={1} borderColor="blue.600">
+          The maximum file size for new uploads is 125mb. Images can be PNGs, JPEGs, or GIFs. The preferred video format
+          is MP4, but MKV and MOV will usually work.<br /><br />
+          If you're trying to upload a video which is too large, or in a different format, please use{' '}
+          <Link href="https://www.freeconvert.com/video-compressor" target="_blank" rel="noopener">
+            an online video compressor/converter.
+          </Link>
+        </Box>
+      )}
       <Grid
         templateColumns={{ base: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' }}
         gap={4}
