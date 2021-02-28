@@ -187,8 +187,12 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
             </Box>
           )}
 
-          <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
-          <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
+          {typeof project.members !== 'undefined' && (
+            <>
+              <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
+              <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
+            </>
+          )}
 
           <ProjectSubmit mt={6} editToken={editToken} project={project} />
         </Box>

@@ -23,13 +23,17 @@ fragment ProjectDetailsFragment on ShowcaseProject {
     topic
     ...ProjectGalleryFragment
   }
-  members {
-    ...ProjectMembersFragment
-  }
   awards {
     ...ProjectAwardFragment
   }
   ...ProjectSubmitFragment
+}
+
+fragment ProjectDetailsWithMembersFragment on ShowcaseProject {
+  ...ProjectDetailsFragment
+  members {
+    ...ProjectMembersFragment
+  }
 }
 
 mutation ProjectEditName ($projectId: String!, $name: String!) {

@@ -12,7 +12,7 @@ query ProjectByIdQuery ($id: String!) {
   }
   showcase {
     project(id: $id) {
-      ...ProjectDetailsFragment
+      ...ProjectDetailsWithMembersFragment
       name
       members {
         username
