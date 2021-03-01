@@ -185,7 +185,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
             )}
 
             <Box>
-              <Link href={`/project/${project.id}`} mb={0} mr={1} fontWeight="bold">Showcase Permalink</Link>
+              <Link href={`/project/${project.id}`} mb={0} mr={1}>Showcase Permalink</Link>
             </Box>
           </Box>
 
@@ -197,6 +197,17 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
           )}
 
           <ProjectSubmit mt={6} editToken={editToken} project={project} />
+
+          {project.type === 'HARDWARE' && (
+            <Box mt={8}>
+              <Heading as="h3" fontSize="sm" color="gray.600" fontWeight={400} mb={2}>
+                Hardware category supported by
+              </Heading>
+              <Box as="a" href="https://www.digikey.com/" target="_blank" rel="noopener" d="inline">
+                <Image src="/digikey.png" alt="DigiKey" />
+              </Box>
+            </Box>
+          )}
         </Box>
       </Grid>
     </Box>
