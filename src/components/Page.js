@@ -49,26 +49,24 @@ export default function Page({
   ) : [
 
     <Menu d="inline-flex">
-
       <form onSubmit={(e) => {
-        e.preventDefault();
-        if (search) {
-          window.location.href = `/all/1/contains=${search}`;
-        }
-      }}
+          e.preventDefault();
+          if (search) {
+            window.location.href = `/all/1/contains=${search}`;
+          }
+        }}
       >
         <Box d="flex">
-
-          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <Button fontSize="1.2rem"><UiSearch style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          />
+          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} mr={-4} />
+          <Button size="md" fontSize="xl">
+            <UiSearch style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            />
           </Button>
-
         </Box>
       </form>
       <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
