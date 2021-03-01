@@ -22,6 +22,7 @@ export default function ProjectGallery({ projectId, media: initialMedia, editTok
 
   return (
     <>
+      <style type="text/css">{`.react-responsive-modal-modal { max-width: 1200px !important; }`}</style>
       <Modal open={modalContent} onClose={() => setModalContent(null)}>
         {modalContent}
       </Modal>
