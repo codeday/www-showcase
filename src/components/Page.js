@@ -1,24 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DefaultSeo } from 'next-seo';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import Box from '@codeday/topo/Atom/Box';
+import Box, { Flex } from '@codeday/topo/Atom/Box';
 import Skelly from '@codeday/topo/Atom/Skelly';
 import Text, { Link } from '@codeday/topo/Atom/Text';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
+import Input from '@codeday/topo/Atom/Input/Text';
 import Footer, { CustomLinks } from '@codeday/topo/Organism/Footer';
 import { CodeDay } from '@codeday/topo/Atom/Logo';
 import Button from '@codeday/topo/Atom/Button';
+
+import UiSearch from '@codeday/topocons/Icon/UiSearch';
 
 export default function Page({
   children, title, darkHeader, slug, ...props
 }) {
   const [session, loading] = useSession();
 
+  const [search, setSearch] = useState();
   const menuItems = !session ? (
-    <Button variant="ghost" variantColor="brand" onClick={() => signIn('auth0')}>Log In</Button>
+
+    <Menu d="inline-flex">
+
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        if (search) {
+          window.location.href = `/all/1/contains=${search}`;
+        }
+      }}
+      >
+        <Box d="flex">
+
+          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Button fontSize="1.2rem"><UiSearch style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          />
+          </Button>
+
+        </Box>
+      </form>
+      <Button variant="ghost" variantColor="brand" onClick={() => signIn('auth0')}>Log In</Button>
+    </Menu>
+
   ) : [
-    <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>,
-    <Button variant="ghost" key="create" as="a" href="/create">New Project</Button>,
+
+    <Menu d="inline-flex">
+
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        if (search) {
+          window.location.href = `/all/1/contains=${search}`;
+        }
+      }}
+      >
+        <Box d="flex">
+
+          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Button fontSize="1.2rem"><UiSearch style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          />
+          </Button>
+
+        </Box>
+      </form>
+      <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
+      <Button variant="ghost" key="create" as="a" href="/create">New Project</Button>
+
+    </Menu>,
+
   ];
 
   return (
