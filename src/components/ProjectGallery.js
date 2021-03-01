@@ -39,7 +39,13 @@ export default function ProjectGallery({ projectId, media: initialMedia, editTok
         templateColumns={{ base: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' }}
         gap={4}
       >
-        {media.sort((a) => (a.type === 'VIDEO' ? -1 : 1)).map((item) => (
+        {media
+          .map((e, i) => ({ ...e, index: i }))
+          .sort((a, b) => {
+            if (a.type !== b.type) return a.type === 'VIDEO' ? -1 : 1;
+            return a.index > b.index ? 1 : -1;
+          })
+          .map((item) => (
           <ProjectMediaItemBox
             media={item}
             editToken={editToken}

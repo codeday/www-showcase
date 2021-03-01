@@ -14,6 +14,11 @@ query ProjectByIdQuery ($id: String!) {
     project(id: $id) {
       ...ProjectDetailsWithMembersFragment
       name
+      description
+      media {
+        ogImage: image(fillBlur: true, strategy: FILL, height: 630, width: 1200)
+        type
+      }
       members {
         username
       }
