@@ -9,7 +9,7 @@ import ProjectList from '../../components/ProjectList';
 import { IndexQuery } from './index.gql';
 
 const PER_PAGE = 20;
-export default function Home({ projects, page, slug }) {
+export default function Home({ projects, page, slug, additional }) {
   return (
     <Page slug="/">
       <Content>
@@ -19,11 +19,11 @@ export default function Home({ projects, page, slug }) {
             <Grid templateColumns="1fr 1fr" mt={8} gap={8}>
               <Box>
                 {page > 1 && (
-                  <Link href={`/${slug}/${page - 1}`}>&laquo; Previous Page</Link>
+                  <Link href={`/${slug}/${page - 1}${additional ? `/${additional}` : ''}`}>&laquo; Previous Page</Link>
                 )}
               </Box>
               <Box textAlign="right">
-                <Link href={`/${slug}/${page + 1}`}>Next Page &raquo;</Link>
+                <Link href={`/${slug}/${page + 1}${additional ? `/${additional}` : ''}`}>Next Page &raquo;</Link>
               </Box>
             </Grid>
           </>
@@ -54,14 +54,28 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const filterKey = FILTER_MAPS[params.filter];
-  const [pageOrFilter, nullOrPage] = params.args;
+  const argOffset = filterKey ? 1 : 0;
+
+  const filterContent = filterKey ? params.args[0] : null;
+  const page = Math.max(1, Number.parseInt(params.args[argOffset]) || 1);
+  const additional = (params.args[1 + argOffset] || '').split(',');
 
   if (typeof filterKey === 'undefined') {
     throw new Error(`${params.filter} is not a valid filter.`);
   }
 
-  const where = filterKey ? { [filterKey]: pageOrFilter } : undefined;
-  const page = Number(filterKey ? nullOrPage : pageOrFilter) || 1;
+  const where = {
+    ...(filterKey && { [filterKey ]: filterContent }),
+    ...(additional
+      .filter(Boolean)
+      .map((term) => {
+        let [ k, v ] = term.split('=', 2);
+        if (k === 'type' && v) v = v.toUpperCase();
+        return { [k]: v || true };
+      })
+      .reduce((accum, e) => ({ ...accum, ...e }), {})
+    )
+  };
 
   const { result, error } = await tryAuthenticatedApiQuery(IndexQuery, {
     take: PER_PAGE,
@@ -74,7 +88,8 @@ export async function getStaticProps({ params }) {
     props: {
       projects: result?.showcase?.projects || [],
       page: page,
-      slug: `${params.filter}${filterKey ? `/${pageOrFilter}` : ''}`,
+      slug: `${params.filter}${filterContent ? `/${filterContent}` : ''}`,
+      additional: additional || null,
     },
     revalidate: 60,
   };
