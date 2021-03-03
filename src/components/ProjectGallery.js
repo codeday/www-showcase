@@ -2,11 +2,11 @@ import React, { useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-responsive-modal';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
+import { Link } from '@codeday/topo/Atom/Text';
 import ProjectMediaImage from './ProjectMediaImage';
 import ProjectMediaVideo from './ProjectMediaVideo';
 import ProjectMediaItemBox from './ProjectMediaItemBox';
 import ProjectMediaUpload from './ProjectMediaUpload';
-import { Link } from '@codeday/topo/Atom/Text';
 
 export default function ProjectGallery({ projectId, media: initialMedia, editToken }) {
   const [modalContent, setModalContent] = useState(null);
@@ -47,20 +47,20 @@ export default function ProjectGallery({ projectId, media: initialMedia, editTok
             return a.index > b.index ? 1 : -1;
           })
           .map((item) => (
-          <ProjectMediaItemBox
-            media={item}
-            editToken={editToken}
-            projectId={projectId}
-            key={item.id}
-            onDeleted={(toDelete) => changeMedia({ action: 'delete', media: toDelete })}
-          >
-            {(() => {
-              if (item.type === 'IMAGE') return <ProjectMediaImage openModal={setModalContent} media={item} />;
-              if (item.type === 'VIDEO') return <ProjectMediaVideo openModal={setModalContent} media={item} />;
-              return <></>;
-            })()}
-          </ProjectMediaItemBox>
-        ))}
+            <ProjectMediaItemBox
+              media={item}
+              editToken={editToken}
+              projectId={projectId}
+              key={item.id}
+              onDeleted={(toDelete) => changeMedia({ action: 'delete', media: toDelete })}
+            >
+              {(() => {
+                if (item.type === 'IMAGE') return <ProjectMediaImage openModal={setModalContent} media={item} />;
+                if (item.type === 'VIDEO') return <ProjectMediaVideo openModal={setModalContent} media={item} />;
+                return <></>;
+              })()}
+            </ProjectMediaItemBox>
+          ))}
         <ProjectMediaUpload
           projectId={projectId}
           editToken={editToken}
