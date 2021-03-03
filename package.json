@@ -14,6 +14,7 @@
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "babel-plugin-import-graphql": "^2.7.0",
+    "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",

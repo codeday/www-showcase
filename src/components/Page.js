@@ -18,65 +18,39 @@ export default function Page({
   const [session, loading] = useSession();
 
   const [search, setSearch] = useState();
-  const menuItems = !session ? (
-
+  const menuItems = (
     <Menu d="inline-flex">
-
       <form onSubmit={(e) => {
         e.preventDefault();
         if (search) {
+          // eslint-disable-next-line no-undef
           window.location.href = `/all/1/contains=${search}`;
         }
       }}
       >
         <Box d="flex">
-
-          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <Button fontSize="1.2rem"><UiSearch style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          />
+          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} mr={-4} />
+          <Button size="md" fontSize="xl" type="submit">
+            <UiSearch style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            />
           </Button>
-
         </Box>
       </form>
-      <Button variant="ghost" variantColor="brand" onClick={() => signIn('auth0')}>Log In</Button>
+      {!session
+        ? (<Button variant="ghost" variantColor="brand" onClick={() => signIn('auth0')}>Log In</Button>)
+        : (
+          <>
+            <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
+            <Button variant="ghost" key="create" as="a" href="/create">New Project</Button>
+          </>
+        )}
     </Menu>
-
-  ) : [
-
-    <Menu d="inline-flex">
-
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        if (search) {
-          window.location.href = `/all/1/contains=${search}`;
-        }
-      }}
-      >
-        <Box d="flex">
-
-          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <Button fontSize="1.2rem"><UiSearch style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          />
-          </Button>
-
-        </Box>
-      </form>
-      <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
-      <Button variant="ghost" key="create" as="a" href="/create">New Project</Button>
-
-    </Menu>,
-
-  ];
+  );
 
   return (
     <>
@@ -97,7 +71,13 @@ export default function Page({
         }}
       />
       <Box position="relative" {...props}>
-        <Header darkBackground={darkHeader} gradAmount={darkHeader && 'lg'} underscore position="relative" zIndex="1000">
+        <Header
+          darkBackground={darkHeader}
+          gradAmount={darkHeader && 'lg'}
+          underscore
+          position="relative"
+          zIndex="1000"
+        >
           <SiteLogo>
             <a href="https://www.codeday.org/">
               <CodeDay withText />
@@ -127,6 +107,7 @@ export default function Page({
         <Footer>
           {session && (
             <CustomLinks>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <Link onClick={signOut}>Log Out</Link>
             </CustomLinks>
           )}

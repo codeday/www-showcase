@@ -4,6 +4,8 @@ import Image from '@codeday/topo/Atom/Image';
 import Box from '@codeday/topo/Atom/Box';
 import MediaPlay from '@codeday/topocons/Icon/MediaPlay';
 import dynamic from 'next/dynamic';
+import { Link } from '@codeday/topo/Atom/Text';
+import UiDownload from '@codeday/topocons/Icon/UiDownload';
 
 // TODO(@tylermenezes): Video player
 
@@ -16,7 +18,17 @@ export default function ProjectMediaVideo({ media, openModal, ...props }) {
     <Box
       cursor="pointer"
       onClick={() => openModal(
-        <ReactHlsPlayer url={media.stream} poster={media.galleryImage} controls={true} autoPlay={true} />
+        <Box>
+          <ReactHlsPlayer
+            url={media.stream}
+            poster={media.galleryImage}
+            controls={true}
+            autoPlay={true}
+          />
+          <Box as="a" href={media.download} borderWidth={1} borderTopWidth={0} rounded="sm" p={1} d="inline-block">
+            <UiDownload /> <Link>Download</Link>
+          </Box>
+        </Box>
       )}
       d="inline-block"
       target="_blank"

@@ -33,14 +33,17 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
   const isAdmin = user?.admin;
 
   const preferredMedia = (project.media || [])
-    .filter((item) => item.type === 'IMAGE')
+    .map((e, i) => ({ ...e, index: i }))
     .sort((a, b) => {
-      return TOPIC_PREFERENCES.indexOf(a.topic) - TOPIC_PREFERENCES.indexOf(b.type);
-    });
+      if (a.type !== b.type) return a.type === 'VIDEO' ? 1 : -1;
+      if (a.topic !== b.topic) return TOPIC_PREFERENCES.indexOf(a.topic) > TOPIC_PREFERENCES.indexOf(b.topic) ? 1 : -1;
+      return a.index > b.index ? -1 : 1;
+    })[0] || null;
+
   return (
     <Box {...props}>
       {preferredMedia.length > 0 && (
-        <Image marginBottom='20px' src={preferredMedia[0].coverImage} alt="" />
+        <Image mb={4} src={preferredMedia[0].coverImage} alt="" />
       )}
       <EditableTextField
         as="h1"
