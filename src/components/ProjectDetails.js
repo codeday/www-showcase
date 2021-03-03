@@ -40,7 +40,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
   return (
     <Box {...props}>
       {preferredMedia.length > 0 && (
-        <Image src={preferredMedia[0].coverImage} alt="" />
+        <Image marginBottom='20px' src={preferredMedia[0].coverImage} alt="" />
       )}
       <EditableTextField
         as="h1"
@@ -64,6 +64,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
           textDecoration="none"
           mb={0}
           href={`/g/${project.eventGroup.id}`}
+          
         >
           {project.eventGroup.title}
         </Link>
