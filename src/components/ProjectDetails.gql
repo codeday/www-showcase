@@ -10,6 +10,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   type
   description
   priorExperience
+  challengesEncountered
   codeLink
   viewLink
   featured
@@ -63,6 +64,14 @@ mutation ProjectEditDescription ($projectId: String!, $description: String) {
 mutation ProjectEditPriorExperience ($projectId: String!, $priorExperience: String) {
   showcase {
     editProject(id: $projectId, project: { priorExperience: $priorExperience }) {
+      id
+    }
+  }
+}
+
+mutation ProjectEditChallengesEncountered ($projectId: String!, $challengesEncountered: String) {
+  showcase {
+    editProject(id: $projectId, project: { challengesEncountered: $challengesEncountered }) {
       id
     }
   }

@@ -11,6 +11,7 @@ import {
   ProjectEditType,
   ProjectEditDescription,
   ProjectEditPriorExperience,
+  ProjectEditChallengesEncountered,
   ProjectEditCodeLink,
   ProjectEditViewLink,
 } from './ProjectDetails.gql';
@@ -94,13 +95,31 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
 
           {(project.priorExperience || editToken) && (
             <>
-              <Heading as="h3" fontSize="2xl" mt={8}>Team Members' Prior Experience</Heading>
+              <Heading as="h3" fontSize="lg" mt={8}>
+                How much experience do you have? Does the project use anything you didn't create?
+              </Heading>
               <EditableTextField
                 component={Textarea}
                 name="priorExperience"
                 params={{ projectId: project.id }}
                 initialValue={project.priorExperience}
                 gql={ProjectEditPriorExperience}
+                token={editToken}
+                cursor={editToken && 'pointer'}
+                componentProps={{ height: 48 }}
+              />
+            </>
+          )}
+
+          {(project.challengesEncountered || editToken) && (
+            <>
+              <Heading as="h3" fontSize="lg" mt={8}>What challenges did you encounter?</Heading>
+              <EditableTextField
+                component={Textarea}
+                name="challengesEncountered"
+                params={{ projectId: project.id }}
+                initialValue={project.challengesEncountered}
+                gql={ProjectEditChallengesEncountered}
                 token={editToken}
                 cursor={editToken && 'pointer'}
                 componentProps={{ height: 48 }}
