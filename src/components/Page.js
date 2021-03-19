@@ -11,6 +11,7 @@ import { CodeDay } from '@codeday/topo/Atom/Logo';
 import Button from '@codeday/topo/Atom/Button';
 
 import UiSearch from '@codeday/topocons/Icon/UiSearch';
+import { ProjectFilter } from '../pages/[projectFilter]/[eventFilter]/[...args]';
 
 export default function Page({
   children, title, darkHeader, slug, ...props
@@ -24,7 +25,7 @@ export default function Page({
         e.preventDefault();
         if (search) {
           // eslint-disable-next-line no-undef
-          window.location.href = `/all/1/contains=${search}`;
+          window.location.href = `/projects/all/contains=${search}`;
         }
       }}
       >
