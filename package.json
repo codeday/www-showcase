@@ -31,6 +31,7 @@
     "react-hls-player": "^1.1.0",
     "react-hook-form": "^6.11.5",
     "react-load-script": "^0.0.6",
+    "react-media-recorder": "^1.4.0",
     "react-nl2br": "^1.0.1",
     "react-responsive-modal": "^6.0.0",
     "react-star-ratings": "^2.3.0",

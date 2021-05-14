@@ -5164,6 +5164,11 @@ react-load-script@^0.0.6:
   resolved "https://registry.yarnpkg.com/react-load-script/-/react-load-script-0.0.6.tgz#db6851236aaa25bb622677a2eb51dad4f8d2c258"
   integrity sha512-aRGxDGP9VoLxcsaYvKWIW+LRrMOzz2eEcubTS4NvQPPugjk2VvMhow0wWTkSl7RxookomD1MwcP4l5UStg5ShQ==
 
+react-media-recorder@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-media-recorder/-/react-media-recorder-1.4.0.tgz#e72d366bd87157d634949bdc42300027c78a7aa7"
+  integrity sha512-3lc2LsS6TUG03tmbVd9Fnh7l1+YtbGy5Z+CYQA8zkJuGdroarLXxFExPXu0RqLFbomedD+Axp3pKuNrfIBmHtw==
+
 react-nl2br@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-nl2br/-/react-nl2br-1.0.1.tgz#4f80d7aba6e6b550b8f39429266f5a6428867e9b"
