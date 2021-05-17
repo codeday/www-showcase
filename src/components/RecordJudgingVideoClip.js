@@ -24,7 +24,9 @@ function VideoPreview({ stream, ...props }) {
     </Box>
   );
 }
+let statusHeading;
 export default function RecordJudgingVideoClip({ ...props }) {
+
   return (
     <ReactMediaRecorder
       video
@@ -39,7 +41,6 @@ export default function RecordJudgingVideoClip({ ...props }) {
         <ReactMediaRecorder
           video
           render={({ previewStream }) => {
-            let statusHeading;
             switch (status) {
               case 'recording':
                 statusHeading = <Heading m={4} size="lg">🔴 Recording...</Heading>;
@@ -62,10 +63,16 @@ export default function RecordJudgingVideoClip({ ...props }) {
                   ? <VideoPreview height="xl" stream={previewStream} />
                 // eslint-disable-next-line jsx-a11y/media-has-caption
                   : <video src={mediaBlobUrl} controls autoPlay />}
-                <Button m={4} onClick={startRecording} variantColor="green">Start Recording</Button>
-                <Button m={4} onClick={stopRecording} variantColor="red">Stop Recording</Button>
-                <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
-                <Button m={4} variantColor="green">✔ Upload</Button>
+                <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">Start Recording</Button>
+                <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} variantColor="red">Stop Recording</Button>
+                {(mediaBlobUrl)
+                  ? (
+                    <Box>
+                      <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
+                      <Button m={4} onClick={/*todo: post file contents to api/uploadJudgeComments*/} variantColor="green">✔ Upload</Button>
+                    </Box>
+                  )
+                  : null}
               </Box>
             );
           }}

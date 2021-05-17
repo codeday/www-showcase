@@ -210,6 +210,14 @@
   dependencies:
     react "^16.8.6"
 
+"@codeday/uploader-node@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@codeday/uploader-node/-/uploader-node-1.0.1.tgz#6a30a832f44cc768f86a6185e0f9afced06bac6c"
+  integrity sha512-Yyv7n28vOajZF/4WzlJsNC3PCBJjlCBN4kW7jMIIIGIz4Srej7daa6aSSfjVaui6nRkHxHo3B8owsLMkB3PvYQ==
+  dependencies:
+    form-data "^3.0.0"
+    node-fetch "^2.6.0"
+
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -4324,7 +4332,7 @@ node-fetch@2.6.0:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
-node-fetch@2.6.1:
+node-fetch@2.6.1, node-fetch@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
