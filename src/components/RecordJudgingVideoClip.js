@@ -69,7 +69,8 @@ export default function RecordJudgingVideoClip({ ...props }) {
                   ? (
                     <Box>
                       <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
-                      <Button m={4} onClick={/*todo: post file contents to api/uploadJudgeComments*/} variantColor="green">✔ Upload</Button>
+                      {/* todo post file contents to /api/uploadJudgeComments */}
+                      <Button m={4} variantColor="green">✔ Upload</Button>
                     </Box>
                   )
                   : null}
