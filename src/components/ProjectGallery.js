@@ -59,6 +59,7 @@ export default function ProjectGallery({
               {(() => {
                 if (item.type === 'IMAGE') return <ProjectMediaImage openModal={setModalContent} media={item} />;
                 if (item.type === 'VIDEO') return <ProjectMediaVideo openModal={setModalContent} media={item} />;
+                if (item.type === 'AUDIO') return <ProjectMediaVideo openModal={setModalContent} media={item} />;
                 return <></>;
               })()}
             </ProjectMediaItemBox>
