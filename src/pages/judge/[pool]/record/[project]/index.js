@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import Button from '@codeday/topo/Atom/Button';
 import Content from '@codeday/topo/Molecule/Content';
-import RecordJudgingVideoClip from '../../../../components/RecordJudgingVideoClip';
-import RecordJudgingAudioClip from '../../../../components/RecordJudgingAudioClip';
-import Page from '../../../../components/Page';
 import Text, { Heading } from '@codeday/topo/Atom/Text';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import * as Icon from '@codeday/topocons/Icon';
-
+import RecordJudgingVideoClip from '../../../../../components/RecordJudgingVideoClip';
+import RecordJudgingAudioClip from '../../../../../components/RecordJudgingAudioClip';
+import Page from '../../../../../components/Page';
 
 export default function JudgingRecord() {
   const [status, setStatus] = useState('select'); // 'select', 'audio', 'video'
   let selector;
-  const BackButton = <Button display="flex" variant="solid" variantColor="red" onClick={() => { setStatus('select')}}><Icon.UiArrowLeft /> Back</Button>;
+  const BackButton = <Button display="flex" variant="solid" variantColor="red" onClick={() => { setStatus('select'); }}><Icon.UiArrowLeft /> Back</Button>;
   switch (status) {
     default:
       selector = (
