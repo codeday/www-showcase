@@ -15,9 +15,10 @@ import ForceLoginPage from '../../../../../components/ForceLoginPage';
 import ProjectDetails from '../../../../../components/ProjectDetails';
 
 export default function JudgingRecord({ token, poolToken, project, error, logIn }) {
+  const [status, setStatus] = useState('select'); // 'select', 'audio', 'video'
+  const [showProjectDetails, setShowProjectDetails] = useState(false)
   if (logIn) return <ForceLoginPage />;
   if (error) return <Page><Content><Text>Error fetching a project.</Text></Content></Page>;
-  const [status, setStatus] = useState('select'); // 'select', 'audio', 'video'
   let selector;
   const BackButton = (
     <Button
@@ -65,9 +66,9 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
   }
   return (
     <Page title="Recording">
-      <Content textAlign="center">
+      <Content wide textAlign="center">
         <Heading m={4}>Record judging comments for {project.name}</Heading>
-        <Grid templateColumns={{ base: '1fr', md: '1.5fr 1fr' }} gap={8} mb={12}>
+        <Grid templateColumns={{ base: '1fr', md: '1.5fr 1fr' }} gap={8}>
           <Box bg="gray.100" p={8} rounded={5}>
             {selector}
           </Box>
@@ -88,8 +89,11 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
             {/* eslint-enable react/no-unescaped-entities */}
           </Box>
         </Grid>
-        <ProjectDetails project={project} />
-      </Content>
+        <Button variant="ghost" variantColor="white" w="full" onClick={() => {setShowProjectDetails(!showProjectDetails)}}>
+          {(showProjectDetails)? <Icon.UiArrowDown /> : <Icon.UiArrowRight />}&nbsp;{(showProjectDetails) ? 'Hide' : 'Show'} Project Details
+        </Button>
+        {(showProjectDetails)? <ProjectDetails bg="gray.100" p={8} rounded={5} project={project} /> : null }
+        </Content>
     </Page>
   );
 }
@@ -106,7 +110,6 @@ export async function getServerSideProps({ req, res, params: { pool, project } }
 
   const backendToken = mintJudgingToken(pool, session.user.nickname);
   const { result, error } = await tryAuthenticatedApiQuery(RecordVideoQuery, {id: project}, backendToken);
-  console.log(result.showcase.project.media)
   if (error) {
     res.statusCode = 404;
     console.error(error);

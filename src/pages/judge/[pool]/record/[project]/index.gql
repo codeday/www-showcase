@@ -1,9 +1,9 @@
-#import "../../../../../components/ProjectPreview.gql"
+#import "../../../../../components/ProjectDetails.gql"
 
 query RecordVideoQuery($id: String!) {
     showcase {
         project(id: $id) {
-            ...ProjectPreviewFragment
+            ...ProjectDetailsFragment
         }
     }
 }
