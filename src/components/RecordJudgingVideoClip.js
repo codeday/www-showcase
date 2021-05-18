@@ -68,9 +68,9 @@ export default function RecordJudgingVideoClip({ ...props }) {
                 {(mediaBlobUrl)
                   ? (
                     <Box>
-                      <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
-                      {/* todo post file contents to /api/uploadJudgeComments */}
                       <Button m={4} variantColor="green">✔ Upload</Button>
+                      {/* todo post file contents to /api/uploadJudgeComments */}
+                      <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
                     </Box>
                   )
                   : null}
