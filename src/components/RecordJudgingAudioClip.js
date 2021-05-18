@@ -5,6 +5,8 @@ import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import H5AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import * as Icon from '@codeday/topocons/Icon'
+
 let statusHeading;
 export default function RecordJudgingAudioClip({ ...props }) {
   return (
@@ -39,6 +41,14 @@ export default function RecordJudgingAudioClip({ ...props }) {
               autoPlay
               showJumpControls={false}
               customAdditionalControls={[]}
+              customIcons={
+                {
+                  play: <Icon.MediaPlay />,
+                  pause: <Icon.MediaPause />,
+                  volume: <Icon.UiVolume />,
+                  volumeMute: <Icon.UiVolumeMute />,
+                }
+              }
             />
             <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">
               Start Recording
@@ -49,9 +59,9 @@ export default function RecordJudgingAudioClip({ ...props }) {
             {(mediaBlobUrl)
               ? (
                 <Box>
-                  <Button m={4} variantColor="green">✔ Upload</Button>
+                  <Button m={4} variantColor="green"><Icon.UiUpload />&nbsp;Upload</Button>
                   {/* todo post file contents to /api/uploadJudgeComments */}
-                  <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
+                  <Button m={4} onClick={clearBlobUrl} variantColor="red"><Icon.UiTrash />&nbsp;Retry</Button>
                 </Box>
               )
               : null}

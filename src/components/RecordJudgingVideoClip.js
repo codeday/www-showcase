@@ -4,6 +4,7 @@ import Box from '@codeday/topo/Atom/Box';
 import Skelly from '@codeday/topo/Atom/Skelly';
 import { Heading } from '@codeday/topo/Atom/Text';
 import { ReactMediaRecorder } from 'react-media-recorder';
+import * as Icon from '@codeday/topocons/Icon';
 
 function VideoPreview({ stream, ...props }) {
   const videoRef = useRef(null);
@@ -63,14 +64,18 @@ export default function RecordJudgingVideoClip({ ...props }) {
                   ? <VideoPreview stream={previewStream} />
                 // eslint-disable-next-line jsx-a11y/media-has-caption
                   : <video src={mediaBlobUrl} controls autoPlay />}
-                <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">Start Recording</Button>
-                <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} variantColor="red">Stop Recording</Button>
+                <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">
+                  Start Recording
+                </Button>
+                <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} variantColor="red">
+                  Stop Recording
+                </Button>
                 {(mediaBlobUrl)
                   ? (
                     <Box>
-                      <Button m={4} variantColor="green">✔ Upload</Button>
+                      <Button m={4} variantColor="green"><Icon.UiUpload />&nbsp;Upload</Button>
                       {/* todo post file contents to /api/uploadJudgeComments */}
-                      <Button m={4} onClick={clearBlobUrl} variantColor="red">✖ Retry</Button>
+                      <Button m={4} onClick={clearBlobUrl} variantColor="red"><Icon.UiTrash />&nbsp;Retry</Button>
                     </Box>
                   )
                   : null}

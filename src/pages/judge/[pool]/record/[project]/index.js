@@ -6,19 +6,19 @@ import RecordJudgingAudioClip from '../../../../components/RecordJudgingAudioCli
 import Page from '../../../../components/Page';
 import Text, { Heading } from '@codeday/topo/Atom/Text';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Icon from '@srnd/topocons'
+import * as Icon from '@codeday/topocons/Icon';
 
 
 export default function JudgingRecord() {
   const [status, setStatus] = useState('select'); // 'select', 'audio', 'video'
   let selector;
-
+  const BackButton = <Button display="flex" variant="solid" variantColor="red" onClick={() => { setStatus('select')}}><Icon.UiArrowLeft /> Back</Button>;
   switch (status) {
     default:
       selector = (
         <Box>
           {/* eslint-disable react/no-unescaped-entities */}
-          <Text><b>Thanks so much for volunteering to present a CodeDay award!</b></Text>
+          <Text><b>Thanks so much for volunteering to announce a CodeDay award!</b></Text>
           <Text>
             Please take a look at the script on the right - you don't have to follow it, but it's a good starting point!
             <br />
@@ -39,23 +39,22 @@ export default function JudgingRecord() {
       );
       break;
     case 'audio':
-      selector = <RecordJudgingAudioClip />;
+      selector = <Box>{BackButton}<RecordJudgingAudioClip /></Box>;
       break;
     case 'video':
-      selector = <RecordJudgingVideoClip />;
+      selector = <Box>{BackButton}<RecordJudgingVideoClip /></Box>;
       break;
   }
   return (
     <Page>
       <Content textAlign="center">
-        <Heading>Record judging comments</Heading>
-        <Text>Thanks so much for volunteering to announce a CodeDay award!</Text>
+        <Heading m={4}>Record judging comments</Heading>
         <Grid templateColumns={{ base: '1fr', md: '1.5fr 1fr' }} gap={8} mb={12}>
           <Box bg="gray.100" p={8} rounded={5}>
             {selector}
           </Box>
           <Box bg="gray.100" p={2} rounded={5}>
-            <Box bg="gray.300" p={1} rounded={5}><Heading fontSize="2xl">Script</Heading></Box>
+            <Box bg="gray.300" p={1} rounded={5} m={2}><Heading fontSize="2xl">Script</Heading></Box>
             {/* eslint-disable react/no-unescaped-entities */}
             <Text textAlign="left">
               Hi, my name is <b>[name]</b> and I'm one of the judges for Virtual CodeDay.
