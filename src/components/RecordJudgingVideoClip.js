@@ -14,7 +14,7 @@ function VideoPreview({ stream, ...props }) {
     }
   }, [stream]);
   if (!stream) {
-    return <Skelly width="100%" height="xl" />;
+    return <Skelly width="100%" />;
   }
 
   return (
@@ -60,7 +60,7 @@ export default function RecordJudgingVideoClip({ ...props }) {
               <Box textAlign="center" {...props}>
                 {statusHeading}
                 {(!mediaBlobUrl)
-                  ? <VideoPreview height="xl" stream={previewStream} />
+                  ? <VideoPreview stream={previewStream} />
                 // eslint-disable-next-line jsx-a11y/media-has-caption
                   : <video src={mediaBlobUrl} controls autoPlay />}
                 <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">Start Recording</Button>

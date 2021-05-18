@@ -203,7 +203,7 @@
     react-pdf "^4.2.0"
     react-syntax-highlighter "^13.2.1"
 
-"@codeday/topocons@^1.3.0":
+"@codeday/topocons@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@codeday/topocons/-/topocons-1.5.0.tgz#c3662faa7c4046db389c460fffe842209d20fb4b"
   integrity sha512-E0IjdPlt3mtreVHlDGGvDaRkLWA+bJSDdmo4e1jRFKS1HDjUDKhV8zsC+kw+aSW+qiLp6cOOW7rhbV/QXILFSA==
@@ -462,6 +462,13 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.2.tgz#9390a8127c0dcba61ebd7fdcc748655e191bdd68"
   integrity sha512-/5O7Fq6Vnv8L6ucmPjaWbVG1XkP4FO+w5glqfkIsq3Xw4oyNAdJddbnYodNDAfjVUvo/rrSCTom4kAND7T1o5Q==
+
+"@srnd/topocons@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@srnd/topocons/-/topocons-1.1.2.tgz#0d0d8d9c4aad729b05a7375958d779e9ea1fa0b8"
+  integrity sha512-QFrwVen6xm4Rp0vn5jFJmLVJfHLEy0aox0KxgkQF5fRh14wSuLrkDbvgpGD+7JeEKXzWaO9mSac9eq+8BrzFTA==
+  dependencies:
+    react "^16.8.6"
 
 "@stripe/react-stripe-js@^1.1.2":
   version "1.1.2"
