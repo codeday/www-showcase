@@ -7,11 +7,30 @@ import * as Icon from '@codeday/topocons/Icon';
 import RecordJudgingVideoClip from '../../../../../components/RecordJudgingVideoClip';
 import RecordJudgingAudioClip from '../../../../../components/RecordJudgingAudioClip';
 import Page from '../../../../../components/Page';
+import { getSession } from 'next-auth/client';
+import { mintJudgingToken } from '../../../../../util/token';
+import { tryAuthenticatedApiQuery } from '../../../../../util/api';
+import { RecordVideoQuery } from 'index.gql';
+import ForceLoginPage from '../../../../../components/ForceLoginPage';
+import ProjectDetails from '../../../../../components/ProjectDetails';
 
-export default function JudgingRecord() {
+export default function JudgingRecord({ token, poolToken, project, error, logIn }) {
+  if (logIn) return <ForceLoginPage />;
+  if (error) return <Page><Content><Text>Error fetching a project.</Text></Content></Page>;
   const [status, setStatus] = useState('select'); // 'select', 'audio', 'video'
   let selector;
-  const BackButton = <Button display="flex" variant="solid" variantColor="red" onClick={() => { setStatus('select'); }}><Icon.UiArrowLeft /> Back</Button>;
+  const BackButton = (
+    <Button
+      display="flex"
+      variant="solid"
+      variantColor="red"
+      onClick={
+        () => { setStatus('select'); }
+      }
+    >
+      <Icon.UiArrowLeft />&nbsp;Back
+    </Button>
+  );
   switch (status) {
     default:
       selector = (
@@ -45,9 +64,9 @@ export default function JudgingRecord() {
       break;
   }
   return (
-    <Page>
+    <Page title="Recording">
       <Content textAlign="center">
-        <Heading m={4}>Record judging comments</Heading>
+        <Heading m={4}>Record judging comments for {project.name}</Heading>
         <Grid templateColumns={{ base: '1fr', md: '1.5fr 1fr' }} gap={8} mb={12}>
           <Box bg="gray.100" p={8} rounded={5}>
             {selector}
@@ -67,10 +86,43 @@ export default function JudgingRecord() {
               Congratulations!
             </Text>
             {/* eslint-enable react/no-unescaped-entities */}
-
           </Box>
         </Grid>
+        <ProjectDetails project={project} />
       </Content>
     </Page>
   );
+}
+
+export async function getServerSideProps({ req, res, params: { pool, project } }) {
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      props: {
+        logIn: true,
+      },
+    };
+  }
+
+  const backendToken = mintJudgingToken(pool, session.user.nickname);
+  const { result, error } = await tryAuthenticatedApiQuery(RecordVideoQuery, {id: project}, backendToken);
+  console.log(result.showcase.project.media)
+  if (error) {
+    res.statusCode = 404;
+    console.error(error);
+    return {
+      props: {
+        error: error.message,
+      },
+    };
+  }
+
+
+  return {
+    props: {
+      token: backendToken,
+      poolToken: pool,
+      project: result?.showcase?.project || null,
+    },
+  };
 }
