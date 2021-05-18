@@ -5,10 +5,11 @@ import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import H5AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import * as Icon from '@codeday/topocons/Icon'
+import * as Icon from '@codeday/topocons/Icon';
+import PropTypes from 'prop-types';
 
 let statusHeading;
-export default function RecordJudgingAudioClip({ ...props }) {
+export default function RecordJudgingAudioClip({ onUpload, ...props }) {
   return (
     <ReactMediaRecorder
       render={({
@@ -59,8 +60,9 @@ export default function RecordJudgingAudioClip({ ...props }) {
             {(mediaBlobUrl)
               ? (
                 <Box>
-                  <Button m={4} variantColor="green"><Icon.UiUpload />&nbsp;Upload</Button>
-                  {/* todo post file contents to /api/uploadJudgeComments */}
+                  <Button m={4} onClick={() => onUpload(mediaBlobUrl)} variantColor="green">
+                    <Icon.UiUpload />&nbsp;Upload
+                  </Button>
                   <Button m={4} onClick={clearBlobUrl} variantColor="red"><Icon.UiTrash />&nbsp;Retry</Button>
                 </Box>
               )
@@ -71,3 +73,11 @@ export default function RecordJudgingAudioClip({ ...props }) {
     />
   );
 }
+
+RecordJudgingAudioClip.propTypes = {
+  onUpload: PropTypes.func,
+};
+
+RecordJudgingAudioClip.defaultProps = {
+  onUpload: () => {},
+};

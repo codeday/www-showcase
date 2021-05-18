@@ -5,6 +5,7 @@ import Skelly from '@codeday/topo/Atom/Skelly';
 import { Heading } from '@codeday/topo/Atom/Text';
 import { ReactMediaRecorder } from 'react-media-recorder';
 import * as Icon from '@codeday/topocons/Icon';
+import PropTypes from 'prop-types';
 
 function VideoPreview({ stream, ...props }) {
   const videoRef = useRef(null);
@@ -26,7 +27,7 @@ function VideoPreview({ stream, ...props }) {
   );
 }
 let statusHeading;
-export default function RecordJudgingVideoClip({ ...props }) {
+export default function RecordJudgingVideoClip({ onUpload, ...props }) {
 
   return (
     <ReactMediaRecorder
@@ -73,7 +74,9 @@ export default function RecordJudgingVideoClip({ ...props }) {
                 {(mediaBlobUrl)
                   ? (
                     <Box>
-                      <Button m={4} variantColor="green"><Icon.UiUpload />&nbsp;Upload</Button>
+                      <Button m={4} onClick={() => onUpload(mediaBlobUrl)} variantColor="green">
+                        <Icon.UiUpload />&nbsp;Upload
+                      </Button>
                       {/* todo post file contents to /api/uploadJudgeComments */}
                       <Button m={4} onClick={clearBlobUrl} variantColor="red"><Icon.UiTrash />&nbsp;Retry</Button>
                     </Box>
@@ -87,3 +90,11 @@ export default function RecordJudgingVideoClip({ ...props }) {
     />
   );
 }
+
+RecordJudgingVideoClip.propTypes = {
+  onUpload: PropTypes.func,
+};
+
+RecordJudgingVideoClip.defaultProps = {
+  onUpload: () => {},
+};
