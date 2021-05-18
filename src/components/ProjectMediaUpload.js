@@ -14,7 +14,7 @@ const MAX_FILE_SIZE = 1024 * 1024 * 125;
 const MIME_IMAGE = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
 const MIME_VIDEO = ['video/mp4', 'video/mov', 'video/quicktime', 'video/webm', 'video/x-msvideo', 'video/x-matroska'];
 
-export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...props }) {
+export default function ProjectMediaUpload({ projectId, editToken, isAdmin, onAdded, ...props }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [topic, setTopic] = useState('');
   const fileUploadRef = useRef();
@@ -31,6 +31,9 @@ export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...p
         {Object.keys(MEDIA_TOPICS).map((val) => (
           <option key={val} value={val}>{MEDIA_TOPICS[val]}</option>
         ))}
+        {isAdmin && (
+          <option value="JUDGES">Judges</option>
+        )}
       </Select>
       <Button
         disabled={isSubmitting || !topic || !fileUploadRef?.current}
@@ -103,9 +106,11 @@ export default function ProjectMediaUpload({ projectId, editToken, onAdded, ...p
 ProjectMediaUpload.propTypes = {
   projectId: PropTypes.string.isRequired,
   editToken: PropTypes.string,
+  isAdmin: PropTypes.bool,
   onAdded: PropTypes.func,
 };
 ProjectMediaUpload.defaultProps = {
   editToken: null,
+  isAdmin: false,
   onAdded: () => {},
 };
