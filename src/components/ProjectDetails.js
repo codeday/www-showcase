@@ -130,7 +130,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
           {(project.media?.length > 0 || editToken) && (
             <>
               <Heading as="h3" fontSize="2xl" mt={8}>Media</Heading>
-              <ProjectGallery media={project.media} projectId={project.id} editToken={editToken} />
+              <ProjectGallery media={project.media} projectId={project.id} editToken={editToken} isAdmin={isAdmin} />
             </>
           )}
         </Box>
