@@ -6,20 +6,57 @@ import Box, { Grid } from '@codeday/topo/Atom/Box';
 import * as Icon from '@codeday/topocons/Icon';
 import RecordJudgingVideoClip from '../../../../../components/RecordJudgingVideoClip';
 import RecordJudgingAudioClip from '../../../../../components/RecordJudgingAudioClip';
-import Page from '../../../../../components/Page';
-import { getSession } from 'next-auth/client';
-import { mintJudgingToken } from '../../../../../util/token';
-import { tryAuthenticatedApiQuery } from '../../../../../util/api';
-import { RecordVideoQuery } from 'index.gql';
 import ForceLoginPage from '../../../../../components/ForceLoginPage';
 import ProjectDetails from '../../../../../components/ProjectDetails';
+import Page from '../../../../../components/Page';
+import { mintJudgingToken } from '../../../../../util/token';
+import { tryAuthenticatedApiQuery } from '../../../../../util/api';
+import { getSession } from 'next-auth/client';
+import { RecordVideoQuery } from 'index.gql';
+import { useToasts } from '@codeday/topo/utils';
+import { UploadMediaMutation } from '../../../../../components/ProjectGallery.gql';
+import { UploadOK, UploadPending, UploadError } from '../../../../../components/UploadStatus';
+
+const MIME_VIDEO = ['video/mp4', 'video/mov', 'video/quicktime', 'video/webm', 'video/x-msvideo', 'video/x-matroska'];
+const MIME_AUDIO = ['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/vorbis', 'audio/vnd.wav', 'audio/wav'];
+
 
 export default function JudgingRecord({ token, poolToken, project, error, logIn }) {
-  const [status, setStatus] = useState('select'); // 'select', 'audio', 'video'
+  const [status, setStatus] = useState('uploadok');
+  // states: 'select', 'audio', 'video', 'uploading', 'uploadok', 'uploaderror'
   const [showProjectDetails, setShowProjectDetails] = useState(false)
+  const { success:successToast, error:errorToast, info:infoToast } = useToasts();
+
   if (logIn) return <ForceLoginPage />;
   if (error) return <Page><Content><Text>Error fetching a project.</Text></Content></Page>;
   let selector;
+  async function uploadMedia(mediaBlobURL) {
+    setStatus('uploading')
+    infoToast('Uploading, please wait')
+    let blob = await fetch(mediaBlobURL)
+    console.log(blob)
+    blob = await blob.blob()
+    let type;
+    console.log(blob.type)
+    if (MIME_VIDEO.includes(blob.type)) type = 'VIDEO';
+    if (MIME_AUDIO.includes(blob.type)) type = 'AUDIO';
+
+    const filename = `judge-${project.name.split(' ').join('').toLowerCase()}.${(type === "VIDEO")? "mp4" : "mp3"}`
+    let file = new File([blob], filename)
+    console.log(type)
+    const { result, error: resultError } = await tryAuthenticatedApiQuery(
+      UploadMediaMutation,{upload: file, topic: "JUDGES", type: type, projectId: project.id },
+      token
+    );
+    if (error) {
+      setStatus('uploaderror');
+      console.error(error);
+      errorToast('An upload error occurred!');
+    }   else {
+      setStatus('uploadok');
+      successToast('Upload complete!')
+    }
+  }
   const BackButton = (
     <Button
       display="flex"
@@ -58,17 +95,26 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
       );
       break;
     case 'audio':
-      selector = <Box>{BackButton}<RecordJudgingAudioClip /></Box>;
+      selector = <Box>{BackButton}<RecordJudgingAudioClip onUpload={uploadMedia} /></Box>;
       break;
     case 'video':
-      selector = <Box>{BackButton}<RecordJudgingVideoClip /></Box>;
+      selector = <Box>{BackButton}<RecordJudgingVideoClip onUpload={uploadMedia} /></Box>;
+      break;
+    case 'uploading':
+      selector = <UploadPending />
+      break;
+    case 'uploadok':
+      selector = <UploadOK />
+      break;
+    case 'uploaderror':
+      selector = <UploadError />
       break;
   }
   return (
     <Page title="Recording">
       <Content wide textAlign="center">
         <Heading m={4}>Record judging comments for {project.name}</Heading>
-        <Grid templateColumns={{ base: '1fr', md: '1.5fr 1fr' }} gap={8}>
+        <Grid templateColumns={{ base: '1fr', md: '1.5fr 1fr' }} gap={8} alignItems="start">
           <Box bg="gray.100" p={8} rounded={5}>
             {selector}
           </Box>
@@ -89,7 +135,7 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
             {/* eslint-enable react/no-unescaped-entities */}
           </Box>
         </Grid>
-        <Button variant="ghost" variantColor="white" w="full" onClick={() => {setShowProjectDetails(!showProjectDetails)}}>
+        <Button variant="ghost" variantColor="transparent" w="full" onClick={() => {setShowProjectDetails(!showProjectDetails)}}>
           {(showProjectDetails)? <Icon.UiArrowDown /> : <Icon.UiArrowRight />}&nbsp;{(showProjectDetails) ? 'Hide' : 'Show'} Project Details
         </Button>
         {(showProjectDetails)? <ProjectDetails bg="gray.100" p={8} rounded={5} project={project} /> : null }
