@@ -120,7 +120,12 @@ export default function AwardsSlides({ projects, availableAwards }) {
       </Text>
     </Box>
   }
-  else if (index >= (projects.length * 2)) slide = <></>;
+  else if (index >= (projects.length * 2)) {
+    slide = <Box w="100%" h="100%" p={20}>
+      <Heading fontSize="10em" color="white">Congratulations!</Heading>
+      <Heading fontSize="5em" color="white">lets all go get some sleep</Heading>
+    </Box>
+  }
   else if (showingDemo) slide = (
     <Box w="100%" h="100%">
       <MediaPreview media={projectPreferredDemo} />
