@@ -11,6 +11,12 @@ query ProjectsAwardsQuery($where: ShowcaseProjectsWhere) {
   showcase {
     projects (where: $where) {
       name
+      eventGroup {
+        title
+      }
+      program {
+        name
+      }
       media {
         type
         topic

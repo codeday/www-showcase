@@ -8,8 +8,9 @@ import { makeFilter } from '../../../[projectFilter]/[eventFilter]/[...args]';
 import { ProjectsAwardsQuery } from './projects.gql';
 import { tryAuthenticatedApiQuery } from '../../../../util/api';
 import { mintToken } from '../../../../util/token';
-import Text from '@codeday/topo/Atom/Text'
+import Text, { Heading } from '@codeday/topo/Atom/Text'
 import AudioSpectrum from 'react-audio-spectrum';
+import ReactTypingEffect from 'react-typing-effect'
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
@@ -57,8 +58,25 @@ function MediaPreview({ media }) {
   )
 }
 
+const hellos = [
+  "We Did The CodeDay!",
+  "Incredible.",
+  "Can't believe we did it.",
+  "WOOOOOOOOW",
+  "So crazy!",
+  "Is this real life?",
+  "Help, I'm trapped in this slide deck",
+  "See you next season!",
+  "AAAaaaaaaAaaaaaaaaa",
+  "It's already over?",
+  "I hope you slept",
+  "John Peter Approved",
+  "Thank you to all of our amazing volunteer organizers, mentors, and judges!",
+  "<3",
+  "WHEEL",
+]
+
 export default function AwardsSlides({ projects, availableAwards }) {
-  console.log(availableAwards)
   const [order, setOrder] = useState();
   const [index, nextIndex] = useReducer(
     (prev, action) => {
@@ -88,7 +106,21 @@ export default function AwardsSlides({ projects, availableAwards }) {
   const projectPreferredJudge = project && project.media.filter(({ topic }) => topic === 'JUDGES').sort(mediaSort)[0] || null;
 
   let slide = <></>;
-  if (index === -1 || index >= (projects.length * 2)) slide = <></>;
+  if (index === -1) {
+    slide = <Box w="100%" h="100%" p={20}>
+      <Heading fontSize="5em" color="white">{projects[0].eventGroup.title}</Heading>
+      <Heading fontSize="15em" color="white">Awards</Heading>
+      <Text as="div" fontSize="3em" color="white">
+      <ReactTypingEffect
+        speed={50}
+        eraseSpeed={50}
+        typingDelay={100}
+        text={hellos.sort(() => Math.random() > 0.5 ? 1 : -1)}
+      />
+      </Text>
+    </Box>
+  }
+  else if (index >= (projects.length * 2)) slide = <></>;
   else if (showingDemo) slide = (
     <Box w="100%" h="100%">
       <MediaPreview media={projectPreferredDemo} />
