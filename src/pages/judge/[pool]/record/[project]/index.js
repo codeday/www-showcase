@@ -22,7 +22,7 @@ const MIME_AUDIO = ['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/vorbis', 'aud
 
 
 export default function JudgingRecord({ token, poolToken, project, error, logIn }) {
-  const [status, setStatus] = useState('uploadok');
+  const [status, setStatus] = useState('select');
   // states: 'select', 'audio', 'video', 'uploading', 'uploadok', 'uploaderror'
   const [showProjectDetails, setShowProjectDetails] = useState(false)
   const { success:successToast, error:errorToast, info:infoToast } = useToasts();

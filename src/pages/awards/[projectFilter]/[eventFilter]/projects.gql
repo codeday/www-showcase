@@ -1,5 +1,13 @@
 #import "../../../../components/Slides/SetSlideOrder.gql"
+#import "../../../../components/ProjectAwards.gql"
 query ProjectsAwardsQuery($where: ShowcaseProjectsWhere) {
+  cms {
+    awards(limit: 40) {
+      items {
+        ...AvailableAwardFragment
+      }
+    }
+  }
   showcase {
     projects (where: $where) {
       name

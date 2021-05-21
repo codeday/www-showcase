@@ -2,6 +2,9 @@ fragment AvailableAwardFragment on CmsAward {
   id
   name
   ranking
+  icon {
+    url
+  }
   programs(limit: 1) {
     items {
       webname

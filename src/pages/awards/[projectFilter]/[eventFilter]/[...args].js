@@ -8,6 +8,8 @@ import { makeFilter } from '../../../[projectFilter]/[eventFilter]/[...args]';
 import { ProjectsAwardsQuery } from './projects.gql';
 import { tryAuthenticatedApiQuery } from '../../../../util/api';
 import { mintToken } from '../../../../util/token';
+import Text from '@codeday/topo/Atom/Text'
+import AudioSpectrum from 'react-audio-spectrum';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
@@ -38,9 +40,25 @@ function MediaPreview({ media }) {
     />
   );
   // TODO(@tylermenezes): Audio
+  if (media.type === 'AUDIO') console.log(media); return (
+    <Box w="100%" h="100%" p="10%">
+      <audio id="audioSource" src="" autoPlay />
+      <AudioSpectrum
+        height={parent.innerHeight/2} // wish i could use percents here but it demands pixel width
+        width={parent.outerWidth*0.8}
+        audioId="audioSource"
+        capHeight={0}
+        meterWidth={25}
+        meterCount={25}
+        meterColor="#ffffff"
+        gap={50}
+      />
+    </Box>
+  )
 }
 
-export default function AwardsSlides({ projects }) {
+export default function AwardsSlides({ projects, availableAwards }) {
+  console.log(availableAwards)
   const [order, setOrder] = useState();
   const [index, nextIndex] = useReducer(
     (prev, action) => {
@@ -61,7 +79,7 @@ export default function AwardsSlides({ projects }) {
   }, [typeof window]);
 
   if (!order && (!projects || projects.length === 0)) return 'No projects.';
-  if (!order) return <SetSlideOrder onSubmit={setOrder} projects={projects} />;
+  if (!order) return <SetSlideOrder onSubmit={setOrder} projects={projects} availableAwards={availableAwards} />;
 
   const project = index >= 0 && index < (order.length * 2) ? order[Math.floor(index/2)] : null;
   const showingDemo = index >= 0 && index < (order.length * 2) ? index % 2 === 1 : null;
@@ -76,7 +94,8 @@ export default function AwardsSlides({ projects }) {
       <MediaPreview media={projectPreferredDemo} />
       <Box
         fontSize="5vh" color="white" position="absolute" top={0} left={0} right={0} p={4} fontWeight="bold" grad="darken.lg.180">
-        {project.name}
+        {project.name} <br /> {project.awardName}
+        <Image src={project.awardIcon} height={200}/>
       </Box>
     </Box>
   );
@@ -87,7 +106,7 @@ export default function AwardsSlides({ projects }) {
   );
 
   return (
-    <Box bg="#000" position="absolute" top={0} bottom={0} left={0} right={0}>
+    <Box bg="#ff686b" p={2} position="absolute" top={0} bottom={0} left={0} right={0}>
       {slide}
       <style>{'video { height: 100%; }'}</style>
     </Box>
@@ -109,6 +128,7 @@ export async function getServerSideProps({ req, params }) {
   return {
     props: {
       projects: projects || [],
+      availableAwards: result?.cms?.awards?.items || []
     },
   };
 }
