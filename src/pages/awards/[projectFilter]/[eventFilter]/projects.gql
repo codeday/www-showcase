@@ -21,6 +21,7 @@ query ProjectsAwardsQuery($where: ShowcaseProjectsWhere) {
         type
         topic
         stream
+        download
         image(width: 1920, height: 1080, fillBlur: true)
       }
     }

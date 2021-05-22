@@ -41,9 +41,9 @@ function MediaPreview({ media }) {
     />
   );
   // TODO(@tylermenezes): Audio
-  if (media.type === 'AUDIO') console.log(media); return (
+  if (media.type === 'AUDIO') return (
     <Box w="100%" h="100%" p="10%">
-      <audio id="audioSource" src="" autoPlay />
+      <audio id="audioSource" crossOrigin="anonymous" src={media.download} autoPlay />
       <AudioSpectrum
         height={parent.innerHeight/2} // wish i could use percents here but it demands pixel width
         width={parent.outerWidth*0.8}
