@@ -1,5 +1,5 @@
 #import "../../../components/ProjectPreview.gql"
-query ProjectsIndexQuery($startGt: CmsDateTime!, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere) {
+query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere) {
   cms {
     events(
       where: { startsAt_gte: $startGt, endsAt_lt: $startLt }

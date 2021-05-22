@@ -13,6 +13,7 @@ const WARN_FILE_SIZE = 1024 * 1024 * 5;
 const MAX_FILE_SIZE = 1024 * 1024 * 125;
 const MIME_IMAGE = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
 const MIME_VIDEO = ['video/mp4', 'video/mov', 'video/quicktime', 'video/webm', 'video/x-msvideo', 'video/x-matroska'];
+const MIME_AUDIO = ['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/vorbis', 'audio/vnd.wav'];
 
 export default function ProjectMediaUpload({ projectId, editToken, isAdmin, onAdded, ...props }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,6 +66,7 @@ export default function ProjectMediaUpload({ projectId, editToken, isAdmin, onAd
           let type = null;
           if (MIME_IMAGE.includes(file.type)) type = 'IMAGE';
           if (MIME_VIDEO.includes(file.type)) type = 'VIDEO';
+          if (MIME_AUDIO.includes(file.type)) type = 'AUDIO';
           if (!type) {
             error('Only images and videos are supported.');
             return;

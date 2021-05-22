@@ -45,9 +45,9 @@ export function mintJudgingToken(originalJudgingToken, username) {
 
   return sign(
     {
-      e, g, p, r, j, jvr, u: username,
+      e, g, p, r, j, jvr, jum: true, u: username,
     },
     serverRuntimeConfig.showcase.secret,
-    { audience: serverRuntimeConfig.showcase.audience }
+    { audience: serverRuntimeConfig.showcase.audience}
   );
 }
