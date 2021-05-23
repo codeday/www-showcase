@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { getSession } from 'next-auth/client';
-import Box from '@codeday/topo/Atom/Box';
+import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Image from '@codeday/topo/Atom/Image';
 import SetSlideOrder from '../../../../components/Slides/SetSlideOrder';
 import { makeFilter } from '../../../[projectFilter]/[eventFilter]/[...args]';
@@ -11,6 +11,7 @@ import { mintToken } from '../../../../util/token';
 import Text, { Heading } from '@codeday/topo/Atom/Text'
 import AudioSpectrum from 'react-audio-spectrum';
 import ReactTypingEffect from 'react-typing-effect'
+import { CodeDay } from '@codeday/topo/Atom/Logo';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
@@ -42,7 +43,7 @@ function MediaPreview({ media }) {
   );
   // TODO(@tylermenezes): Audio
   if (media.type === 'AUDIO') return (
-    <Box w="100%" h="100%" p="10%">
+    <Box w="100%" h="100%" p="10%" bg="red.600">
       <audio id="audioSource" crossOrigin="anonymous" src={media.download} autoPlay />
       <AudioSpectrum
         height={parent.innerHeight/2} // wish i could use percents here but it demands pixel width
@@ -107,32 +108,36 @@ export default function AwardsSlides({ projects, availableAwards }) {
 
   let slide = <></>;
   if (index === -1) {
-    slide = <Box w="100%" h="100%" p={20}>
-      <Heading fontSize="5em" color="white">{projects[0].eventGroup.title}</Heading>
-      <Heading fontSize="15em" color="white">Awards</Heading>
-      <Text as="div" fontSize="3em" color="white">
-      <ReactTypingEffect
-        speed={50}
-        eraseSpeed={50}
-        typingDelay={100}
-        text={hellos.sort(() => Math.random() > 0.5 ? 1 : -1)}
-      />
+    slide = <Box w="100%" h="100%" p={20} bg="red.600">
+      <Heading fontSize="9vh" color="white"><CodeDay color="white" withText /></Heading>
+      <Heading fontSize="27vh" mt="10vh" mb="10vh" color="white">Awards</Heading>
+      <Text as="div" fontSize="4vh" color="white">
+        <ReactTypingEffect
+          speed={50}
+          eraseSpeed={50}
+          typingDelay={100}
+          text={hellos.sort(() => Math.random() > 0.5 ? 1 : -1)}
+        />
       </Text>
     </Box>
   }
-  else if (index >= (projects.length * 2)) {
-    slide = <Box w="100%" h="100%" p={20}>
-      <Heading fontSize="10em" color="white">Congratulations!</Heading>
-      <Heading fontSize="5em" color="white">lets all go get some sleep</Heading>
+  else if (index >= (order.length * 2)) {
+    slide = <Box w="100%" h="100%" p={20} bg="red.600">
+      <Heading fontSize="19vh" mt="15vh" mb="5vh" color="white">Congratulations!</Heading>
+      <Text fontSize="6vh" color="white">Now let's all go get some rest.</Text>
     </Box>
   }
   else if (showingDemo) slide = (
     <Box w="100%" h="100%">
       <MediaPreview media={projectPreferredDemo} />
-      <Box
-        fontSize="5vh" color="white" position="absolute" top={0} left={0} right={0} p={4} fontWeight="bold" grad="darken.lg.180">
-        {project.name} <br /> {project.awardName}
-        <Image src={project.awardIcon} height={200}/>
+      <Box position="absolute" top={0} left={0} right={0} p={4} pb={16} grad="darken.lg.180">
+        <Grid templateColumns={project.awardIcon ? "10vw 1fr" : "1fr"} gap="1vw" alignItems="center">
+            {project.awardIcon && (<Image src={project.awardIcon} mb={0} width="10vw" />)}
+            <Box color="white" fontWeight="bold">
+              <Text fontSize="3vh" mb={0}>{project.awardName}</Text>
+              <Text fontSize="5vh">{project.name}</Text>
+            </Box>
+        </Grid>
       </Box>
     </Box>
   );
@@ -143,7 +148,7 @@ export default function AwardsSlides({ projects, availableAwards }) {
   );
 
   return (
-    <Box bg="#ff686b" p={2} position="absolute" top={0} bottom={0} left={0} right={0}>
+    <Box bg="#000" position="absolute" top={0} bottom={0} left={0} right={0}>
       {slide}
       <style>{'video { height: 100%; }'}</style>
     </Box>

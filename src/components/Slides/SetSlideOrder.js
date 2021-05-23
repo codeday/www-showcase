@@ -7,7 +7,7 @@ import { Select } from '@codeday/topo/Atom/Input/Select';
 
 import * as Icon from '@codeday/topocons/Icon';
 import Text from '@codeday/topo/Atom/Text';
-import Image from '@codeday/topo/Atom/Image'
+import Image from '@codeday/topo/Atom/Image';
 
 export default function SetSlideOrder({ projects, availableAwards, onSubmit }) {
   const [items, setItems] = useState(projects);
@@ -49,7 +49,7 @@ export default function SetSlideOrder({ projects, availableAwards, onSubmit }) {
           </Box>
         )}
       />
-      <Button variantColor="green" onClick={() => onSubmit(items)}>Start</Button>
+      <Button variantColor="green" onClick={() => onSubmit(items.filter((i) => i.awardName))}>Start</Button>
     </Box>
   );
 }
