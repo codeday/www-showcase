@@ -48,9 +48,9 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
       UploadMediaMutation,{upload: file, topic: "JUDGES", type: type, projectId: project.id },
       token
     );
-    if (error) {
+    if (resultError) {
       setStatus('uploaderror');
-      console.error(error);
+      console.error(resultError);
       errorToast('An upload error occurred!');
     }   else {
       setStatus('uploadok');
