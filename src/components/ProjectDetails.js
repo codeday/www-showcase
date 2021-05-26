@@ -30,7 +30,7 @@ function makeProperLink(link) {
   return link.startsWith('http') ? link : `http://${link}`;
 }
 
-export default function ProjectDetails({ project, editToken, user, availableAwards, ...props }) {
+export default function ProjectDetails({ project, editToken, user, availableAwards, showMemberCount, ...props }) {
   const isAdmin = user?.admin;
 
   const preferredMedia = (project.media || [])
@@ -213,10 +213,13 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
           </Box>
 
           {typeof project.members !== 'undefined' && (
-            <>
-              <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
-              <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
-            </>
+            (showMemberCount)?
+            <Heading as="h3" fontSize="xl" mb={2}>Member Count: {project.members.length}</Heading>
+              :
+              <>
+                <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
+                <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
+              </>
           )}
 
           <ProjectSubmit mt={6} editToken={editToken} project={project} />
@@ -239,7 +242,9 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
 ProjectDetails.propTypes = {
   project: PropTypes.object.isRequired,
   editToken: PropTypes.string,
+  showMemberCount: PropTypes.bool,
 };
 ProjectDetails.defaultProps = {
   editToken: null,
+  showMemberCount: false,
 };

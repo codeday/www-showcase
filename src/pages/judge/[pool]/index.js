@@ -51,7 +51,7 @@ export default function Judging({ token, poolToken, judgingPool, initialProject,
                 setIsLoading(false);
               }}
             />
-            <ProjectDetails project={project} />
+            <ProjectDetails project={project} showMemberCount={true} />
           </>
         ) : (
           <Text>That's all the projects we've got for now!</Text>
