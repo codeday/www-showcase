@@ -14,6 +14,7 @@ module.exports = {
       program: process.env.SHOWCASE_PROGRAM,
       availableSubevents: process.env.SHOWCASE_AVAILABLE_SUBEVENTS.split(',') || [],
     },
+    appSecret: process.env.NEXT_AUTH_SECRET,
   },
   publicRuntimeConfig: {
     appUrl: process.env.APP_URL,
