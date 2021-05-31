@@ -8,7 +8,9 @@ import ProjectMediaVideo from './ProjectMediaVideo';
 import ProjectMediaItemBox from './ProjectMediaItemBox';
 import ProjectMediaUpload from './ProjectMediaUpload';
 
-export default function ProjectGallery({ projectId, media: initialMedia, editToken }) {
+export default function ProjectGallery({
+  projectId, media: initialMedia, editToken, isAdmin,
+}) {
   const [modalContent, setModalContent] = useState(null);
   const [media, changeMedia] = useReducer((currentMedia, { action, media }) => {
     if (action === 'add') {
@@ -57,6 +59,7 @@ export default function ProjectGallery({ projectId, media: initialMedia, editTok
               {(() => {
                 if (item.type === 'IMAGE') return <ProjectMediaImage openModal={setModalContent} media={item} />;
                 if (item.type === 'VIDEO') return <ProjectMediaVideo openModal={setModalContent} media={item} />;
+                if (item.type === 'AUDIO') return <ProjectMediaVideo openModal={setModalContent} media={item} />;
                 return <></>;
               })()}
             </ProjectMediaItemBox>
@@ -64,6 +67,7 @@ export default function ProjectGallery({ projectId, media: initialMedia, editTok
         <ProjectMediaUpload
           projectId={projectId}
           editToken={editToken}
+          isAdmin={isAdmin}
           onAdded={(toAdd) => changeMedia({ action: 'add', media: toAdd })}
         />
       </Grid>
@@ -74,7 +78,9 @@ ProjectGallery.propTypes = {
   projectId: PropTypes.string.isRequired,
   media: PropTypes.arrayOf(PropTypes.object).isRequired,
   editToken: PropTypes.string,
+  isAdmin: PropTypes.bool,
 };
 ProjectGallery.defaultProps = {
   editToken: null,
+  isAdmin: false,
 };

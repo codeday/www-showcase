@@ -203,12 +203,20 @@
     react-pdf "^4.2.0"
     react-syntax-highlighter "^13.2.1"
 
-"@codeday/topocons@^1.3.0":
+"@codeday/topocons@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@codeday/topocons/-/topocons-1.5.0.tgz#c3662faa7c4046db389c460fffe842209d20fb4b"
   integrity sha512-E0IjdPlt3mtreVHlDGGvDaRkLWA+bJSDdmo4e1jRFKS1HDjUDKhV8zsC+kw+aSW+qiLp6cOOW7rhbV/QXILFSA==
   dependencies:
     react "^16.8.6"
+
+"@codeday/uploader-node@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@codeday/uploader-node/-/uploader-node-1.0.1.tgz#6a30a832f44cc768f86a6185e0f9afced06bac6c"
+  integrity sha512-Yyv7n28vOajZF/4WzlJsNC3PCBJjlCBN4kW7jMIIIGIz4Srej7daa6aSSfjVaui6nRkHxHo3B8owsLMkB3PvYQ==
+  dependencies:
+    form-data "^3.0.0"
+    node-fetch "^2.6.0"
 
 "@emotion/cache@^10.0.27":
   version "10.0.29"
@@ -348,6 +356,16 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.1.0.tgz#6c9eafc78c1529248f8f4d92b0799a712b6052c6"
   integrity sha512-i9YbZPN3QgfighY/1X1Pu118VUz2Fmmhd6b2n0/O8YVgGGfw0FbUYoA97k7FkpGJ+pLCFEDLUmAPPV4D1kpeFw==
 
+"@iconify/icons-mdi@^1.0.46":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-mdi/-/icons-mdi-1.1.15.tgz#e035130cc480c4318fb4cb21b8b836a2ba32c8b9"
+  integrity sha512-H2dwj/vlBXd9Gc7d66m8ZW/8TZcxshMwIoyUkyTMft1mnGqsxJWq5QEWnX+jkmL8KKGR/czqh6p9sEe67Laq6Q==
+
+"@iconify/react@^1.1.3":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@iconify/react/-/react-1.1.4.tgz#c778eddbaf196e55705d0bedff00d039dc1de8d3"
+  integrity sha512-oxq8IMOq8q3nKGiDHbQPC8FcFuBsKve68JWBo140d5LRnj0bv5TB/FE/y01ZSvEZ7PlI2HIrnb2qivPN8kTDgw==
+
 "@next/env@10.0.3":
   version "10.0.3"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.3.tgz#ef1077d78bf500855576f83090d6fb1ec96272f8"
@@ -444,6 +462,13 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.2.tgz#9390a8127c0dcba61ebd7fdcc748655e191bdd68"
   integrity sha512-/5O7Fq6Vnv8L6ucmPjaWbVG1XkP4FO+w5glqfkIsq3Xw4oyNAdJddbnYodNDAfjVUvo/rrSCTom4kAND7T1o5Q==
+
+"@srnd/topocons@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@srnd/topocons/-/topocons-1.1.2.tgz#0d0d8d9c4aad729b05a7375958d779e9ea1fa0b8"
+  integrity sha512-QFrwVen6xm4Rp0vn5jFJmLVJfHLEy0aox0KxgkQF5fRh14wSuLrkDbvgpGD+7JeEKXzWaO9mSac9eq+8BrzFTA==
+  dependencies:
+    react "^16.8.6"
 
 "@stripe/react-stripe-js@^1.1.2":
   version "1.1.2"
@@ -4324,7 +4349,7 @@ node-fetch@2.6.0:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
-node-fetch@2.6.1:
+node-fetch@2.6.1, node-fetch@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
@@ -5108,6 +5133,15 @@ react-animate-height@2.0.21:
     classnames "^2.2.5"
     prop-types "^15.6.1"
 
+react-audio-spectrum@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-audio-spectrum/-/react-audio-spectrum-0.1.0.tgz#286c883aac7513b4b44fab26dc5e53f77c037730"
+  integrity sha512-fF6n+kKecDU5UVKDA31xKp85lmlEHprwDN5wYNOka7DJ4OJLtrWozQOBB7pCZ3WajMDEp+uIefuPlvuNz5k2hQ==
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.1.0"
+    react-dom "^16.1.0"
+
 react-clientside-effect@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.2.tgz#6212fb0e07b204e714581dd51992603d1accc837"
@@ -5125,6 +5159,16 @@ react-dom@16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
+react-dom@^16.1.0, react-dom@^16.13.1:
+  version "16.14.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
+  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
+
 react-focus-lock@^2.2.1:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.5.0.tgz#12e3a3940e897c26e2c2a0408cd25ea3c99b3709"
@@ -5136,6 +5180,15 @@ react-focus-lock@^2.2.1:
     react-clientside-effect "^1.2.2"
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
+
+react-h5-audio-player@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/react-h5-audio-player/-/react-h5-audio-player-3.7.0.tgz#756e6e2565ae4907ab4b0a44d6b3db5896720158"
+  integrity sha512-8uNknLpcQZYprDxxtUlWClXCMzObZVCt5pAVLicT53PLX69l1ZARYAJwLxX8MJtaJ8XSQS2I4h3ElURvh3DxJg==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+    "@iconify/icons-mdi" "^1.0.46"
+    "@iconify/react" "^1.1.3"
 
 react-hls-player@^1.1.0:
   version "1.1.0"
@@ -5163,6 +5216,16 @@ react-load-script@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-load-script/-/react-load-script-0.0.6.tgz#db6851236aaa25bb622677a2eb51dad4f8d2c258"
   integrity sha512-aRGxDGP9VoLxcsaYvKWIW+LRrMOzz2eEcubTS4NvQPPugjk2VvMhow0wWTkSl7RxookomD1MwcP4l5UStg5ShQ==
+
+react-media-recorder@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-media-recorder/-/react-media-recorder-1.4.0.tgz#e72d366bd87157d634949bdc42300027c78a7aa7"
+  integrity sha512-3lc2LsS6TUG03tmbVd9Fnh7l1+YtbGy5Z+CYQA8zkJuGdroarLXxFExPXu0RqLFbomedD+Axp3pKuNrfIBmHtw==
+
+react-movable@^2.5.4:
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/react-movable/-/react-movable-2.5.4.tgz#1c28e8291476ab19b8625d06b60f97a89dd85a45"
+  integrity sha512-F+Ml4Il9S7uyY2Nr/UzwnXxWewwsHdQkmwgzAjk+Dsz73sy2yCJk7GkQkdqmh8W6XXTlviepz1VA0eHUWh9MZQ==
 
 react-nl2br@^1.0.1:
   version "1.0.1"
@@ -5240,6 +5303,14 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-typing-effect@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-typing-effect/-/react-typing-effect-2.0.5.tgz#96780526d6958d553e2805124a2aa96c92764f09"
+  integrity sha512-IyVHASfzkdsWYw+/gvh2g1lwMf/ctpWhQHgMZHXQinKWxW8529XDhLGd9KTfnK5yUPLPaucdtA9GZFjIOjKCVg==
+  dependencies:
+    react "^16.13.1"
+    react-dom "^16.13.1"
+
 react-uid@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-uid/-/react-uid-2.3.0.tgz#bfd47cfd5ad3e37956ed1a8520964842d7bdcc6b"
@@ -5247,7 +5318,7 @@ react-uid@^2.2.0:
   dependencies:
     tslib "^1.10.0"
 
-react@^16.1.0, react@^16.8.6:
+react@^16.1.0, react@^16.13.1, react@^16.8.6:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==

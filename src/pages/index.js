@@ -8,7 +8,7 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 import Page from '../components/Page';
 import ProjectList from '../components/ProjectList';
 import { IndexQuery } from './index.gql';
-import { ProjectFilter } from './[projectFilter]/[eventFilter]/[...args]';
+import ProjectFilter from '../components/ProjectFilter';
 
 const PER_PAGE = 6;
 export default function Home({ projects }) {

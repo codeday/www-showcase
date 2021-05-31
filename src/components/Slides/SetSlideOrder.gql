@@ -1,0 +1,3 @@
+fragment SetSlideOrder on ShowcaseProject {
+  name
+}
