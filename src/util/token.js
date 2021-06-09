@@ -36,7 +36,7 @@ export function mintAllTokens(session, programId, eventGroupId, subEventIds) {
 
 export function mintJudgingToken(originalJudgingToken, username) {
   const {
-    e, g, p, r, j, jvr,
+    e, g, p, r, j, jvr, jum,
   } = verify(
     originalJudgingToken,
     serverRuntimeConfig.showcase.secret,
@@ -45,7 +45,7 @@ export function mintJudgingToken(originalJudgingToken, username) {
 
   return sign(
     {
-      e, g, p, r, j, jvr, jum: true, u: username,
+      e, g, p, r, j, jvr, jum, u: username,
     },
     serverRuntimeConfig.showcase.secret,
     { audience: serverRuntimeConfig.showcase.audience}

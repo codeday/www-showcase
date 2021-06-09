@@ -24,35 +24,37 @@ const MIME_AUDIO = ['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/vorbis', 'aud
 export default function JudgingRecord({ token, poolToken, project, error, logIn }) {
   const [status, setStatus] = useState('select');
   // states: 'select', 'audio', 'video', 'uploading', 'uploadok', 'uploaderror'
+  const [finalMediaBlobURL, setFinalMediaBlobURL] = useState()
+  const [errorDetails, setErrorDetails] = useState()
   const [showProjectDetails, setShowProjectDetails] = useState(false)
   const { success:successToast, error:errorToast, info:infoToast } = useToasts();
-
   if (logIn) return <ForceLoginPage />;
   if (error) return <Page><Content><Text>Error fetching a project.</Text></Content></Page>;
   let selector;
-  async function uploadMedia(mediaBlobURL) {
+  async function uploadMedia(url) {
+    setFinalMediaBlobURL(url)
     setStatus('uploading')
     infoToast('Uploading, please wait')
-    let blob = await fetch(mediaBlobURL)
-    console.log(blob)
+    let blob = await fetch(url)
     blob = await blob.blob()
     let type;
     console.log(blob.type)
     if (MIME_VIDEO.includes(blob.type)) type = 'VIDEO';
     if (MIME_AUDIO.includes(blob.type)) type = 'AUDIO';
-
     const filename = `judge-${project.name.split(' ').join('').toLowerCase()}.${(type === "VIDEO")? "mp4" : "mp3"}`
+
     let file = new File([blob], filename)
     console.log(type)
     const { result, error: resultError } = await tryAuthenticatedApiQuery(
       UploadMediaMutation,{upload: file, topic: "JUDGES", type: type, projectId: project.id },
       token
     );
-    if (error) {
+    if (resultError) {
       setStatus('uploaderror');
-      console.error(error);
+      console.error(resultError);
+      setErrorDetails(resultError.response.errors[0].message)
       errorToast('An upload error occurred!');
-    }   else {
+    } else {
       setStatus('uploadok');
       successToast('Upload complete!')
     }
@@ -98,7 +100,8 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
       selector = <Box>{BackButton}<RecordJudgingAudioClip onUpload={uploadMedia} /></Box>;
       break;
     case 'video':
-      selector = <Box>{BackButton}<RecordJudgingVideoClip onUpload={uploadMedia} /></Box>;
+      selector = <Box>{BackButton}<RecordJudgingVideoClip onUpload={uploadMedia}
+       /></Box>;
       break;
     case 'uploading':
       selector = <UploadPending />
@@ -107,7 +110,12 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
       selector = <UploadOK />
       break;
     case 'uploaderror':
-      selector = <UploadError />
+      selector = <UploadError
+        errorDetails={errorDetails}
+        onRetry={uploadMedia}
+        finalMediaBlobURL={finalMediaBlobURL}
+        filename={`judge-${project.name.split(' ').join('').toLowerCase()}`}
+      />
       break;
   }
   return (

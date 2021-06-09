@@ -8,7 +8,7 @@ query JudgingPoolQuery {
       projects(needsJudging: true, take: 1) {
         id
         ...JudgingScorecardProjectFragment
-        ...ProjectDetailsFragment
+        ...ProjectDetailsWithMembersFragment
       }
     }
   }
