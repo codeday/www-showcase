@@ -47,6 +47,9 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
                   {Math.round((getSubscoreForCriteria(r.subScores, c.id)?.value || 0) * 100)}%
                 </Box>
               ))}
+              <Box as="td" textAlign="center">
+                <Link href={`/judge/${poolToken}/record/${r.project.id}`}>Record Comments</Link>
+              </Box>
             </Box>
           ))}
         </Box>

@@ -67,7 +67,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
           fontWeight="bold"
           textDecoration="none"
           mb={0}
-          href={`/g/${project.eventGroup.id}`}
+          href={`/projects/${project.eventGroup.id}`}
 
         >
           {project.eventGroup.title}
