@@ -28,6 +28,11 @@ module.exports = withImages({
         destination: '/projects/:slug', // Matched parameters can be used in the destination
         permanent: true,
       },
+      {
+        source: '/api/shield/:projectID.svg',
+        destination: '/api/shield/:projectID', // Matched parameters can be used in the destination
+        permanent: true
+      },
     ]
   },
 });
