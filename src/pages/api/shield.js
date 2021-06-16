@@ -13,9 +13,9 @@ export default async (req, res) =>
     return res.status(422).send('Parameter "event" must be defined and not empty!');
   }
 
-  if (scale == Number.NaN || scale < 0 || scale > 10)
+  if (scale == Number.NaN || scale < 0.8 || scale > 5)
   {
-    return res.status(422).send('Parameter "scale" must be defined and within 0-10!');
+    return res.status(422).send('Parameter "scale" must be defined and within 0.8-5!');
   }
 
   //Generate the shield SVG
@@ -28,7 +28,8 @@ export default async (req, res) =>
     style: 'flat'
   });
 
-  //Set the content type
+  //Set the headers
+  res.setHeader('Cache-Control', 'public, max-age 86400, proxy-revalidate');
   res.setHeader('Content-Type', 'image/svg+xml');
 
   //Send
