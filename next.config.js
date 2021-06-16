@@ -31,6 +31,7 @@ module.exports = withImages({
       {
         source: '/api/shield.svg',
         destination: '/api/shield',
+        permanent: true,
       },
     ]
   },
