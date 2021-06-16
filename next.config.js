@@ -1,4 +1,6 @@
-module.exports = {
+const withImages = require('next-images');
+
+module.exports = withImages({
   serverRuntimeConfig: {
     auth0: {
       clientId: process.env.AUTH0_CLIENT_ID,
@@ -28,4 +30,4 @@ module.exports = {
       },
     ]
   },
-};
+});
