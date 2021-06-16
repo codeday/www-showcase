@@ -29,9 +29,8 @@ module.exports = withImages({
         permanent: true,
       },
       {
-        source: '/api/shield/:projectID.svg',
-        destination: '/api/shield/:projectID', // Matched parameters can be used in the destination
-        permanent: true
+        source: '/api/shield.svg',
+        destination: '/api/shield',
       },
     ]
   },
