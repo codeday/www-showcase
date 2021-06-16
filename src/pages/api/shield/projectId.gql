@@ -1,0 +1,9 @@
+query ProjectByIdQuery ($id: String!) {
+  showcase {
+    project(id: $id) {
+      eventGroup {
+        title
+      }
+    }
+  }
+}

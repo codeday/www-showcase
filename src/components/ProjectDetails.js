@@ -22,6 +22,7 @@ import Image from '@codeday/topo/Atom/Image';
 import ProjectFeature from './ProjectFeature';
 import ProjectDelete from './ProjectDelete';
 import ProjectSubmit from './ProjectSubmit';
+import Shield from './Shield';
 
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 
@@ -210,6 +211,8 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
             <Box>
               <Link href={`/project/${project.id}`} mb={0} mr={1}>Showcase Permalink</Link>
             </Box>
+
+            {editToken && <Shield project={project}/>}
           </Box>
 
           {typeof project.members !== 'undefined' && (

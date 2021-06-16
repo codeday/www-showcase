@@ -43,7 +43,7 @@ export default function ViewEditProject({ project, token, user, availableAwards 
         }}
       />
       <Content mt={-8}>
-        <ProjectDetails project={project} editToken={token} user={user} availableAwards={availableAwards} />
+        <ProjectDetails project={project} editToken={'X'} user={user} availableAwards={availableAwards} />
       </Content>
     </Page>
   );
