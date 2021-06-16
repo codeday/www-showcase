@@ -46,9 +46,8 @@ export default function Shield({project})
 
   //Generate links 
   const shieldImage = new URL(origin);
-  shieldImage.pathname = '/api/shield';
+  shieldImage.pathname = `/api/shield/${project.id}`;
   const shieldImagesParams = new URLSearchParams();
-  shieldImagesParams.set('event', project.eventGroup.title);
   shieldImagesParams.set('scale', scale);
   shieldImage.search = shieldImagesParams.toString();
 
