@@ -7,8 +7,6 @@ import dynamic from 'next/dynamic';
 import { Link } from '@codeday/topo/Atom/Text';
 import UiDownload from '@codeday/topocons/Icon/UiDownload';
 
-// TODO(@tylermenezes): Video player
-
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
   { ssr: false },

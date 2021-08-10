@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
+import UiVolume from '@codeday/topocons/Icon/UiVolume';
 import EditableTextField from './EditableTextField';
 import ProjectMembers from './ProjectMembers';
 import {
@@ -23,6 +25,11 @@ import ProjectFeature from './ProjectFeature';
 import ProjectDelete from './ProjectDelete';
 import ProjectSubmit from './ProjectSubmit';
 
+const ReactHlsPlayer = dynamic(
+  () => import('react-hls-player'),
+  { ssr: false },
+);
+
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 
 function makeProperLink(link) {
@@ -31,9 +38,12 @@ function makeProperLink(link) {
 }
 
 export default function ProjectDetails({ project, editToken, user, availableAwards, showMemberCount, ...props }) {
+  const playerRef = useRef();
+  const muteRef = useRef();
   const isAdmin = user?.admin;
 
   const preferredMedia = (project.media || [])
+    .filter((e) => e.type !== 'AUDIO')
     .map((e, i) => ({ ...e, index: i }))
     .sort((a, b) => {
       if (a.type !== b.type) return a.type === 'VIDEO' ? 1 : -1;
@@ -41,11 +51,16 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
       return a.index > b.index ? -1 : 1;
     })[0] || null;
 
+  const preferredVideo = (project.media || [])
+    .filter((e) => e.type === 'VIDEO')
+    .map((e, i) => ({ ...e, index: i }))
+    .sort((a, b) => {
+      if (a.topic !== b.topic) return TOPIC_PREFERENCES.indexOf(a.topic) > TOPIC_PREFERENCES.indexOf(b.topic) ? 1 : -1;
+      return a.index > b.index ? -1 : 1;
+    })[0] || null;
+
   return (
     <Box {...props}>
-      {preferredMedia && (
-        <Image mb={4} src={preferredMedia.coverImage} alt="" />
-      )}
       <EditableTextField
         as="h1"
         fontSize="5xl"
@@ -78,6 +93,49 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
 
         {/* Main Column */}
         <Box>
+          {preferredMedia && !preferredVideo && (
+            <Image mb={4} src={preferredMedia.coverImage} alt="" />
+          )}
+          {preferredVideo && (
+            <Box
+              mb={4}
+              style={{ cursor: 'pointer' }}
+              onClick={(e) => {
+                // This code isn't very React-like, but it prevents the video from restarting.
+                if (playerRef.current.muted) {
+                  playerRef.current.muted = false;
+                  e.target.style.cursor = 'auto';
+                  muteRef.current.style.display = 'none';
+                  playerRef.current.style.pointerEvents = 'auto';
+                }
+              }}
+              position="relative"
+            >
+              <Box
+                ref={muteRef}
+                position="absolute"
+                bottom={2}
+                width="100%"
+                color="white"
+                textAlign="center"
+                fontSize="3xl"
+              >
+                <Box p={1} pl={2} pr={2} rounded="sm" bg="rgba(0,0,0,0.6)" d="inline-block">
+                  <UiVolume />
+                  <Box as="span" fontSize="xl" pl={4}>Unmute</Box>
+                </Box>
+              </Box>
+              <ReactHlsPlayer
+                style={{ pointerEvents: 'none', borderRadius: '5px' }}
+                url={preferredVideo.stream}
+                poster={preferredVideo.galleryImage}
+                controls={true}
+                autoPlay={true}
+                muted={true}
+                playerRef={playerRef}
+              />
+            </Box>
+          )}
           {(project.description || editToken) && (
             <>
               <EditableTextField
