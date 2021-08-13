@@ -40,7 +40,7 @@ export default function ProjectReactions({ id, reactionCounts }) {
     ...prev.filter((p) => p.type !== type),
     { type, count: count + (prev.filter((p) => p.type === type)[0]?.count || 0) },
   ];
-  const [appliedReactions, addAppliedReactions] = useReducer(addReactionReducerFn, reactionCounts);
+  const [appliedReactions, addAppliedReactions] = useReducer(addReactionReducerFn, reactionCounts || []);
   const [unappliedReactions, updateUnappliedReactions] = useReducer((prev, { action, ...rest }) => {
     if (action === 'clear') return [];
     if ((prev.filter((p) => p.type === rest.type)[0]?.count || 0) + rest.count > 50) rest.count = 0;
