@@ -1,0 +1,12 @@
+fragment ProjectReactionsFragment on ShowcaseProject {
+  reactionCounts {
+    type
+    count
+  }
+}
+
+mutation AddReactions($id: String!, $reactions: [ShowcaseAddReactionsInput!]!) {
+  showcase {
+    addReactions(id: $id, reactions: $reactions)
+  }
+}

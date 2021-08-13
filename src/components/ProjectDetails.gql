@@ -3,6 +3,7 @@
 #import "./ProjectFeature.gql"
 #import "./ProjectAwards.gql"
 #import "./ProjectSubmit.gql"
+#import "./ProjectReactions.gql"
 
 fragment ProjectDetailsFragment on ShowcaseProject {
   id
@@ -18,6 +19,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
     id
     title
   }
+  ...ProjectReactionsFragment
   media {
     coverImage: image(fillBlur: true, strategy: FILL, height: 600, width: 1400)
     type

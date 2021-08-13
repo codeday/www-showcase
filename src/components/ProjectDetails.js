@@ -24,6 +24,7 @@ import Image from '@codeday/topo/Atom/Image';
 import ProjectFeature from './ProjectFeature';
 import ProjectDelete from './ProjectDelete';
 import ProjectSubmit from './ProjectSubmit';
+import ProjectReactions from './ProjectReactions';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
@@ -195,6 +196,15 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
 
         {/* Meta Column */}
         <Box>
+          <Box mb={8}>
+            <Heading as="h3" fontSize="xl" mb={2}>Give Props</Heading>
+            <ProjectReactions
+              id={project.id}
+              reactionCounts={project.reactionCounts}
+            />
+          </Box>
+
+
           <Box mb={8}>
             <ProjectFeature
               projectId={project.id}
