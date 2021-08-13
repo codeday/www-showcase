@@ -37,25 +37,27 @@ export default function ProjectReactions({ id, reactionCounts }) {
   const { width, height } = useWindowSize();
   const [numConfetti, confetti] = useReducer((prev) => prev + 1, 0);
   const addReactionReducerFn = (prev, { type, count }) => [
-    ...prev.filter((p) => p.type !== type),
-    { type, count: count + (prev.filter((p) => p.type === type)[0]?.count || 0) },
+    ...(prev || []).filter((p) => p.type !== type),
+    { type, count: count + ((prev || []).filter((p) => p.type === type)[0]?.count || 0) },
   ];
   const [appliedReactions, addAppliedReactions] = useReducer(addReactionReducerFn, reactionCounts || []);
   const [unappliedReactions, updateUnappliedReactions] = useReducer((prev, { action, ...rest }) => {
     if (action === 'clear') return [];
-    if ((prev.filter((p) => p.type === rest.type)[0]?.count || 0) + rest.count > 50) rest.count = 0;
+    if (((prev || []).filter((p) => p.type === rest.type)[0]?.count || 0) + rest.count > 50) rest.count = 0;
     if (rest.count > 0) confetti();
     return addReactionReducerFn(prev, rest);
   }, []);
 
   const displayedReactions = Object.keys(SUPPORTED_REACTIONS).map((type) => ({
     type,
-    count: (appliedReactions.filter((r) => r.type === type)[0]?.count || 0)
-      + (unappliedReactions.filter((r) => r.type === type)[0]?.count || 0)
+    count: ((appliedReactions || []).filter((r) => r.type === type)[0]?.count || 0)
+      + ((unappliedReactions || []).filter((r) => r.type === type)[0]?.count || 0)
   }));
 
   useEffect(() => {
-    if (typeof window === 'undefined' || unappliedReactions.filter((r) => r.count > 0).length === 0) return () => {};
+    if (typeof window === 'undefined' || (unappliedReactions || []).filter((r) => r.count > 0).length === 0) {
+      return () => {};
+    }
     const timeout = setTimeout(() => {
       apiFetch(AddReactions, { id, reactions: unappliedReactions })
         .catch((e) => error(e.toString()));
