@@ -21,7 +21,12 @@ function ReactionButton({ type, count, onClick }) {
   return (
     <Box textAlign="center">
       <Box fontSize="4xl" cursor="pointer" onClick={onClick}>{SUPPORTED_REACTIONS[type]}</Box>
-      <Box color="current.textLight">{count}</Box>
+      <Box
+        fontSize={count >= 1000 ? 'xs' : undefined}
+        color="current.textLight"
+      >
+        {count.toLocaleString()}
+      </Box>
     </Box>
   )
 }
@@ -38,6 +43,8 @@ export default function ProjectReactions({ id, reactionCounts }) {
   const [appliedReactions, addAppliedReactions] = useReducer(addReactionReducerFn, reactionCounts);
   const [unappliedReactions, updateUnappliedReactions] = useReducer((prev, { action, ...rest }) => {
     if (action === 'clear') return [];
+    if ((prev.filter((p) => p.type === rest.type)[0]?.count || 0) + rest.count > 50) rest.count = 0;
+    if (rest.count > 0) confetti();
     return addReactionReducerFn(prev, rest);
   }, []);
 
@@ -81,7 +88,7 @@ export default function ProjectReactions({ id, reactionCounts }) {
         {displayedReactions.map(({ type, count }) => (
           <ReactionButton
             key={type}
-            onClick={() => { updateUnappliedReactions({ type, count: 1 }); confetti(); }}
+            onClick={() => updateUnappliedReactions({ type, count: 1 })}
             type={type}
             count={count}
           />

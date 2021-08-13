@@ -197,7 +197,6 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
         {/* Meta Column */}
         <Box>
           <Box mb={8}>
-            <Heading as="h3" fontSize="xl" mb={2}>Give Props</Heading>
             <ProjectReactions
               id={project.id}
               reactionCounts={project.reactionCounts}
