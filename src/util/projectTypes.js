@@ -1,5 +1,5 @@
 export const PROJECT_TYPES = {
-  APP: 'App',
+  APP: 'Application',
   GAME: 'Game',
   VR: 'VR',
   HARDWARE: 'Hardware/Electronics',

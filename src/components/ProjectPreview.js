@@ -48,20 +48,8 @@ export default function ProjectPreview({ project }) {
             )}
           </Box>
           <Box>
-            <Text mb={0}>
-              {project.featured ? (
-                <Box
-                  d="inline-block"
-                  rounded="sm"
-                  bg="gray.100"
-                  p={1}
-                  pl={2}
-                  pr={2}
-                  mr={2}
-                >
-                  Featured {PROJECT_TYPES[project.type]}
-                </Box>
-              ) : <Box d="inline-block" mr={2}>{PROJECT_TYPES[project.type]}</Box>}
+            <Text mb={0} mr={2} color="current.textLight" fontWeight="bold">
+              {PROJECT_TYPES[project.type]}
             </Text>
             <Heading mt={1} mb={0} as="h3" fontSize="xl">{project.name}</Heading>
             <Text>{project?.eventGroup?.title || project?.program?.name}</Text>

@@ -9,7 +9,8 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 import { ProjectMemberAddMutation } from './ProjectMemberAdd.gql';
 import { ProjectMemberRemoveMutation } from './ProjectMember.gql';
 
-export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }) {
+export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded, isAdmin }) {
+  const [isDoubleClick, setIsDoubleClick] = useState(false);
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error, info } = useToasts();
@@ -50,9 +51,10 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }
               tryAuthenticatedApiQuery(ProjectMemberRemoveMutation, { projectId, username }, editToken);
 
             // TODO(@tylermenezes) Probably a better way to define requirements like a linked Discord.
-            } else if (!result?.showcase?.addMember?.account?.discordId) {
+            } else if (!result?.showcase?.addMember?.account?.discordId && !(isDoubleClick && isAdmin)) {
               error(`${username} hasn't linked their Discord.`);
               info(`Follow the instructions in #link-account.`);
+              setIsDoubleClick(true);
               tryAuthenticatedApiQuery(ProjectMemberRemoveMutation, { projectId, username }, editToken);
 
             // Everything looks good!
@@ -60,6 +62,7 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded }
               success(`${result.showcase.addMember.account.name} was added to the team.`);
               setUsername('');
               onMemberAdded(result.showcase.addMember);
+              setIsDoubleClick(false);
             }
 
             setIsSubmitting(false);

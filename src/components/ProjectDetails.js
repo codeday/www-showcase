@@ -25,6 +25,7 @@ import ProjectFeature from './ProjectFeature';
 import ProjectDelete from './ProjectDelete';
 import ProjectSubmit from './ProjectSubmit';
 import ProjectReactions from './ProjectReactions';
+import SlugPicker from './SlugPicker';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
@@ -76,19 +77,31 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
         componentProps={{ d: 'inline-block', width: 'md', fontSize: '3xl' }}
         lineHeight={1}
       />
-      {project.eventGroup && (
-        <Link
-          color="current.textLight"
-          fontSize="lg"
-          fontWeight="bold"
-          textDecoration="none"
-          mb={0}
-          href={`/projects/${project.eventGroup.id}`}
-
-        >
-          {project.eventGroup.title}
-        </Link>
-      )}
+      <Box
+        color="current.textLight"
+      >
+        {project.eventGroup && (
+          <Link
+            d="inline-block"
+            fontSize="lg"
+            fontWeight="bold"
+            textDecoration="none"
+            mb={0}
+            href={`/projects/${project.eventGroup.id}`}
+          >
+            {project.eventGroup.title}
+          </Link>
+        )}
+        {project.eventGroup && <>&nbsp;&#8729;&nbsp;</>}
+        <SlugPicker
+          d="inline-block"
+          projectId={project.id}
+          editToken={editToken}
+          isAdmin={isAdmin}
+          media={project.media}
+          slug={project.slug}
+        />
+      </Box>
 
       <Grid templateColumns={{ base: '1fr', lg: '3fr minmax(0, 1fr)' }} gap={8} mt={8}>
 
@@ -273,10 +286,6 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
                 />
               </Box>
             )}
-
-            <Box>
-              <Link href={`/project/${project.id}`} mb={0} mr={1}>Showcase Permalink</Link>
-            </Box>
           </Box>
 
           {typeof project.members !== 'undefined' && (
@@ -285,7 +294,12 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
               :
               <>
                 <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
-                <ProjectMembers projectId={project.id} members={project.members} editToken={editToken} />
+                <ProjectMembers
+                  projectId={project.id}
+                  members={project.members}
+                  editToken={editToken}
+                  isAdmin={isAdmin}
+                />
               </>
           )}
 

@@ -1,0 +1,12 @@
+fragment SlugPicker on ShowcaseProject {
+  id
+  slug
+}
+
+mutation SetSlug ($projectId: String!, $slug: String!) {
+  showcase {
+    editProject(id: $projectId, project: { slug: $slug }) {
+      slug
+    }
+  }
+}

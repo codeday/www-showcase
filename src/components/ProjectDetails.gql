@@ -4,6 +4,7 @@
 #import "./ProjectAwards.gql"
 #import "./ProjectSubmit.gql"
 #import "./ProjectReactions.gql"
+#import "./SlugPicker.gql"
 
 fragment ProjectDetailsFragment on ShowcaseProject {
   id
@@ -15,6 +16,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   codeLink
   viewLink
   featured
+  ...SlugPicker
   eventGroup {
     id
     title
