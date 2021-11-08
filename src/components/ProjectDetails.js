@@ -61,6 +61,47 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
       return a.index > b.index ? -1 : 1;
     })[0] || null;
 
+  const links = [
+    ...(project.eventGroup ? [(
+      <Link
+        d="inline-block"
+        fontSize="lg"
+        fontWeight="bold"
+        textDecoration="none"
+        mb={0}
+        href={`/projects/${project.eventGroup.id}`}
+      >
+        {project.eventGroup.title}
+      </Link>
+    )] : []),
+    ...(project.region && project.eventId ? [(
+      <>
+        <Link
+          d="inline-block"
+          fontSize="lg"
+          fontWeight="bold"
+          textDecoration="none"
+          mb={0}
+          href={`/projects/all/event=${project.eventId}`}
+        >
+          {project.region.name}
+        </Link>
+        <Link
+          d="inline-block"
+          fontSize="lg"
+          fontWeight="bold"
+          textDecoration="none"
+          mb={0}
+          href={`/projects/all/region=${project.region.webname}`}
+          fontSize="xs"
+          ml={2}
+        >
+          (history)
+        </Link>
+      </>
+    )] : []),
+  ]
+
   return (
     <Box {...props}>
       <EditableTextField
@@ -80,19 +121,8 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
       <Box
         color="current.textLight"
       >
-        {project.eventGroup && (
-          <Link
-            d="inline-block"
-            fontSize="lg"
-            fontWeight="bold"
-            textDecoration="none"
-            mb={0}
-            href={`/projects/${project.eventGroup.id}`}
-          >
-            {project.eventGroup.title}
-          </Link>
-        )}
-        {project.eventGroup && <>&nbsp;&#8729;&nbsp;</>}
+        {links.reduce((acc, x) => acc === null ? x : <>{acc},&nbsp;{x}</>, null)}
+        {links.length > 0 && (<>&nbsp;&#8729;&nbsp;</>)}
         <SlugPicker
           d="inline-block"
           projectId={project.id}

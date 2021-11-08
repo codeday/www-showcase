@@ -21,6 +21,11 @@ fragment ProjectDetailsFragment on ShowcaseProject {
     id
     title
   }
+  region {
+    webname
+    name
+  }
+  eventId
   ...ProjectReactionsFragment
   media {
     coverImage: image(fillBlur: true, strategy: FILL, height: 600, width: 1400)

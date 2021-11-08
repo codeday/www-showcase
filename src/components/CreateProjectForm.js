@@ -8,7 +8,7 @@ import Button from '@codeday/topo/Atom/Button';
 import Text from '@codeday/topo/Atom/Text';
 import { PROJECT_TYPES } from '../util/projectTypes';
 
-export default function CreateProjectForm({ availableTokens, eventGroupTitle, isSubmitting, onSubmit }) {
+export default function CreateProjectForm({ availableTokens, isSubmitting, onSubmit }) {
   const { control, errors, handleSubmit } = useForm();
 
   const hasMultipleTokenOptions = Object.keys(availableTokens).length > 1;
@@ -31,7 +31,7 @@ export default function CreateProjectForm({ availableTokens, eventGroupTitle, is
           >
             <option value=""></option>
             {availableTokens.map((t) => (
-              <option value={t.token}>{eventGroupTitle} &mdash; {t.name}</option>
+              <option value={t.token}>{t.name}</option>
             ))}
           </Controller>
           <Text color="current.textLight">

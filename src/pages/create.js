@@ -19,7 +19,7 @@ function getIso(offset) {
     return (new Date(new Date().getTime() + offset)).toISOString();
 }
 
-export default function Create({ tokens, eventGroupTitle, logIn, linkAccount, username }) {
+export default function Create({ tokens, logIn, linkAccount, username }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -63,7 +63,6 @@ export default function Create({ tokens, eventGroupTitle, logIn, linkAccount, us
           </Box>
         )}
         <CreateProjectForm
-          eventGroupTitle={eventGroupTitle}
           availableTokens={tokens}
           isSubmitting={isSubmitting}
           onSubmit={async ({ token, ...params }) => {
@@ -107,13 +106,14 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const event = result?.cms?.events?.items[0];
-  if (event && event.program?.webname && event?.id && event?.subEventIds) {
-    return {
-      props: {
-        eventGroupTitle: event.title,
-        tokens: mintAllTokens(session, event.program.webname, event.id, event.subEventIds)
-      }
-    }
-  } else return { props: {} };
+
+  const tokens = result?.cms?.events?.items
+    .filter((e) => e.program?.webname && e.id && e.subEventIds && e.title)
+    .flatMap((e) => mintAllTokens(session, e.program.webname, e.id, e.subEventIds, e.title))
+
+  return {
+    props: {
+      tokens,
+    },
+  }
 }

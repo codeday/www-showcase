@@ -3,15 +3,13 @@ import getConfig from 'next/config';
 
 const { serverRuntimeConfig } = getConfig();
 
-// TODO(@tylermenezes): At some point we need to fix this that region, eventId, etc. are automatically determined.
-//                      Not sure what the best way to do that is right now.
-export function mintToken(session, programId, eventGroupId, subEventId) {
+export function mintToken(session, programId, eventGroupId, subEventId, regionId) {
   const { nickname: u, admin: a } = session.user;
   const createProps = programId && eventGroupId && subEventId ? {
     e: subEventId,
     g: eventGroupId,
     p: programId,
-    r: null,
+    r: regionId,
   } : {};
 
   return sign({
@@ -25,13 +23,19 @@ export function mintToken(session, programId, eventGroupId, subEventId) {
   });
 }
 
-export function mintAllTokens(session, programId, eventGroupId, subEventIds) {
+export function mintAllTokens(session, programId, eventGroupId, subEventIds, title) {
   return Object.keys(subEventIds)
-    .map((k) => ({
-      id: k,
-      name: subEventIds[k],
-      token: mintToken(session, programId, eventGroupId, k),
-    }));
+    .map((k) => {
+      const subEvent = subEventIds[k];
+      const region = typeof subEvent === 'object' ? subEvent.region || null : null;
+      const subEventTitle = typeof subEvent === 'object' ? subEvent.title || null : subEvent;
+
+      return {
+        id: k,
+        name: title ? `${title} - ${subEventTitle}` : subEventIds[k],
+        token: mintToken(session, programId, eventGroupId, k, region),
+      };
+    });
 }
 
 export function mintJudgingToken(originalJudgingToken, username) {
@@ -48,6 +52,6 @@ export function mintJudgingToken(originalJudgingToken, username) {
       e, g, p, r, j, jvr, jum, u: username,
     },
     serverRuntimeConfig.showcase.secret,
-    { audience: serverRuntimeConfig.showcase.audience}
+    { audience: serverRuntimeConfig.showcase.audience }
   );
 }
