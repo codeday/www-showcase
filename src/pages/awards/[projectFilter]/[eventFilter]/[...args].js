@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { getSession } from 'next-auth/client';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Image from '@codeday/topo/Atom/Image';
+import ForceLoginPage from '../../../../components/ForceLoginPage';
 import SetSlideOrder from '../../../../components/Slides/SetSlideOrder';
 import { makeFilter } from '../../../[projectFilter]/[eventFilter]/[...args]';
 import { ProjectsAwardsQuery } from './projects.gql';
@@ -77,7 +78,7 @@ const hellos = [
   "WHEEL",
 ]
 
-export default function AwardsSlides({ projects, availableAwards }) {
+export default function AwardsSlides({ projects, availableAwards, logIn }) {
   const [order, setOrder] = useState();
   const [index, nextIndex] = useReducer(
     (prev, action) => {
@@ -96,6 +97,12 @@ export default function AwardsSlides({ projects, availableAwards }) {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [typeof window]);
+
+
+  if (logIn) {
+    return <ForceLoginPage />
+  }
+
 
   if (!order && (!projects || projects.length === 0)) return 'No projects.';
   if (!order) return <SetSlideOrder onSubmit={setOrder} projects={projects} availableAwards={availableAwards} />;
@@ -157,7 +164,7 @@ export default function AwardsSlides({ projects, availableAwards }) {
 
 export async function getServerSideProps({ req, params }) {
   const session = await getSession({ req });
-  if (!session?.user?.admin) throw Error(`You are not authorized to access this page.`);
+  if (!session?.user?.admin) return { props: { logIn: true } };
 
   const token = session ? mintToken(session) : null;
   const where = { ...makeFilter(params).where, mediaTopic: 'JUDGES' };
