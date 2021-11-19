@@ -73,7 +73,7 @@ export function makeFilter(params) {
     where.type = projectFilter.toUpperCase()
   }
 
-  if (["virtual", "labs"].includes(eventFilter.toLowerCase())) {
+  if (["virtual", "labs", "codeday"].includes(eventFilter.toLowerCase())) {
     where.program = eventFilter.toLowerCase()
   } else if (eventFilter.toLowerCase() !== "all") {
     where.eventGroup = eventFilter
