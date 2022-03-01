@@ -1,0 +1,22 @@
+#import "../../../../components/Slides/SetSlideOrder.gql"
+#import "../../../../components/ProjectAwards.gql"
+query ProjectsAwardsQuery($where: ShowcaseProjectsWhere) {
+  showcase {
+    projects (where: $where, take: 200) {
+      name
+      eventGroup {
+        title
+      }
+      program {
+        name
+      }
+      media {
+        type
+        topic
+        stream
+        download
+        image(width: 1920, height: 1080, fillBlur: true)
+      }
+    }
+  }
+}
