@@ -1,0 +1,7 @@
+mutation EditTags ($projectId: String!, $tags: [String!]!) {
+  showcase {
+    editProject(id: $projectId, project: { tags: $tags }) {
+      id
+    }
+  }
+}

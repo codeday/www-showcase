@@ -22,7 +22,8 @@ const options = {
       ...session,
       user: {
         ...user,
-        admin: user['https://codeday.xyz/staff'] === true || user['https://codeday.xyz/employee'] === true,
+        admin: user['https://codeday.xyz/staff'] === true || user['https://codeday.xyz/employee'] === true
+             || user['https://codeday.xyz/rm'] === true,
       },
     }),
   },

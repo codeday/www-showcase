@@ -25,6 +25,7 @@ import ProjectFeature from './ProjectFeature';
 import ProjectDelete from './ProjectDelete';
 import ProjectSubmit from './ProjectSubmit';
 import ProjectReactions from './ProjectReactions';
+import ProjectTags from './ProjectTags';
 import SlugPicker from './SlugPicker';
 
 const ReactHlsPlayer = dynamic(
@@ -191,6 +192,20 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
                 token={editToken}
                 cursor={editToken && 'pointer'}
                 componentProps={{ height: 48 }}
+              />
+            </>
+          )}
+
+          {((project.tags && project.tags.length > 0) || editToken) && (
+            <>
+              <Heading as="h3" fontSize="lg" mt={8}>
+                What tools did you use to create your project?
+              </Heading>
+              <ProjectTags
+                projectId={project.id}
+                editToken={editToken}
+                isAdmin={isAdmin}
+                tags={project.tags}
               />
             </>
           )}

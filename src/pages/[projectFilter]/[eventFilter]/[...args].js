@@ -63,11 +63,12 @@ export function makeFilter(params) {
       .map((term) => {
         let [k, v] = term.split('=', 2);
         if (k === 'undefined') return;
-        return { [k]: v || true };
+        return { [k]: v?.includes(';') ? v.split(';') : (v || true) };
       })
       .reduce((accum, e) => ({ ...accum, ...e }), {})
     )
   }
+  console.log(where);
 
   if (projectFilter.toLowerCase() !== "all" && projectFilter.toLowerCase() !== "projects" && typeof (projectFilter)) {
     where.type = projectFilter.toUpperCase()

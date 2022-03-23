@@ -24,52 +24,55 @@ export default function ProjectMember({
         {discordInformation ? (
           <Tooltip hasArrow label={tooltipText} placement="auto" fontSize="md">
             <Text
+              as="a"
+              href={`/projects/all/user=${member.username}`}
               mb={0}
-              borderBottom={1}
-              borderBottomStyle="dotted"
-              borderBottomColor="current.light"
-              onClick={() => {
-                navigator.clipboard.writeText(discordInformation.handle);
-                setTooltipText("Copied!");
-                setTimeout(() => setTooltipText(discordInformation.handle), 1000);
-              }}
+              textDecoration="underline"
             >
               {name}
             </Text>
           </Tooltip>
         ) : (
-          <Text mb={0}>
+          <Text
+            as="a"
+            href={`/projects/all/user=${member.username}`}
+            mb={0}
+            textDecoration="underline"
+          >
             {name}
           </Text>
         )}
         {editToken && (
-          <Button
-            mt={-3}
-            fontSize="sm"
-            variant="link"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-            onClick={async () => {
-              if (isSubmitting) return;
-              setIsSubmitting(true);
-              const { result, error: resultError } = await tryAuthenticatedApiQuery(
-                ProjectMemberRemoveMutation,
-                { projectId, username: member.username },
-                editToken
-              );
+          <>
+          <br />
+            <Button
+              mt={-3}
+              fontSize="sm"
+              variant="link"
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+              onClick={async () => {
+                if (isSubmitting) return;
+                setIsSubmitting(true);
+                const { result, error: resultError } = await tryAuthenticatedApiQuery(
+                  ProjectMemberRemoveMutation,
+                  { projectId, username: member.username },
+                  editToken
+                );
 
-              if (resultError) {
-                error(resultError?.response?.errors[0]?.message || resultError.message);
-              } else {
-                success(`${member.account.name} was removed from the team.`);
-                onMemberRemoved(member);
-              }
+                if (resultError) {
+                  error(resultError?.response?.errors[0]?.message || resultError.message);
+                } else {
+                  success(`${member.account.name} was removed from the team.`);
+                  onMemberRemoved(member);
+                }
 
-              setIsSubmitting(false);
-            }}
-          >
-            Remove
-          </Button>
+                setIsSubmitting(false);
+              }}
+            >
+              Remove
+            </Button>
+          </>
         )}
       </Box>
     </Box>
