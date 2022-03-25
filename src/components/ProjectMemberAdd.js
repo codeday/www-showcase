@@ -50,13 +50,6 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded, 
               error(`${username} is not a valid username.`);
               tryAuthenticatedApiQuery(ProjectMemberRemoveMutation, { projectId, username }, editToken);
 
-            // TODO(@tylermenezes) Probably a better way to define requirements like a linked Discord.
-            } else if (!result?.showcase?.addMember?.account?.discordId && !(isDoubleClick && isAdmin)) {
-              error(`${username} hasn't linked their Discord.`);
-              info(`Follow the instructions in #link-account.`);
-              setIsDoubleClick(true);
-              tryAuthenticatedApiQuery(ProjectMemberRemoveMutation, { projectId, username }, editToken);
-
             // Everything looks good!
             } else {
               success(`${result.showcase.addMember.account.name} was added to the team.`);
