@@ -55,9 +55,7 @@ export default function ProjectPreview({ project }) {
             <Text>{project?.eventGroup?.title || project?.program?.name}</Text>
             <Box mt={2}>
               {project.awards.map((a) => (
-                <Box fontSize="md">
-                  <Image src={a.info.icon.url} alt={a.info.name || a.type} h="1.8em" d="inline-block" mr={2} />
-                </Box>
+                <Image src={a.info.icon.url} alt={a.info.name || a.type} h="1.8em" d="inline-block" mr={2} />
               ))}
             </Box>
           </Box>
