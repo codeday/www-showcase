@@ -28,19 +28,6 @@ export default function Create({ tokens, logIn, linkAccount, username }) {
     return <ForceLoginPage />
   }
 
-  if (linkAccount) {
-    return (
-      <Page>
-        <Content>
-          <Text>
-            Please link your account to Discord first. (Follow the instruction in #link-account.)
-            You're logged in with the CodeDay username: {username}
-          </Text>
-        </Content>
-      </Page>
-    );
-  }
-
   if (!tokens || tokens.length === 0) {
     return (
       <Page>
@@ -99,13 +86,6 @@ export async function getServerSideProps({ req }) {
       end: getIso(-1 * gracePeriod),
     }
   );
-
-  if (!result?.account?.getUser?.discordId) {
-    return {
-      props: { linkAccount: true, username: session.user.nickname },
-    };
-  }
-
 
   const tokens = result?.cms?.events?.items
     .filter((e) => e.program?.webname && e.id && e.subEventIds && e.title)
