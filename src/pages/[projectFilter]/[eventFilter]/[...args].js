@@ -68,7 +68,6 @@ export function makeFilter(params) {
       .reduce((accum, e) => ({ ...accum, ...e }), {})
     )
   }
-  console.log(where);
 
   if (projectFilter.toLowerCase() !== "all" && projectFilter.toLowerCase() !== "projects" && typeof (projectFilter)) {
     where.type = projectFilter.toUpperCase()

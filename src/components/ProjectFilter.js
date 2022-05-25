@@ -10,38 +10,58 @@ import { UiArrowDown, UiArrowRight } from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
 
 export default function ProjectFilter({
-  additional, startProjectFilter, startEventFilter, events,
+  additional,
+  startProjectFilter,
+  startEventFilter,
+  events,
 }) {
-  const additionalData = additional ? (
-    additional.filter(Boolean)
+  const additionalData = additional
+    ? additional
+      .filter(Boolean)
       .map((term) => {
         const [k, v] = term.split('=', 2);
         if (k === 'undefined') return {};
         return { [k]: v || true };
       })
-      .reduce((accum, e) => ({ ...accum, ...e }), {})) : [];
+      .reduce((accum, e) => ({ ...accum, ...e }), {})
+    : [];
   const [contains, setContains] = useState(additionalData.contains || null);
   const [awarded, setAwarded] = useState(additionalData.awarded || false);
-  const [showAdditional, setShowAdditional] = React.useState((contains || awarded));
+  const [showAdditional, setShowAdditional] = React.useState(
+    contains || awarded
+  );
   const [projectTypeFilter, setProjectTypeFilter] = useState(startProjectFilter);
   const [eventFilter, setEventFilter] = useState(startEventFilter);
-  const newAdditional = [(awarded ? 'awarded' : null), (contains ? `contains=${contains}` : null)]
-    .filter(Boolean).join(',');
+  const currentEvent = events.find((event) => event.id === eventFilter);
+  const [region, setRegion] = useState(additionalData.event || false);
+  const newAdditional = [
+    awarded ? 'awarded' : null,
+    contains ? `contains=${contains}` : null,
+    region ? `event=${region}` : null,
+  ]
+    .filter(Boolean)
+    .join(',');
 
   return (
-    <Box display={{
-      base: 'none', sm: 'none', md: 'block', lg: 'block',
-    }}
-    >
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        if (showAdditional) {
-          // eslint-disable-next-line no-undef
-          window.location.href = `/${projectTypeFilter.toLowerCase()}/${eventFilter}/${newAdditional}`;
-        } else {
-          window.location.href = `/${projectTypeFilter.toLowerCase()}/${eventFilter}`;
-        }
+    <Box
+      display={{
+        base: 'none',
+        sm: 'none',
+        md: 'block',
+        lg: 'block',
       }}
+    >
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (newAdditional) {
+            // eslint-disable-next-line no-undef
+            window.location.href = `/${projectTypeFilter.toLowerCase()}/${eventFilter}/${newAdditional}`;
+          } else {
+            // eslint-disable-next-line no-undef
+            window.location.href = `/${projectTypeFilter.toLowerCase()}/${eventFilter}/`;
+          }
+        }}
       >
         <Stack isInline marginTop={-12}>
           <Button
@@ -50,7 +70,8 @@ export default function ProjectFilter({
             fontSize="l"
             onClick={() => setShowAdditional(!showAdditional)}
             zIndex={1000}
-          >{showAdditional ? <UiArrowDown /> : <UiArrowRight />}
+          >
+            {showAdditional ? <UiArrowDown /> : <UiArrowRight />}
           </Button>
           <Text fontSize="xl">Browse all</Text>
           <Select
@@ -88,11 +109,48 @@ export default function ProjectFilter({
             <option value="virtual">Virtual CodeDay</option>
             <option value="labs">CodeDay Labs</option>
             {events.map((event) => (
-              <option key={event.id} value={event.id}>{event.title}</option>
+              <option key={event.id} value={event.id}>
+                {event.title}
+              </option>
             ))}
           </Select>
+          {currentEvent?.program?.webname === 'codeday'
+            && currentEvent.subEventIds && (
+              <Select
+                width="fit-content"
+                size="sm"
+                fontSize="lg"
+                zIndex={1000}
+                value={region}
+                onChange={(e) => {
+                  setRegion(e.target.value);
+                }}
+              >
+                <option key="global" value="">
+                  Global
+                </option>
+                {Object.entries(currentEvent?.subEventIds)
+                  .map((e) => ({ [e[0]]: e[1] }))
+                  ?.map((subEvent) => (
+                    <option
+                      key={Object.keys(subEvent)}
+                      value={Object.keys(subEvent)}
+                    >
+                      {Object.values(subEvent)[0]?.title}
+                    </option>
+                  ))}
+              </Select>
+          )}
           {!showAdditional && (
-            <Button type="submit" size="sm" fontSize="l" variantColor="brand" zIndex={1000}>Go</Button>
+            <Button
+              type="submit"
+              size="sm"
+              fontSize="l"
+              variantColor="brand"
+              zIndex={1000}
+            >
+              Go
+            </Button>
           )}
         </Stack>
         <Collapse isOpen={showAdditional}>
@@ -113,9 +171,12 @@ export default function ProjectFilter({
               isChecked={awarded}
               onChange={(e) => setAwarded(e.target.checked)}
               borderColor="gray.300"
-            >awarded
+            >
+              awarded
             </Checkbox>
-            <Button type="submit" size="sm" fontSize="l" variantColor="brand">Go</Button>
+            <Button type="submit" size="sm" fontSize="l" variantColor="brand">
+              Go
+            </Button>
           </Stack>
         </Collapse>
       </form>

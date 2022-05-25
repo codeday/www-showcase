@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DefaultSeo } from 'next-seo';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import Box, { Flex } from '@codeday/topo/Atom/Box';
+import Box from '@codeday/topo/Atom/Box';
 import Skelly from '@codeday/topo/Atom/Skelly';
 import Text, { Link } from '@codeday/topo/Atom/Text';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
@@ -11,7 +11,6 @@ import { CodeDay } from '@codeday/topo/Atom/Logo';
 import Button from '@codeday/topo/Atom/Button';
 
 import UiSearch from '@codeday/topocons/Icon/UiSearch';
-import { ProjectFilter } from '../pages/[projectFilter]/[eventFilter]/[...args]';
 
 export default function Page({
   children, title, darkHeader, slug, ...props

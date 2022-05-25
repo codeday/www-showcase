@@ -8,6 +8,7 @@ query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: F
       items {
         id
         title
+        subEventIds
         program {
           webname
         }

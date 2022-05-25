@@ -1,5 +1,21 @@
 #import "../components/ProjectPreview.gql"
-query IndexQuery ($take: Float!) {
+query IndexQuery ($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!) {
+  cms {
+    events(
+      where: { startsAt_gte: $startGt, endsAt_lt: $startLt }
+      order: startsAt_DESC
+    ) {
+      items {
+        id
+        title
+        subEventIds
+        program {
+          webname
+        }
+      }
+    }
+  }
+  
   showcase {
     projects (take: $take, where: { featured: true }) {
       ...ProjectPreviewFragment

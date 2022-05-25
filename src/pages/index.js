@@ -11,11 +11,11 @@ import { IndexQuery } from './index.gql';
 import ProjectFilter from '../components/ProjectFilter';
 
 const PER_PAGE = 6;
-export default function Home({ projects }) {
+export default function Home({ projects, events }) {
   return (
     <Page slug="/">
       <Content>
-        <ProjectFilter />
+        <ProjectFilter events={events} />
         {projects && projects.length > 0 ? (
           <>
             <ProjectList projects={projects} />
@@ -39,12 +39,14 @@ Home.propTypes = {
 
 export async function getStaticProps({ params }) {
   const { result, error } = await tryAuthenticatedApiQuery(IndexQuery, {
+    startLt: (new Date(new Date().getTime())).toISOString(),
     take: PER_PAGE * 3,
   });
   if (error) console.error(error);
 
   return {
     props: {
+      events: result?.cms?.events?.items || [],
       projects: (result?.showcase?.projects || []).sort(() => Math.random() > 0.5 ? -1 : 1).slice(0, PER_PAGE),
     },
     revalidate: 240,
