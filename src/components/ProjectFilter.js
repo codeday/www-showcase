@@ -85,14 +85,16 @@ export default function ProjectFilter({
             zIndex={1000}
           >
             <option value="PROJECTS">projects</option>
-            <option value="APP">apps 📲</option>
-            <option value="GAME">games 🎮</option>
-            <option value="VR">vr projects</option>
-            <option value="HARDWARE">hardware projects ⚙️</option>
-            <option value="WEBSITE">websites 🌐</option>
-            <option value="LIBRARY">libraries 📚</option>
-            <option value="BOT">bots 🤖</option>
-            <option value="OTHER">other projects</option>
+            <optgroup label="Categories">
+              <option value="APP">apps 📲</option>
+              <option value="GAME">games 🎮</option>
+              <option value="VR">vr projects</option>
+              <option value="HARDWARE">hardware projects ⚙️</option>
+              <option value="WEBSITE">websites 🌐</option>
+              <option value="LIBRARY">libraries 📚</option>
+              <option value="BOT">bots 🤖</option>
+              <option value="OTHER">other projects</option>
+            </optgroup>
           </Select>
           <Text fontSize="xl">from</Text>
           <Select
@@ -106,13 +108,18 @@ export default function ProjectFilter({
             zIndex={1000}
           >
             <option value="all">all events</option>
-            <option value="virtual">Virtual CodeDay</option>
-            <option value="labs">CodeDay Labs</option>
-            {events.map((event) => (
-              <option key={event.id} value={event.id}>
-                {event.title}
-              </option>
-            ))}
+            <optgroup label="Programs">
+              <option value="codeday">In-person CodeDay</option>
+              <option value="virtual">Virtual CodeDay</option>
+              <option value="labs">CodeDay Labs</option>
+            </optgroup>
+            <optgroup label="Events">
+              {events.map((event) => (
+                <option key={event.id} value={event.id}>
+                  {event.title}
+                </option>
+              ))}
+            </optgroup>
           </Select>
           {currentEvent?.program?.webname === 'codeday'
             && currentEvent.subEventIds && (
