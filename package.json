@@ -26,6 +26,7 @@
     "next-absolute-url": "^1.2.2",
     "next-auth": "^3.1.0",
     "next-seo": "^4.7.3",
+    "pdfkit": "^0.13.0",
     "prop-types": "^15.7.2",
     "random-seed": "^0.3.0",
     "react": "^17.0.1",
@@ -43,6 +44,7 @@
     "react-star-ratings": "^2.3.0",
     "react-typing-effect": "^2.0.5",
     "react-use": "^17.2.4",
+    "svg-to-pdfkit": "^0.1.8",
     "truncate": "^2.1.0"
   },
   "devDependencies": {

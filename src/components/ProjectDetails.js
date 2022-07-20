@@ -27,6 +27,7 @@ import ProjectSubmit from './ProjectSubmit';
 import ProjectReactions from './ProjectReactions';
 import ProjectTags from './ProjectTags';
 import SlugPicker from './SlugPicker';
+import ParticipationCertificate from './ParticipationCertificate';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
@@ -259,6 +260,10 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
               id={project.id}
               reactionCounts={project.reactionCounts}
             />
+          </Box>
+
+          <Box mb={8}>
+            <ParticipationCertificate project={project} user={user} />
           </Box>
 
 

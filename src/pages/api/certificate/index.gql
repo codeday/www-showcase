@@ -1,0 +1,15 @@
+query GetProjectByIdQuery($id: String!) {
+    showcase {
+        project(id: $id) {
+            members {
+                username
+            }
+            eventGroup {
+                title
+            }
+            region {
+                name
+            }
+        }
+    }
+}
