@@ -4,7 +4,7 @@ import Button from '@codeday/topo/Atom/Button';
 import { UiDownload } from '@codeday/topocons/Icon';
 
 export default function ParticipationCertificate({ project, user, ...props }) {
-  if (!project.members?.map((m) => m.username).includes(user.nickname)) return <></>;
+  if (!project.members?.map((m) => m.username).includes(user?.nickname)) return <></>;
   return (
     <Box {...props}>
       <Button
