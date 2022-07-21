@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import PDFDocument from 'pdfkit';
 import SVGtoPDF from 'svg-to-pdfkit';
 import { getSession } from 'next-auth/client';
@@ -6,11 +7,12 @@ import { mintToken } from '../../../util/token';
 import { tryAuthenticatedApiQuery } from '../../../util/api';
 import { GetProjectByIdQuery } from './index.gql';
 
-const template = fs
-  .readFileSync('public/certificate/template.svg')
-  .toString();
 
 export default async (req, res) => {
+  // https://vercel.com/guides/loading-static-file-nextjs-api-route
+  const templateDirectory = path.join(process.cwd(), 'public', 'certificate');
+  const fontsDirectory = path.join(templateDirectory, 'fonts');
+  const template = fs.readFileSync(`${templateDirectory}/template.svg`).toString();
   const session = await getSession({ req });
   const { projectId } = req.query;
 
@@ -29,16 +31,16 @@ export default async (req, res) => {
     return;
   }
   const participantName = `${session.user.given_name} ${session.user.family_name}`;
-  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name? ` in ${result.showcase.project.region?.name}`:''}`;
+  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name ? ` in ${result.showcase.project.region?.name}`:''}`;
   const doc = new PDFDocument({
     layout: 'landscape',
     size: 'LETTER',
   });
-  doc.registerFont('AvenirNext-Regular', 'public/certificate/fonts/AvenirNext-Regular.ttf');
-  doc.registerFont('AvenirNext-Bold', 'public/certificate/fonts/AvenirNext-Bold.ttf');
-  doc.registerFont('AvenirNext-Italic', 'public/certificate/fonts/AvenirNext-Italic.ttf');
-  doc.registerFont('UpheavalTT-BRK-', 'public/certificate/fonts/upheavtt.ttf');
-  doc.registerFont('ProximaNova-Bold', 'public/certificate/fonts/Proxima Nova Bold.ttf');
+  doc.registerFont('AvenirNext-Regular', `${fontsDirectory}/AvenirNext-Regular.ttf`);
+  doc.registerFont('AvenirNext-Bold', `${fontsDirectory}/AvenirNext-Bold.ttf`);
+  doc.registerFont('AvenirNext-Italic', `${fontsDirectory}/AvenirNext-Italic.ttf`);
+  doc.registerFont('UpheavalTT-BRK-', `${fontsDirectory}/upheavtt.ttf`);
+  doc.registerFont('ProximaNova-Bold', `${fontsDirectory}/Proxima Nova Bold.ttf`);
 
   SVGtoPDF(doc, template.replace('{{participant_name}}', participantName)
     .replace('{{event_name}}', eventName), 0, 0, {
