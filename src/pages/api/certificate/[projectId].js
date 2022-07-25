@@ -46,7 +46,8 @@ export default async (req, res) => {
   const renderedTemplate = template
     .replace(/\{\{participant_name\}\}/g, participantName)
     .replace(/\{\{event_name\}\}/g, eventName)
-    .replace(/\{\{project_name\}\}/g, projectName);
+    .replace(/\{\{project_name\}\}/g, projectName)
+    .replace(/\{\{id\}\}/g, projectId);
 
   SVGtoPDF(doc, renderedTemplate, 0, 0, {
     fontCallback: (family) => family.split(',')[0],

@@ -20,9 +20,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="1.3676471"
-     inkscape:cx="270.90322"
-     inkscape:cy="344.38709"
+     inkscape:zoom="1.8357391"
+     inkscape:cx="327.66094"
+     inkscape:cy="381.86254"
      inkscape:window-width="1920"
      inkscape:window-height="1053"
      inkscape:window-x="0"
@@ -76,6 +76,12 @@
        width="376.76123"
        height="52.47718"
        id="rect11855-0" />
+    <rect
+       x="106.23877"
+       y="338.75281"
+       width="376.76123"
+       height="52.47718"
+       id="rect11855-0-3" />
   </defs>
   <title
      id="title469">Certificate</title>
@@ -7587,10 +7593,10 @@
            id="tspan4325"
            x="4.3400002"
            y="0"><tspan
-   class="cls-12"
-   x="0"
-   y="0"
-   id="tspan3655">Executive Director</tspan></tspan><tspan
+             class="cls-12"
+             x="0"
+             y="0"
+             id="tspan3655">Executive Director</tspan></tspan><tspan
            sodipodi:role="line"
            id="tspan4327"
            x="0"
@@ -7836,10 +7842,16 @@
          transform="translate(-5.508193,8.9870682)"><tspan
            x="106.23828"
            y="348.76058"
-           id="tspan19449">This certifies that the above-named individual completed a creative and fun project </tspan><tspan
+           id="tspan5693">This certifies that the above-named individual completed a creative and </tspan><tspan
            x="106.23828"
            y="362.51058"
-           id="tspan19451">titled "{{project_name}}". </tspan></text>
+           id="tspan5695">fun project titled &quot;{{project_name}}&quot;. </tspan></text>
+      <text
+         xml:space="preserve"
+         id="text11853-6"
+         style="fill:#231f20;font-family:AvenirNext-Italic, 'Avenir Next';font-size:7.33px;font-style:italic;"
+         x="104.29628"
+         y="524.66699">Validate at https://showcase.codeday.org/project/{{id}}</text>
     </g>
   </g>
 </svg>
