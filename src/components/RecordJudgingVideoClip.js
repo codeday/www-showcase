@@ -3,9 +3,11 @@ import Button from '@codeday/topo/Atom/Button';
 import Box from '@codeday/topo/Atom/Box';
 import Skelly from '@codeday/topo/Atom/Skelly';
 import { Heading } from '@codeday/topo/Atom/Text';
-import { ReactMediaRecorder } from 'react-media-recorder';
 import * as Icon from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
+
+const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false })
 
 function VideoPreview({ stream, ...props }) {
   const videoRef = useRef(null);
