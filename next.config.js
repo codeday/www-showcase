@@ -19,6 +19,9 @@ module.exports = {
   publicRuntimeConfig: {
     appUrl: process.env.APP_URL,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async redirects() {
     return [
       {
