@@ -31,7 +31,8 @@ export default async (req, res) => {
     return;
   }
   const participantName = `${session.user.given_name} ${session.user.family_name}`;
-  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name ? ` in ${result.showcase.project.region?.name}`:''}`;
+  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name ? `, ${result.showcase.project.region?.name}`:''}`;
+  const projectName = result.showcase.project.name;
   const doc = new PDFDocument({
     layout: 'landscape',
     size: 'LETTER',
@@ -42,8 +43,12 @@ export default async (req, res) => {
   doc.registerFont('UpheavalTT-BRK-', `${fontsDirectory}/upheavtt.ttf`);
   doc.registerFont('ProximaNova-Bold', `${fontsDirectory}/Proxima Nova Bold.ttf`);
 
-  SVGtoPDF(doc, template.replace('{{participant_name}}', participantName)
-    .replace('{{event_name}}', eventName), 0, 0, {
+  const renderedTemplate = template
+    .replace(/\{\{participant_name\}\}/g, participantName)
+    .replace(/\{\{event_name\}\}/g, eventName)
+    .replace(/\{\{project_name\}\}/g, projectName);
+
+  SVGtoPDF(doc, renderedTemplate, 0, 0, {
     fontCallback: (family) => family.split(',')[0],
   });
   doc.pipe(res);

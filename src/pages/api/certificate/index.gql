@@ -1,6 +1,7 @@
 query GetProjectByIdQuery($id: String!) {
     showcase {
         project(id: $id) {
+            name
             members {
                 username
             }
