@@ -3,12 +3,12 @@ import { NextSeo } from 'next-seo';
 import { getSession } from 'next-auth/client';
 import Content from '@codeday/topo/Molecule/Content';
 import { Heading } from '@codeday/topo/Atom/Text';
-import Page from '../../components/Page';
-import ProjectDetails from '../../components/ProjectDetails';
-import { mintToken } from '../../util/token';
-import { tryAuthenticatedApiQuery } from '../../util/api';
-import { MEDIA_TOPICS } from '../../util/mediaTopics';
-import { ProjectByIdQuery } from './projectId.gql';
+import Page from '../../../components/Page';
+import ProjectDetails from '../../../components/ProjectDetails';
+import { mintToken } from '../../../util/token';
+import { tryAuthenticatedApiQuery } from '../../../util/api';
+import { MEDIA_TOPICS } from '../../../util/mediaTopics';
+import { ProjectByIdQuery } from './index.gql';
 
 const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
 

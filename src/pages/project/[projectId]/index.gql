@@ -1,5 +1,5 @@
-#import "../../components/ProjectDetails.gql"
-#import "../../components/ProjectAwards.gql"
+#import "../../../components/ProjectDetails.gql"
+#import "../../../components/ProjectAwards.gql"
 
 query ProjectByIdQuery ($id: String!) {
 
