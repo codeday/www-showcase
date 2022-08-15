@@ -1,5 +1,6 @@
 #import "../../../components/ProjectPreview.gql"
-query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere) {
+#import "../../../components/Photo.gql"
+query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere, $photosWhere: ShowcasePhotosWhere) {
   cms {
     events(
       where: { startsAt_gte: $startGt, endsAt_lt: $startLt }
@@ -19,6 +20,10 @@ query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: F
   showcase {
     projects (take: $take, skip: $skip, where: $where) {
       ...ProjectPreviewFragment
+    }
+
+    photos(take: $take, skip: $skip, where: $photosWhere) {
+      ...PhotoFragment
     }
   }
 }

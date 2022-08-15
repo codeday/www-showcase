@@ -1,0 +1,6 @@
+fragment PhotoFragment on ShowcasePhoto {
+  id
+  thanks
+  urlSmall
+  url
+}
