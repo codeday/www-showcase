@@ -24,6 +24,8 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
       <Files
           multiple
           convertToBase64
+          maxSize="50mb"
+          multipleMaxSize={null}
           accept={["image/jpg", "image/jpeg", "image/png"]}
           onError={(e) => pushErrors(...e)}
           onSuccess={f => push(...f)}
