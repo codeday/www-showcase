@@ -22,7 +22,7 @@ export default function UploadPhotos({ logIn, allEvents, token }) {
       programId: eg.program?.webname,
       eventGroupId: eg.id,
       eventId,
-      region: typeof nameOrConfig === 'string' ? undefined : nameOrConfig.region,
+      regionId: typeof nameOrConfig === 'string' ? undefined : nameOrConfig.region,
       title: typeof nameOrConfig === 'string' ? nameOrConfig : nameOrConfig.title,
     })));
 
