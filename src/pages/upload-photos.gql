@@ -1,0 +1,19 @@
+query GetAllEventsQuery {
+  cms {
+    events (where:{subEventIds_exists:true}) {
+      items {
+        id
+        subEventIds
+        program { webname }
+      }
+    }
+  }
+}
+
+mutation UploadPhotoMutation($upload: Upload!, $eventId: String!, $programId: String, $regionId: String, $eventGroupId: String, $thanks: String) {
+  showcase {
+    uploadPhoto(upload: $upload, eventId: $eventId, programId: $programId, regionId: $regionId, eventGroupId: $eventGroupId, thanks: $thanks) {
+      url
+    }
+  }
+}
