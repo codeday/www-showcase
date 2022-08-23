@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import List, { Item as ListItem } from '@codeday/topo/Atom/List';
@@ -18,6 +18,13 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
   const [dragging, setDragging] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [files, { push, removeAt, updateAt }] = useList([]);
+
+  useEffect(() => {
+    for (const i in files) {
+      const f = files[i];
+      if (!f.src.src) updateAt(i, { ...f, src: { ...f.src, src: URL.createObjectURL(f.src.file) }});
+    }
+  }, [files]);
 
   return (
     <Box borderColor={dragging ? 'blue.500' : undefined} borderWidth={2} p={8} {...props}>
@@ -52,7 +59,7 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
                     <Image
                       w="100%"
                       h="100%"
-                      src={URL.createObjectURL(image.src.file)}
+                      src={image.src.src}
                       onLoad={(e) => URL.revokeObjectURL(e.target.src)}
                       opacity={image.status && image.status !== 'pending' ? 0.5 : 1}
                       objectFit="cover"
