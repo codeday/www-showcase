@@ -1,11 +1,11 @@
+import { useState } from 'react';
 import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import List, { Item as ListItem } from '@codeday/topo/Atom/List';
-import { Stack } from '@chakra-ui/core';
-import { useState } from 'react';
 import Files from 'react-butterfiles';
 import { useList } from 'react-use';
 import Text from '@codeday/topo/Atom/Text';
+import Image from '@codeday/topo/Atom/Image';
 
 const STATUS_COLORS = {
   pending: 'blue.500',
@@ -23,7 +23,6 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
     <Box borderColor={dragging ? 'blue.500' : undefined} borderWidth={2} p={8} {...props}>
       <Files
           multiple
-          convertToBase64
           maxSize="50mb"
           multipleMaxSize={null}
           accept={["image/jpg", "image/jpeg", "image/png"]}
@@ -31,56 +30,58 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
           onSuccess={f => push(...f)}
       >
           {({ browseFiles, getDropZoneProps }) => (
+            <Box
+                {...getDropZoneProps({
+                    onDragEnter: () => setDragging(true),
+                    onDragLeave: () => setDragging(false),
+                    onDrop: () => setDragging(false),
+                })}
+            >
+              {files.map((image, index) => (
+                  <Box
+                      key={index}
+                      onClick={() => removeAt(index)}
+                      cursor="pointer"
+                      borderWidth={3}
+                      borderColor={STATUS_COLORS[image.status]}
+                      m={2}
+                      h={24}
+                      w={24}
+                      d="inline-block"
+                  >
+                    <Image
+                      w="100%"
+                      h="100%"
+                      src={URL.createObjectURL(image.src.file)}
+                      onLoad={(e) => URL.revokeObjectURL(e.target.src)}
+                      opacity={image.status && image.status !== 'pending' ? 0.5 : 1}
+                      objectFit="cover"
+                    />
+                  </Box>
+              ))}
               <Box
-                  {...getDropZoneProps({
-                      onDragEnter: () => setDragging(true),
-                      onDragLeave: () => setDragging(false),
-                      onDrop: () => setDragging(false),
-                  })}
+                cursor="pointer"
+                borderWidth={3}
+                borderColor="gray.100"
+                m={2}
+                h={24}
+                w={24}
+                textAlign="center"
+                pt={8}
+                verticalAlign="top"
+                fontSize="2xl"
+                backgroundColor="gray.100"
+                d="inline-block"
+                onClick={() => {
+                  browseFiles({
+                    onErrors: (e) => pushErrors(...e),
+                    onSuccess: (f) => push(...f),
+                  });
+                }}
               >
-                  <Stack direction="row" spacing={2}>
-                      {files.map((image, index) => (
-                          <Box
-                              key={index}
-                              onClick={() => removeAt(index)}
-                              cursor="pointer"
-                              borderWidth={3}
-                              borderColor={STATUS_COLORS[image.status]}
-                          >
-                            <Box
-                              h={24}
-                              w={24}
-                              backgroundImage={`url(${image.src.base64})`}
-                              backgroundPosition="50% 50%"
-                              backgroundSize="cover"
-                              opacity={image.status && image.status !== 'pending' ? 0.5 : 1}
-                            />
-                          </Box>
-                      ))}
-                      <Box
-                        cursor="pointer"
-                        borderWidth={3}
-                        borderColor="gray.100"
-                        onClick={() => {
-                          browseFiles({
-                            onErrors: (e) => pushErrors(...e),
-                            onSuccess: (f) => push(...f),
-                          });
-                        }}
-                      >
-                        <Box
-                          h={24}
-                          w={24}
-                          textAlign="center"
-                          pt={8}
-                          fontSize="2xl"
-                          backgroundColor="gray.100"
-                        >
-                          +
-                        </Box>
-                      </Box>
-                  </Stack>
+                +
               </Box>
+            </Box>
           )}
       </Files>
       <Button
