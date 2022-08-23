@@ -20,7 +20,6 @@ export default function Home({ projects, events }) {
           <>
             <ProjectList projects={projects} />
             <Box textAlign="center" mt={8}>
-              <Button as="a" href="/projects" m={1} variantColor="blue">Browse All</Button>
               <Button as="a" href="/projects/codeday" m={1} variantColor="blue">Browse CodeDay</Button>
               <Button as="a" href="/projects/labs" m={1} variantColor="blue">Browse CodeDay Labs</Button>
             </Box>
