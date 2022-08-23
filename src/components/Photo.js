@@ -1,6 +1,7 @@
 import Box from '@codeday/topo/Atom/Box';
 
 export default function Photo({ photo }) {
+  if (!photo) return <></>;
   return (
     <Box
       as="a"
