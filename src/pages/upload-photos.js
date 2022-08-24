@@ -8,7 +8,7 @@ import Page from '../components/Page';
 import ForceLoginPage from '../components/ForceLoginPage';
 import MultiImageUpload from '../components/MultiImageUpload';
 import { GetAllEventsQuery, UploadPhotoMutation } from './upload-photos.gql';
-import { apiFetch } from '@codeday/topo/utils';
+import { apiFetch, useToasts } from '@codeday/topo/utils';
 import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { mintToken } from '../util/token';
@@ -16,6 +16,7 @@ import { mintToken } from '../util/token';
 export default function UploadPhotos({ logIn, allEvents, token }) {
   const [thanks, setThanks] = useState('');
   const [event, setEvent] = useState(null);
+  const { info } = useToasts();
 
   const eventInfo = allEvents?.cms?.events?.items
     ?.flatMap(eg => Object.entries(eg.subEventIds).map(([eventId, nameOrConfig]) => ({
@@ -57,6 +58,7 @@ export default function UploadPhotos({ logIn, allEvents, token }) {
         <Heading as="h2" fontSize="4xl" mb={8}>Upload Photos: {event.eventGroupId} ~ {event.title}</Heading>
         <MultiImageUpload
           uploadPhoto={async (file) => {
+            info(`Uploading ${file.name}`)
             const { result, error: resultError } = await tryAuthenticatedApiQuery(
               UploadPhotoMutation,
               { upload: file.src.file, ...event, thanks },

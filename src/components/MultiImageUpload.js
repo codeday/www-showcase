@@ -47,8 +47,8 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
               {files.map((image, index) => (
                   <Box
                       key={index}
-                      onClick={() => removeAt(index)}
-                      cursor="pointer"
+                      onClick={() => { if(!isLoading) removeAt(index); }}
+                      cursor={isLoading ? 'not-allowed' : 'pointer'}
                       borderWidth={3}
                       borderColor={STATUS_COLORS[image.status]}
                       m={2}
@@ -67,7 +67,7 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
                   </Box>
               ))}
               <Box
-                cursor="pointer"
+                cursor={isLoading ? 'not-allowed' : 'pointer'}
                 borderWidth={3}
                 borderColor="gray.100"
                 m={2}
@@ -80,6 +80,7 @@ export default function MultiImageUpload({ uploadPhoto, ...props }) {
                 backgroundColor="gray.100"
                 d="inline-block"
                 onClick={() => {
+                  if (isLoading) return;
                   browseFiles({
                     onErrors: (e) => pushErrors(...e),
                     onSuccess: (f) => push(...f),
