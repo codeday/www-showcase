@@ -9,10 +9,6 @@ module.exports = {
     showcase: {
       audience: process.env.SHOWCASE_AUDIENCE,
       secret: process.env.SHOWCASE_SECRET,
-      allowCreate: process.env.SHOWCASE_ALLOW_CREATE === 'true',
-      eventGroup: process.env.SHOWCASE_EVENT_GROUP,
-      program: process.env.SHOWCASE_PROGRAM,
-      availableSubevents: process.env.SHOWCASE_AVAILABLE_SUBEVENTS.split(',') || [],
     },
     appSecret: process.env.NEXT_AUTH_SECRET,
   },
