@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { getSession } from 'next-auth/client';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Image from '@codeday/topo/Atom/Image';
-import { makeFilter } from '../../../[projectFilter]/[eventFilter]/[...args]';
+import { makeFilter } from '../../../projects/[eventFilter]/[...args]';
 import { ProjectsAwardsQuery } from './projects.gql';
 import { tryAuthenticatedApiQuery } from '../../../../util/api';
 import { mintToken } from '../../../../util/token';

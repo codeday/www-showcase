@@ -38,6 +38,7 @@ export default function ProjectFilter({
     awarded ? 'awarded' : null,
     contains ? `contains=${contains}` : null,
     region ? `event=${region}` : null,
+    projectTypeFilter !== 'PROJECTS' ? `type=${projectTypeFilter.toLowerCase()}` : null,
   ]
     .filter(Boolean)
     .join(',');
@@ -56,10 +57,10 @@ export default function ProjectFilter({
           e.preventDefault();
           if (newAdditional) {
             // eslint-disable-next-line no-undef
-            window.location.href = `/${projectTypeFilter.toLowerCase()}/${eventFilter}/${newAdditional}`;
+            window.location.href = `/projects/${eventFilter}/${newAdditional}`;
           } else {
             // eslint-disable-next-line no-undef
-            window.location.href = `/${projectTypeFilter.toLowerCase()}/${eventFilter}/`;
+            window.location.href = `/projects/${eventFilter}/`;
           }
         }}
       >
@@ -109,9 +110,8 @@ export default function ProjectFilter({
           >
             <option value="all">all events</option>
             <optgroup label="Programs">
-              <option value="codeday">In-person CodeDay</option>
-              <option value="virtual">Virtual CodeDay</option>
-              <option value="labs">CodeDay Labs</option>
+              <option value="codeday">CodeDay (High School)</option>
+              <option value="labs">CodeDay Labs (High School/College)</option>
             </optgroup>
             <optgroup label="Events">
               {events.map((event) => (

@@ -52,8 +52,6 @@ export async function getStaticPaths() {
 }
 
 export function makeFilter(params) {
-  const projectFilter = params?.projectFilter && params?.projectFilter !== "undefined" ? params?.projectFilter : "PROJECTS";
-  if ((projectFilter.toUpperCase() !== "PROJECTS") && !PROJECT_TYPES[projectFilter.toUpperCase()]) throw new Error("Invalid project type filter.");
   const eventFilter = (params?.eventFilter) ? params?.eventFilter : "all";
   const additional = ((params?.args && params?.args[0] && isNaN(params?.args[0])) ? params?.args[0] : ((params?.args && params?.args[1]) ? params.args[1] : '')).split(',');
 
@@ -69,22 +67,20 @@ export function makeFilter(params) {
     )
   }
 
-  if (projectFilter.toLowerCase() !== "all" && projectFilter.toLowerCase() !== "projects" && typeof (projectFilter)) {
-    where.type = projectFilter.toUpperCase()
-  }
+  if (where.type) where.type = where.type.toUpperCase();
 
-  if (["virtual", "labs", "codeday"].includes(eventFilter.toLowerCase())) {
+  if (["labs", "codeday"].includes(eventFilter.toLowerCase())) {
     where.program = eventFilter.toLowerCase()
   } else if (eventFilter.toLowerCase() !== "all") {
     where.eventGroup = eventFilter
   }
 
-  return { where, projectFilter, eventFilter, additional };
+  return { where, eventFilter, additional };
 }
 
 export async function getStaticProps({ params }) {
   const page = parseInt(params?.args && !isNaN(params?.args[0]) ? params?.args[0] : (!isNaN(params?.eventFilter) ? params?.eventFilter : 1));
-  const { where, projectFilter, eventFilter, additional } = makeFilter(params);
+  const { where, eventFilter, additional } = makeFilter(params);
   const photosWhere = [where].map(({event, eventGroup, program, region }) => ({ event, eventGroup, program, region}))[0];
   const { result, error } = await tryAuthenticatedApiQuery(ProjectsIndexQuery,
     {
@@ -106,9 +102,9 @@ export async function getStaticProps({ params }) {
       events: events || [],
       projects: projects || [],
       photos: photos || [],
-      startProjectFilter: projectFilter.toUpperCase() || "ALL",
+      startProjectFilter: where.type ? where.type.toUpperCase() : "ALL",
       startEventFilter: eventFilter.toLowerCase(),
-      slug: `${projectFilter.toLowerCase()}/${eventFilter}`,
+      slug: `projects/${eventFilter}/${additional ? additional.join('&') : ''}`,
       page,
       additional: additional || null,
     },
