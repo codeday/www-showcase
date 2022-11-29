@@ -1,0 +1,34 @@
+query GetRegionsQuery {
+  cms {
+    regions {
+      items {
+        webname
+      }
+    }
+  }
+}
+
+query RegionQuery ($webname: String!) {
+  cms {
+    regions(
+      where: {
+        OR: [
+          { webname: $webname },
+          { aliases_contains_some: [$webname] },
+        ]
+      }
+    ) {
+      items {
+        name
+        webname
+        clearEvents {
+          id
+          startDate
+          eventGroup {
+            name
+          }
+        }
+      }
+    }
+  }
+}

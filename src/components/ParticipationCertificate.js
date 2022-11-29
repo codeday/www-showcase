@@ -34,6 +34,7 @@ export default function ParticipationCertificate({ project, user, ...props }) {
         as="a"
         onClick={onClick}
         href={`https://showcase.codeday.org/api/certificate/${project.id}`}
+        isLoading={isLoading}
       >
         <UiDownload />  Participation Certificate
       </Button>
