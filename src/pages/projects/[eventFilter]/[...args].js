@@ -8,7 +8,7 @@ import { tryAuthenticatedApiQuery } from '../../../util/api';
 import ProjectList from '../../../components/ProjectList';
 import ProjectFilter from '../../../components/ProjectFilter';
 import Link from '@codeday/topo/Atom/Text/Link';
-import { PROJECT_TYPES } from './../../../util/projectTypes';
+import { PROJECT_TYPES } from '../../../util/projectTypes';
 
 const PER_PAGE = 20;
 
