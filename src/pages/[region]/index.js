@@ -1,7 +1,6 @@
 import { apiFetch } from '@codeday/topo/utils';
-import Box from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Heading, Link } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 import { GetRegionsQuery, RegionQuery } from './index.gql';
 
@@ -27,7 +26,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params: { region }}) {
+export async function getStaticProps({ params: { region } }) {
   const res = await apiFetch(RegionQuery, { webname: region });
   if (!res?.cms?.regions?.items || res.cms.regions.items.length === 0) return { notFound: true };
 

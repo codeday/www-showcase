@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Image from '@codeday/topo/Atom/Image';
-import Box from '@codeday/topo/Atom/Box';
+import { Box, Image } from '@codeday/topo/Atom';
 
 export default function ProjectMediaImage({ media, ...props }) {
   return (

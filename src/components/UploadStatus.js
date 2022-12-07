@@ -1,9 +1,7 @@
 import React from 'react';
-import { Heading } from '@codeday/topo/Atom/Text'
-import Spinner from '@codeday/topo/Atom/Spinner'
-import * as Icon from '@codeday/topocons/Icon'
+import { Box, Heading, Spinner } from '@codeday/topo/Atom';
+import * as Icon from '@codeday/topocons/Icon';
 import { Button, Text } from '@chakra-ui/core';
-import Box from '@codeday/topo/Atom/Box'
 
 export function UploadPending({ ...props }) {
   return (
@@ -17,7 +15,9 @@ export function UploadPending({ ...props }) {
   );
 }
 
-export function UploadError({ errorDetails, onRetry, finalMediaBlobURL, filename, ...props }) {
+export function UploadError({
+  errorDetails, onRetry, finalMediaBlobURL, filename, ...props
+}) {
   return (
     <Box
       borderColor="failure.border"
@@ -30,7 +30,7 @@ export function UploadError({ errorDetails, onRetry, finalMediaBlobURL, filename
       <Icon.UiError color="white" height="5em" width="auto" />
       <Heading color="failure.text">Upload Failed</Heading>
       {(errorDetails) ? <Text><b>Error: {errorDetails}</b></Text> : null}
-      <Button m={2} onClick={() => {onRetry(finalMediaBlobURL)}} variant="outline">Retry Upload</Button>
+      <Button m={2} onClick={() => { onRetry(finalMediaBlobURL); }} variant="outline">Retry Upload</Button>
       <br /> <br />
       <Text as="a" href={finalMediaBlobURL} download={filename}>Having trouble uploading?
         <br />

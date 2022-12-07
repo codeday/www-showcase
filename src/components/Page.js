@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { DefaultSeo } from 'next-seo';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import Box from '@codeday/topo/Atom/Box';
-import Skelly from '@codeday/topo/Atom/Skelly';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
-import Input from '@codeday/topo/Atom/Input/Text';
-import Footer, { CustomLinks } from '@codeday/topo/Organism/Footer';
-import { CodeDay } from '@codeday/topo/Atom/Logo';
-import Button from '@codeday/topo/Atom/Button';
+import {
+  Box, Button, CodeDay, Link, Skelly, Text, TextInput as Input,
+} from '@codeday/topo/Atom';
+import {
+  CustomLinks, Footer, Header, Menu, SiteLogo,
+} from '@codeday/topo/Organism';
 
 import UiSearch from '@codeday/topocons/Icon/UiSearch';
 

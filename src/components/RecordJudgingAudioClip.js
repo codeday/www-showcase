@@ -1,14 +1,13 @@
 import React from 'react';
-import { Heading } from '@codeday/topo/Atom/Text';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Button, Heading } from '@codeday/topo/Atom';
+
 import H5AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import * as Icon from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 
-const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false })
+const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false });
 
 let statusHeading;
 export default function RecordJudgingAudioClip({ onUpload, ...props }) {
@@ -40,7 +39,7 @@ export default function RecordJudgingAudioClip({ onUpload, ...props }) {
           <Box textAlign="center" {...props}>
             {statusHeading}
             <H5AudioPlayer
-              src={(mediaBlobUrl) ? mediaBlobUrl : ''}
+              src={(mediaBlobUrl) || ''}
               autoPlay
               showJumpControls={false}
               customAdditionalControls={[]}

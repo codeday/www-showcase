@@ -4,7 +4,7 @@ module.exports = {
       clientId: process.env.AUTH0_CLIENT_ID,
       clientSecret: process.env.AUTH0_CLIENT_SECRET,
       domain: process.env.AUTH0_DOMAIN,
-      authorizationUrl: `https://${process.env.AUTH0_DOMAIN}/authorize?response_type=code&prompt=login`
+      authorizationUrl: `https://${process.env.AUTH0_DOMAIN}/authorize?response_type=code&prompt=login`,
     },
     showcase: {
       audience: process.env.SHOWCASE_AUDIENCE,
@@ -25,6 +25,6 @@ module.exports = {
         destination: '/projects/:slug', // Matched parameters can be used in the destination
         permanent: true,
       },
-    ]
+    ];
   },
 };

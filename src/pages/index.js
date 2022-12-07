@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Text, { Link, Heading } from '@codeday/topo/Atom/Text';
-import Content from '@codeday/topo/Molecule/Content';
+import { Box, Button, Text } from '@codeday/topo/Atom';
+
+import { Content } from '@codeday/topo/Molecule';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import Page from '../components/Page';
 import ProjectList from '../components/ProjectList';
@@ -45,7 +44,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       events: result?.cms?.events?.items || [],
-      projects: (result?.showcase?.projects || []).sort(() => Math.random() > 0.5 ? -1 : 1).slice(0, PER_PAGE),
+      projects: (result?.showcase?.projects || []).sort(() => (Math.random() > 0.5 ? -1 : 1)).slice(0, PER_PAGE),
     },
     revalidate: 240,
   };

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
-import { Select } from '@chakra-ui/core';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
-import Button from '@codeday/topo/Atom/Button';
-import Text from '@codeday/topo/Atom/Text';
+import { Controller, useForm } from 'react-hook-form';
+import {
+  Button, Text, Textarea, Select, TextInput as Input,
+} from '@codeday/topo/Atom';
+
 import { PROJECT_TYPES } from '../util/projectTypes';
 
 export default function CreateProjectForm({ availableTokens, isSubmitting, onSubmit }) {
@@ -27,9 +26,9 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             as={Select}
             control={control}
             name="token"
-            rules={{ required: { value: true, message: "Select where you'd like to create a project."} }}
+            rules={{ required: { value: true, message: "Select where you'd like to create a project." } }}
           >
-            <option value=""></option>
+            <option value="" />
             {availableTokens.map((t) => (
               <option value={t.token}>{t.name}</option>
             ))}
@@ -49,8 +48,8 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
         name="name"
         rules={{
           required: { value: true, message: 'You need to pick a name (you can change it later).' },
-          minLength: { value: 6, message: 'Pick a longer name (at least 6 characters).'},
-          maxLength: { value: 100, message: 'Pick a shorter name (at most 100 characters).'}
+          minLength: { value: 6, message: 'Pick a longer name (at least 6 characters).' },
+          maxLength: { value: 100, message: 'Pick a shorter name (at most 100 characters).' },
         }}
         defaultValue=""
       />
@@ -63,7 +62,7 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
         name="type"
         rules={{ required: { value: true, message: 'You need to select a project type (you can change it later).' } }}
       >
-        <option value=""></option>
+        <option value="" />
         {Object.keys(PROJECT_TYPES).map((k) => (
           <option value={k}>{PROJECT_TYPES[k]}</option>
         ))}
@@ -77,7 +76,6 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
         name="description"
         defaultValue=""
       />
-
 
       <Button mt={16} variantColor="green" onClick={doSubmit} isLoading={isSubmitting}>Create</Button>
     </form>

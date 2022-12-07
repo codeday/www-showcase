@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Select, Stack } from '@chakra-ui/core';
-import Text from '@codeday/topo/Atom/Text/Text';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Input from '@codeday/topo/Atom/Input/Text';
-import Checkbox from '@codeday/topo/Atom/Input/Checkbox';
-import Collapse from '@codeday/topo/Molecule/Collapse';
+import {
+  Box, Button, Checkbox, Text, Select, Stack, TextInput as Input,
+} from '@codeday/topo/Atom';
+
+import { Collapse } from '@codeday/topo/Molecule';
 import { UiArrowDown, UiArrowRight } from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
 
@@ -160,7 +158,7 @@ export default function ProjectFilter({
             </Button>
           )}
         </Stack>
-        <Collapse isOpen={showAdditional}>
+        <Collapse in={showAdditional}>
           <Stack isInline ml="10%">
             <Text fontSize="xl">that contain</Text>
             <Input

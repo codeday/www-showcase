@@ -1,8 +1,8 @@
 import React from 'react';
 import { NextSeo } from 'next-seo';
 import { getSession } from 'next-auth/client';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading } from '@codeday/topo/Atom/Text';
+import { Content } from '@codeday/topo/Molecule';
+import { Heading } from '@codeday/topo/Atom';
 import Page from '../../../components/Page';
 import ProjectDetails from '../../../components/ProjectDetails';
 import { mintToken } from '../../../util/token';
@@ -10,9 +10,11 @@ import { tryAuthenticatedApiQuery } from '../../../util/api';
 import { MEDIA_TOPICS } from '../../../util/mediaTopics';
 import { ProjectByIdQuery } from './index.gql';
 
-const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
+const TOPIC_PREFERENCES = [MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION];
 
-export default function ViewEditProject({ project, token, user, availableAwards }) {
+export default function ViewEditProject({
+  project, token, user, availableAwards,
+}) {
   if (!project) {
     return (
       <Page>
@@ -72,8 +74,8 @@ export async function getServerSideProps({ req, res, params: { projectId } }) {
           result?.showcase?.project?.members?.map((m) => m.username).includes(session.user.nickname)
           || session.user.admin
         )
-          ? token
-          : null,
+        ? token
+        : null,
     },
   };
 }

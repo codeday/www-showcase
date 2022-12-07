@@ -1,13 +1,16 @@
-import React, { useReducer, useState } from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import { default as Select } from '@chakra-ui/core/dist/Select';
+import React, { useState } from 'react';
+import {
+  Box, Button, Select, TextInput as Input,
+} from '@codeday/topo/Atom';
+
+// import { default as Select } from '@chakra-ui/core/dist/Select';
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { AwardAdd } from './ProjectAwards.gql';
 
-export default function ProjectAwardsAdd({ projectId, editToken, availableAwards, onAdd, ...props }) {
+export default function ProjectAwardsAdd({
+  projectId, editToken, availableAwards, onAdd, ...props
+}) {
   const { success, error } = useToasts();
 
   const [addAwardSelected, setAddAwardSelected] = useState(null);
@@ -22,7 +25,7 @@ export default function ProjectAwardsAdd({ projectId, editToken, availableAwards
           onChange={(e) => setAddAwardSelected(e.target.value)}
           selected={addAwardSelected}
         >
-          <option value=""></option>
+          <option value="" />
           {availableAwards.map((a) => (
             <option value={a.id}>{a.name}</option>
           ))}
@@ -41,7 +44,7 @@ export default function ProjectAwardsAdd({ projectId, editToken, availableAwards
             setIsSubmitting(true);
             const { result, error: resultError } = await tryAuthenticatedApiQuery(
               AwardAdd,
-              { project: projectId, type: addAwardSelected, modifier: addAwardModifier ? addAwardModifier : undefined },
+              { project: projectId, type: addAwardSelected, modifier: addAwardModifier || undefined },
               editToken
             );
 
@@ -62,5 +65,5 @@ export default function ProjectAwardsAdd({ projectId, editToken, availableAwards
         </Button>
       </>
     </Box>
-  )
+  );
 }

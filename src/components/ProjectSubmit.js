@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import React from 'react';
+import {
+  Box, Button, Heading, Text,
+} from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { DateTime } from 'luxon';
 
@@ -17,7 +18,7 @@ export default function ProjectSubmit({ project, editToken, ...props }) {
         variantColor="blue"
         size="lg"
         onClick={async () => {
-          info('All projects will be judged, there is no need to submit :)')
+          info('All projects will be judged, there is no need to submit :)');
         }}
       >
         Submit for Judging
@@ -27,5 +28,5 @@ export default function ProjectSubmit({ project, editToken, ...props }) {
         see them.
       </Text>
     </Box>
-  )
+  );
 }

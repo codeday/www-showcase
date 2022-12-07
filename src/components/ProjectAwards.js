@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 import ProjectAwardsAdd from './ProjectAwardsAdd';
 import ProjectAwardsEntry from './ProjectAwardsEntry';
 

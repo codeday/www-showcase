@@ -1,11 +1,11 @@
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 
 export default function Photo({ photo }) {
   if (!photo) return <></>;
   return (
     <Box
       as="a"
-      href={photo.url}
+      href={`/photo/${photo.id}`}
       borderWidth={1}
       shadow="sm"
       rounded="md"

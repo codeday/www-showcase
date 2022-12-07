@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@codeday/topo/Atom/Box';
-import Text from '@codeday/topo/Atom/Text';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import Button from '@codeday/topo/Atom/Button';
+import {
+  Button, Grid, Text, TextInput as Input,
+} from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { ProjectMemberAddMutation } from './ProjectMemberAdd.gql';
 import { ProjectMemberRemoveMutation } from './ProjectMember.gql';
 
-export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded, isAdmin }) {
+export default function ProjectMemberAdd({
+  projectId, editToken, onMemberAdded, isAdmin,
+}) {
   const [isDoubleClick, setIsDoubleClick] = useState(false);
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -67,7 +69,7 @@ export default function ProjectMemberAdd({ projectId, editToken, onMemberAdded, 
       <Text>If your teammate doesn't have an account, they can sign up at account.codeday.org.</Text>
       <Text bold>(Not the same as your Discord account name.)</Text>
     </>
-  )
+  );
 }
 ProjectMemberAdd.propTypes = {
   projectId: PropTypes.string.isRequired,

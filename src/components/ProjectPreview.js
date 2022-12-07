@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Image from '@codeday/topo/Atom/Image';
+import {
+  Box, Grid, Heading, Image, Text,
+} from '@codeday/topo/Atom';
 import { create } from 'random-seed';
 import { PROJECT_TYPES } from '../util/projectTypes';
 
 const COLORS = [
-  'orange', 'green', 'teal', 'cyan', 'blue', 'indigo', 'purple', 'pink'
+  'orange', 'green', 'teal', 'cyan', 'blue', 'indigo', 'purple', 'pink',
 ];
 export default function ProjectPreview({ project }) {
   const c = COLORS[create(project.id).intBetween(0, COLORS.length)];

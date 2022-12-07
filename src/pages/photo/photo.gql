@@ -1,0 +1,37 @@
+#import "../../components/Photo.gql"
+
+query PhotoQuery($id: String!) {
+    showcase {
+        photo(id: $id) {
+            ...PhotoFragment
+            createdAt
+            featured
+            eventGroup {
+                title
+            }
+            region {
+                name
+            }
+        }
+    }
+}
+
+mutation FeaturePhotoMutation($id: String!, $setFeatured: Boolean!) {
+    showcase {
+        featurePhoto(id: $id, isFeatured: $setFeatured)
+    }
+}
+
+mutation EditPhotoMutation($id: String!, $data: ShowcaseEditPhotoInput!) {
+    showcase {
+        editPhoto(id: $id, data: $data) {
+            id
+        }
+    }
+}
+
+mutation DeletePhotoMutation($id: String!) {
+    showcase {
+        deletePhoto(id: $id)
+    }
+}

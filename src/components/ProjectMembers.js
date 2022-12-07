@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 import ProjectMember from './ProjectMember';
 import ProjectMemberAdd from './ProjectMemberAdd';
 

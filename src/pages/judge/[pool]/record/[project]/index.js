@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
+import {
+  Box, Button, Grid, Heading, Text,
+} from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import * as Icon from '@codeday/topocons/Icon';
+import { getSession } from 'next-auth/client';
+import { RecordVideoQuery } from 'index.gql';
+import { useToasts } from '@codeday/topo/utils';
 import RecordJudgingVideoClip from '../../../../../components/RecordJudgingVideoClip';
 import RecordJudgingAudioClip from '../../../../../components/RecordJudgingAudioClip';
 import ForceLoginPage from '../../../../../components/ForceLoginPage';
@@ -11,52 +14,52 @@ import ProjectDetails from '../../../../../components/ProjectDetails';
 import Page from '../../../../../components/Page';
 import { mintJudgingToken } from '../../../../../util/token';
 import { tryAuthenticatedApiQuery } from '../../../../../util/api';
-import { getSession } from 'next-auth/client';
-import { RecordVideoQuery } from 'index.gql';
-import { useToasts } from '@codeday/topo/utils';
 import { UploadMediaMutation } from '../../../../../components/ProjectGallery.gql';
-import { UploadOK, UploadPending, UploadError } from '../../../../../components/UploadStatus';
+import { UploadError, UploadOK, UploadPending } from '../../../../../components/UploadStatus';
 
 const MIME_VIDEO = ['video/mp4', 'video/mov', 'video/quicktime', 'video/webm', 'video/x-msvideo', 'video/x-matroska'];
 const MIME_AUDIO = ['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/vorbis', 'audio/vnd.wav', 'audio/wav'];
 
-
-export default function JudgingRecord({ token, poolToken, project, error, logIn }) {
+export default function JudgingRecord({
+  token, poolToken, project, error, logIn,
+}) {
   const [status, setStatus] = useState('select');
   // states: 'select', 'audio', 'video', 'uploading', 'uploadok', 'uploaderror'
-  const [finalMediaBlobURL, setFinalMediaBlobURL] = useState()
-  const [errorDetails, setErrorDetails] = useState()
-  const [showProjectDetails, setShowProjectDetails] = useState(false)
-  const { success:successToast, error:errorToast, info:infoToast } = useToasts();
+  const [finalMediaBlobURL, setFinalMediaBlobURL] = useState();
+  const [errorDetails, setErrorDetails] = useState();
+  const [showProjectDetails, setShowProjectDetails] = useState(false);
+  const { success: successToast, error: errorToast, info: infoToast } = useToasts();
   if (logIn) return <ForceLoginPage />;
   if (error) return <Page><Content><Text>Error fetching a project.</Text></Content></Page>;
   let selector;
   async function uploadMedia(url) {
-    setFinalMediaBlobURL(url)
-    setStatus('uploading')
-    infoToast('Uploading, please wait')
-    let blob = await fetch(url)
-    blob = await blob.blob()
+    setFinalMediaBlobURL(url);
+    setStatus('uploading');
+    infoToast('Uploading, please wait');
+    let blob = await fetch(url);
+    blob = await blob.blob();
     let type;
-    console.log(blob.type)
+    console.log(blob.type);
     if (MIME_VIDEO.includes(blob.type)) type = 'VIDEO';
     if (MIME_AUDIO.includes(blob.type)) type = 'AUDIO';
-    const filename = `judge-${project.name.split(' ').join('').toLowerCase()}.${(type === "VIDEO")? "mp4" : "mp3"}`
+    const filename = `judge-${project.name.split(' ').join('').toLowerCase()}.${(type === 'VIDEO') ? 'mp4' : 'mp3'}`;
 
-    let file = new File([blob], filename)
-    console.log(type)
+    const file = new File([blob], filename);
+    console.log(type);
     const { result, error: resultError } = await tryAuthenticatedApiQuery(
-      UploadMediaMutation,{upload: file, topic: "JUDGES", type: type, projectId: project.id },
+      UploadMediaMutation, {
+        upload: file, topic: 'JUDGES', type, projectId: project.id,
+      },
       token
     );
     if (resultError) {
       setStatus('uploaderror');
       console.error(resultError);
-      setErrorDetails(resultError.response.errors[0].message)
+      setErrorDetails(resultError.response.errors[0].message);
       errorToast('An upload error occurred!');
     } else {
       setStatus('uploadok');
-      successToast('Upload complete!')
+      successToast('Upload complete!');
     }
   }
   const BackButton = (
@@ -100,22 +103,26 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
       selector = <Box>{BackButton}<RecordJudgingAudioClip onUpload={uploadMedia} /></Box>;
       break;
     case 'video':
-      selector = <Box>{BackButton}<RecordJudgingVideoClip onUpload={uploadMedia}
-       /></Box>;
+      selector = (
+        <Box>{BackButton}<RecordJudgingVideoClip onUpload={uploadMedia} />
+        </Box>
+      );
       break;
     case 'uploading':
-      selector = <UploadPending />
+      selector = <UploadPending />;
       break;
     case 'uploadok':
-      selector = <UploadOK />
+      selector = <UploadOK />;
       break;
     case 'uploaderror':
-      selector = <UploadError
-        errorDetails={errorDetails}
-        onRetry={uploadMedia}
-        finalMediaBlobURL={finalMediaBlobURL}
-        filename={`judge-${project.name.split(' ').join('').toLowerCase()}`}
-      />
+      selector = (
+        <UploadError
+          errorDetails={errorDetails}
+          onRetry={uploadMedia}
+          finalMediaBlobURL={finalMediaBlobURL}
+          filename={`judge-${project.name.split(' ').join('').toLowerCase()}`}
+        />
+      );
       break;
   }
   return (
@@ -143,11 +150,11 @@ export default function JudgingRecord({ token, poolToken, project, error, logIn 
             {/* eslint-enable react/no-unescaped-entities */}
           </Box>
         </Grid>
-        <Button variant="ghost" variantColor="transparent" w="full" onClick={() => {setShowProjectDetails(!showProjectDetails)}}>
-          {(showProjectDetails)? <Icon.UiArrowDown /> : <Icon.UiArrowRight />}&nbsp;{(showProjectDetails) ? 'Hide' : 'Show'} Project Details
+        <Button variant="ghost" variantColor="transparent" w="full" onClick={() => { setShowProjectDetails(!showProjectDetails); }}>
+          {(showProjectDetails) ? <Icon.UiArrowDown /> : <Icon.UiArrowRight />}&nbsp;{(showProjectDetails) ? 'Hide' : 'Show'} Project Details
         </Button>
-        {(showProjectDetails)? <ProjectDetails bg="gray.100" p={8} rounded={5} project={project} /> : null }
-        </Content>
+        {(showProjectDetails) ? <ProjectDetails bg="gray.100" p={8} rounded={5} project={project} /> : null }
+      </Content>
     </Page>
   );
 }
@@ -163,7 +170,7 @@ export async function getServerSideProps({ req, res, params: { pool, project } }
   }
 
   const backendToken = mintJudgingToken(pool, session.user.nickname);
-  const { result, error } = await tryAuthenticatedApiQuery(RecordVideoQuery, {id: project}, backendToken);
+  const { result, error } = await tryAuthenticatedApiQuery(RecordVideoQuery, { id: project }, backendToken);
   if (error) {
     res.statusCode = 404;
     console.error(error);
@@ -173,7 +180,6 @@ export async function getServerSideProps({ req, res, params: { pool, project } }
       },
     };
   }
-
 
   return {
     props: {

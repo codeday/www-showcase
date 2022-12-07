@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import Button from '@codeday/topo/Atom/Button';
-import Box from '@codeday/topo/Atom/Box';
-import Skelly from '@codeday/topo/Atom/Skelly';
-import { Heading } from '@codeday/topo/Atom/Text';
+import {
+  Box, Button, Heading, Skelly,
+} from '@codeday/topo/Atom';
+
 import * as Icon from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 
-const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false })
+const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false });
 
 function VideoPreview({ stream, ...props }) {
   const videoRef = useRef(null);
@@ -30,7 +30,6 @@ function VideoPreview({ stream, ...props }) {
 }
 let statusHeading;
 export default function RecordJudgingVideoClip({ onUpload, ...props }) {
-
   return (
     <ReactMediaRecorder
       video

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Box from '@codeday/topo/Atom/Box';
-import Image from '@codeday/topo/Atom/Image';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import {
+  Box, Button, Image, Text, Tooltip,
+} from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { ProjectMemberRemoveMutation } from './ProjectMember.gql';
 import { tryAuthenticatedApiQuery } from '../util/api';
-import { Tooltip } from '@chakra-ui/core';
 
 export default function ProjectMember({
   projectId, member, editToken, onMemberRemoved,
@@ -44,7 +43,7 @@ export default function ProjectMember({
         )}
         {editToken && (
           <>
-          <br />
+            <br />
             <Button
               mt={-3}
               fontSize="sm"

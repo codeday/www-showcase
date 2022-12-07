@@ -4,3 +4,4 @@ fragment PhotoFragment on ShowcasePhoto {
   urlSmall
   url
 }
+

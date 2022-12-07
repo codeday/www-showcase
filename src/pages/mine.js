@@ -1,12 +1,11 @@
 import React from 'react';
 import { getSession } from 'next-auth/client';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
+import { Content } from '@codeday/topo/Molecule';
+import { Heading, Text } from '@codeday/topo/Atom';
 import Page from '../components/Page';
 import ProjectList from '../components/ProjectList';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { MineQuery } from './mine.gql';
-
 
 export default function MyProjects({ projects, loggedIn }) {
   if (!loggedIn) {

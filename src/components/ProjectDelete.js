@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Button } from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { ProjectDeleteMutation } from './ProjectDelete.gql';
 
-export default function ProjectDelete({ projectId, editToken, isAdmin, ...props }) {
+export default function ProjectDelete({
+  projectId, editToken, isAdmin, ...props
+}) {
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
@@ -48,5 +50,5 @@ export default function ProjectDelete({ projectId, editToken, isAdmin, ...props 
         {isConfirming ? 'Really Delete?' : 'Delete'}
       </Button>
     </Box>
-  )
+  );
 }

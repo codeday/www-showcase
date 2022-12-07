@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useToasts } from '@codeday/topo/utils';
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 import UiX from '@codeday/topocons/Icon/UiX';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { DeleteMediaMutation } from './ProjectGallery.gql';
 
-export default function ProjectMediaItemBox({ media, projectId, editToken, children, onDeleted, ...props }) {
+export default function ProjectMediaItemBox({
+  media, projectId, editToken, children, onDeleted, ...props
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
 
