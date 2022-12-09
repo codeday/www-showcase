@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Button } from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import UiEdit from '@codeday/topocons/Icon/UiEdit';
 import nl2br from 'react-nl2br';
@@ -24,7 +24,7 @@ export default function EditableTextField({
     if (ref.current && isEditing) {
       ref.current.focus();
     }
-  }, [ref, isEditing])
+  }, [ref, isEditing]);
 
   const editingBox = (
     <>
@@ -72,17 +72,19 @@ export default function EditableTextField({
     </>
   );
 
-  return <ViewComponent
-    onClick={() => { if (!isEditing && token) { setIsEditing(true); } }}
-    {...props}
-  >
-    {isEditing ? editingBox : (
-      <>
-        {nl2br(savedValue)}
-        {token && <Box as="span" color="gray.800" fontSize="md" fontWeight={400} ml={2}><UiEdit /> edit</Box>}
-      </>
-    )}
-  </ViewComponent>;
+  return (
+    <ViewComponent
+      onClick={() => { if (!isEditing && token) { setIsEditing(true); } }}
+      {...props}
+    >
+      {isEditing ? editingBox : (
+        <>
+          {nl2br(savedValue)}
+          {token && <Box as="span" color="gray.800" fontSize="md" fontWeight={400} ml={2}><UiEdit /> edit</Box>}
+        </>
+      )}
+    </ViewComponent>
+  );
 }
 EditableTextField.propTypes = {
   name: PropTypes.string.isRequired,

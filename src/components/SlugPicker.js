@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-// eslint-disable-next-line import/no-named-default
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import { InputGroup, InputLeftAddon } from '@chakra-ui/core';
+import {
+  Box, Button, Link, Text, InputGroup, InputLeftAddon, TextInput as Input,
+} from '@codeday/topo/Atom';
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { SetSlug } from './SlugPicker.gql';
@@ -43,7 +40,7 @@ export default function SlugPicker({
           <Button
             d="inline-block"
             ml={2}
-            variantColor="green"
+            colorScheme="green"
             isLoading={isLoading}
             isDisabled={isLoading || !desiredSlug || desiredSlug.replace(/-/, '').length === 0}
             onClick={async () => {

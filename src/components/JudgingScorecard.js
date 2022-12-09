@@ -1,20 +1,19 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import {
+  Box, Button, Grid, Heading, Text,
+} from '@codeday/topo/Atom';
 import JudgingScoreElement from './JudgingScoreElement';
 
 export default function JudgingScorecard({
   project, judgingToken, judgingPool, onNextProject, ...props
 }) {
-
   const [allCompleteElements, completeElement] = useReducer(
     (prev, add) => ({ ...prev, [add]: true }),
     judgingPool.judgingCriteria.reduce((accum, c) => ({
       ...accum,
       [c.id]: project?.userJudgement?.filter((j) => j.judgingCriteria.id === c.id)?.length > 0,
-    }), {}),
+    }), {})
   );
   const isComplete = Object.values(allCompleteElements).reduce((accum, e) => accum && e, true);
 
@@ -50,7 +49,7 @@ export default function JudgingScorecard({
       <Box>
         <Text>If a project doesn't provide any detail, just give it one star.</Text>
         <Button
-          variantColor={isComplete ? 'green' : 'gray'}
+          colorScheme={isComplete ? 'green' : 'gray'}
           onClick={onNextProject}
         >
           {isComplete ? 'Next' : 'Skip and Come Back'}

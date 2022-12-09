@@ -1,8 +1,7 @@
 import React, { useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-responsive-modal';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import { Link } from '@codeday/topo/Atom/Text';
+import { Box, Grid, Link } from '@codeday/topo/Atom';
 import ProjectMediaImage from './ProjectMediaImage';
 import ProjectMediaVideo from './ProjectMediaVideo';
 import ProjectMediaItemBox from './ProjectMediaItemBox';

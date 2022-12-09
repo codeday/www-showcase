@@ -1,14 +1,17 @@
 import React from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Content from '@codeday/topo/Molecule/Content';
+import {
+  Box, Heading, Link, Text,
+} from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../components/Page';
 import { mintJudgingToken } from '../../../util/token';
 import { tryAuthenticatedApiQuery } from '../../../util/api';
 import { PROJECT_TYPES } from '../../../util/projectTypes';
 import { JudgingPoolResultsQuery } from './results.gql';
 
-export default function JudgingResults({ error, results, criteria, poolToken, name }) {
+export default function JudgingResults({
+  error, results, criteria, poolToken, name,
+}) {
   if (error) return <Page><Content><Text>Error fetching results.</Text></Content></Page>;
 
   const sortedCriteria = criteria.sort((a, b) => b.weight - a.weight);
@@ -23,8 +26,8 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
         </Box>
         <Box as="table" margin="0 auto">
           <Box as="tr" borderBottomWidth={2}>
-            <Box as="td"></Box>
-            <Box as="td"></Box>
+            <Box as="td" />
+            <Box as="td" />
             <Box as="td" p={4} textAlign="center" fontWeight="bold">Vote Count</Box>
             <Box as="td" p={4} textAlign="center" fontWeight="bold">Overall</Box>
             {sortedCriteria.map((c) => (
@@ -35,7 +38,7 @@ export default function JudgingResults({ error, results, criteria, poolToken, na
             ))}
           </Box>
           {results.map((r, i) => (
-            <Box as="tr" bg={i%2 === 1 && 'current.border'}>
+            <Box as="tr" bg={i % 2 === 1 && 'current.border'}>
               <Box as="td" style={{ whiteSpace: 'nowrap' }} pl={2} pr={4} pt={1} pb={1} fontWeight="bold">
                 <Link href={`/project/${r.project.id}`} target="_blank">{r.project.name}</Link>
               </Box>

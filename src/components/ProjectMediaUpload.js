@@ -1,13 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Select } from '@chakra-ui/core';
-import Button from '@codeday/topo/Atom/Button';
-import Box from '@codeday/topo/Atom/Box';
+import {
+  Box, Button, Text, Select,
+} from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { MEDIA_TOPICS } from '../util/mediaTopics';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { UploadMediaMutation } from './ProjectGallery.gql';
-import Text from '@codeday/topo/Atom/Text';
 
 const WARN_FILE_SIZE = 1024 * 1024 * 5;
 const MAX_FILE_SIZE = 1024 * 1024 * 125;
@@ -15,7 +15,9 @@ const MIME_IMAGE = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
 const MIME_VIDEO = ['video/mp4', 'video/mov', 'video/quicktime', 'video/webm', 'video/x-msvideo', 'video/x-matroska'];
 const MIME_AUDIO = ['audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/vorbis', 'audio/vnd.wav'];
 
-export default function ProjectMediaUpload({ projectId, editToken, isAdmin, onAdded, ...props }) {
+export default function ProjectMediaUpload({
+  projectId, editToken, isAdmin, onAdded, ...props
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [topic, setTopic] = useState('');
   const fileUploadRef = useRef();
@@ -74,20 +76,22 @@ export default function ProjectMediaUpload({ projectId, editToken, isAdmin, onAd
 
           // Is the file really big.
           if (file.size > MAX_FILE_SIZE) {
-            error(`You might have a problem uploading files larger than ${Math.floor(MAX_FILE_SIZE/(1024*1024))}MB`);
+            error(`You might have a problem uploading files larger than ${Math.floor(MAX_FILE_SIZE / (1024 * 1024))}MB`);
           }
 
           setIsSubmitting(true);
 
           if (file.size > WARN_FILE_SIZE) {
-            info(`Your file is uploading, but at ${Math.floor(file.size/(1024*1024))}MB, it might take a while.`);
+            info(`Your file is uploading, but at ${Math.floor(file.size / (1024 * 1024))}MB, it might take a while.`);
           } else {
             info(`Your file is uploading.`);
           }
 
           const { result, error: resultError } = await tryAuthenticatedApiQuery(
             UploadMediaMutation,
-            {upload: file, topic, type, projectId },
+            {
+              upload: file, topic, type, projectId,
+            },
             editToken
           );
 
@@ -96,7 +100,7 @@ export default function ProjectMediaUpload({ projectId, editToken, isAdmin, onAd
           } else {
             success('Media was uploaded and is processing...');
             setTopic('');
-            setTimeout(() => onAdded(result?.showcase?.uploadMedia), 2000)
+            setTimeout(() => onAdded(result?.showcase?.uploadMedia), 2000);
           }
 
           setIsSubmitting(false);

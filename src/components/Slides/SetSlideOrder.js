@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { List, arrayMove } from 'react-movable';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import TextInput from '@codeday/topo/Atom/Input/Text';
-import { Select } from '@codeday/topo/Atom/Input/Select';
+import { arrayMove, List } from 'react-movable';
+import {
+  Box, Button, Image, Select, Text, TextInput,
+} from '@codeday/topo/Atom';
 
 import * as Icon from '@codeday/topocons/Icon';
-import Text from '@codeday/topo/Atom/Text';
-import Image from '@codeday/topo/Atom/Image';
 
 export default function SetSlideOrder({ projects, availableAwards, onSubmit }) {
   const [items, setItems] = useState(projects);
@@ -49,7 +46,7 @@ export default function SetSlideOrder({ projects, availableAwards, onSubmit }) {
           </Box>
         )}
       />
-      <Button variantColor="green" onClick={() => onSubmit(items.filter((i) => i.awardName))}>Start</Button>
+      <Button colorScheme="green" onClick={() => onSubmit(items.filter((i) => i.awardName))}>Start</Button>
     </Box>
   );
 }

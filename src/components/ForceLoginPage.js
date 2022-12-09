@@ -1,7 +1,7 @@
 import React from 'react';
 import { signIn } from 'next-auth/client';
-import Content from '@codeday/topo/Molecule/Content';
-import Button from '@codeday/topo/Atom/Button';
+import { Content } from '@codeday/topo/Molecule';
+import { Button } from '@codeday/topo/Atom';
 import Page from './Page';
 
 export default function ForceLoginPage() {

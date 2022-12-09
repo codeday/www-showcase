@@ -7,15 +7,15 @@ import { mintToken } from '../../../util/token';
 import { tryAuthenticatedApiQuery } from '../../../util/api';
 import { GetProjectByIdQuery } from './index.gql';
 
-
 export default async (req, res) => {
   // https://vercel.com/guides/loading-static-file-nextjs-api-route
   const templateDirectory = path.join(process.cwd(), 'public', 'certificate');
   const fontsDirectory = path.join(templateDirectory, 'fonts');
   const template = fs.readFileSync(`${templateDirectory}/template.svg`).toString();
   const session = await getSession({ req });
-  const { projectId } = req.query;
-
+  const { params } = req.query;
+  const projectId = params[0];
+  const overrideParticipantName = params[1] || undefined;
   const token = session ? mintToken(session) : null;
   const {
     result,
@@ -25,13 +25,13 @@ export default async (req, res) => {
     res.statusCode = 404;
     throw error;
   }
-  if (!result.showcase.project.members.map((m) => m.username).includes(session.user.nickname)) {
+  if (!result.showcase.project.members.map((m) => m.username).includes(session.user.nickname) && !session.user.admin) {
     res.status(401);
     res.send('Unauthorized');
     return;
   }
-  const participantName = `${session.user.given_name} ${session.user.family_name}`;
-  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name ? `, ${result.showcase.project.region?.name}`:''}`;
+  const participantName = overrideParticipantName || `${session.user.given_name} ${session.user.family_name}`;
+  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name ? `, ${result.showcase.project.region?.name}` : ''}`;
   const projectName = result.showcase.project.name;
   const doc = new PDFDocument({
     layout: 'landscape',

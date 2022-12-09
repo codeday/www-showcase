@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Theme from '@codeday/topo/Theme';
+import { ThemeProvider } from '@codeday/topo/Theme';
 import 'react-responsive-modal/styles.css';
 
-export default function App({ Component, pageProps }) {
+export default function CustomApp({ Component, pageProps: { cookies, ...pageProps } }) {
   return (
-    <Theme analyticsId="PRGLXIXB" brandColor="red">
+    <ThemeProvider analyticsId="PRGLXIXB" brandColor="red" cookies={cookies}>
       <Component {...pageProps} />
-    </Theme>
+    </ThemeProvider>
   );
 }
-App.propTypes = {
+CustomApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object,
 };
-App.defaultProps = {
+CustomApp.defaultProps = {
   pageProps: {},
 };

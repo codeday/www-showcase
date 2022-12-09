@@ -1,20 +1,18 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import dynamic from 'next/dynamic';
 import { getSession } from 'next-auth/client';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Image from '@codeday/topo/Atom/Image';
+import { Box, Text } from '@codeday/topo/Atom';
 import { makeFilter } from '../../../projects/[eventFilter]/[...args]';
 import { ProjectsAwardsQuery } from './projects.gql';
 import { tryAuthenticatedApiQuery } from '../../../../util/api';
 import { mintToken } from '../../../../util/token';
-import Text, { Heading } from '@codeday/topo/Atom/Text'
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
-  { ssr: false },
+  { ssr: false }
 );
 
-function mediaSort (a, b) {
+function mediaSort(a, b) {
   if (a.type === 'VIDEO' && b.type !== 'VIDEO') return -1;
   if (b.type === 'VIDEO' && a.type !== 'VIDEO') return 1;
 
@@ -26,26 +24,26 @@ function mediaSort (a, b) {
 }
 
 function MediaPreview({ media, onEnded }) {
-  if (media.type === 'VIDEO') return (
-    <ReactHlsPlayer
-      url={media.stream}
-      poster={media.image}
-      controls={true}
-      autoPlay={true}
-      width="100%"
-      height="100%"
-      onEnded={onEnded}
-    />
-  );
-  else onEnded();
+  if (media.type === 'VIDEO') {
+    return (
+      <ReactHlsPlayer
+        url={media.stream}
+        poster={media.image}
+        controls
+        autoPlay
+        width="100%"
+        height="100%"
+        onEnded={onEnded}
+      />
+    );
+  }
+  onEnded();
 }
 
 export default function Kiosk({ projects }) {
   const [index, nextIndex] = useReducer(
-    (prev, action) => {
-      return Math.max(0, Math.min(prev + (action === 'next' ? 1 : -1), projects.length ))
-    },
-    0,
+    (prev, action) => Math.max(0, Math.min(prev + (action === 'next' ? 1 : -1), projects.length)),
+    0
   );
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export default function Kiosk({ projects }) {
     const onKeyDown = (e) => {
       if (e.keyCode === 39) nextIndex('next');
       if (e.keyCode === 37) nextIndex('previous');
-    }
+    };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [typeof window]);
@@ -87,7 +85,8 @@ export default function Kiosk({ projects }) {
 
 // https://stackoverflow.com/a/2450976/154044
 function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
+  let currentIndex = array.length; let
+    randomIndex;
   while (currentIndex != 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
@@ -105,14 +104,14 @@ export async function getServerSideProps({ req, params }) {
   const where = { ...makeFilter(params).where, media: 'VIDEOS' };
   const { result, error } = await tryAuthenticatedApiQuery(ProjectsAwardsQuery, { where }, token);
   if (error) {
-    console.log(error)
+    console.log(error);
   }
-  const projects = result?.showcase?.projects
+  const projects = result?.showcase?.projects;
 
   return {
     props: {
       projects: shuffle(projects) || [],
-      availableAwards: result?.cms?.awards?.items || []
+      availableAwards: result?.cms?.awards?.items || [],
     },
   };
 }

@@ -1,5 +1,4 @@
-import React, { useReducer, useRef, useEffect } from 'react';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
+import React, { useEffect, useReducer, useRef } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from 'react-confetti';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
@@ -7,6 +6,7 @@ import RedHeart from '@codeday/topocons/Emoji/Symbols/RedHeart';
 import ClappingHands from '@codeday/topocons/Emoji/People/ClappingHands';
 import GrinningFace from '@codeday/topocons/Emoji/People/GrinningFace';
 import Upvote from '@codeday/topocons/Emoji/Symbols/UpArrow';
+import { Box, Grid } from '@codeday/topo/Atom';
 import { AddReactions } from './ProjectReactions.gql';
 
 const REACTION_BUFFER_TIME = 2000;
@@ -28,7 +28,7 @@ function ReactionButton({ type, count, onClick }) {
         {count.toLocaleString()}
       </Box>
     </Box>
-  )
+  );
 }
 
 export default function ProjectReactions({ id, reactionCounts }) {
@@ -51,7 +51,7 @@ export default function ProjectReactions({ id, reactionCounts }) {
   const displayedReactions = Object.keys(SUPPORTED_REACTIONS).map((type) => ({
     type,
     count: ((appliedReactions || []).filter((r) => r.type === type)[0]?.count || 0)
-      + ((unappliedReactions || []).filter((r) => r.type === type)[0]?.count || 0)
+      + ((unappliedReactions || []).filter((r) => r.type === type)[0]?.count || 0),
   }));
 
   useEffect(() => {
@@ -97,5 +97,5 @@ export default function ProjectReactions({ id, reactionCounts }) {
         ))}
       </Grid>
     </>
-  )
+  );
 }

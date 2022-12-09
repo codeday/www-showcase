@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading, Link } from '@codeday/topo/Atom/Text';
-import List, { Item as ListItem } from '@codeday/topo/Atom/List';
+import { Content } from '@codeday/topo/Molecule';
+import {
+  Heading, Link, List, ListItem, TextInput as Input,
+} from '@codeday/topo/Atom';
+import { apiFetch, useToasts } from '@codeday/topo/utils';
 import Page from '../components/Page';
 import ForceLoginPage from '../components/ForceLoginPage';
 import MultiImageUpload from '../components/MultiImageUpload';
 import { GetAllEventsQuery, UploadPhotoMutation } from './upload-photos.gql';
-import { apiFetch, useToasts } from '@codeday/topo/utils';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { mintToken } from '../util/token';
 
@@ -19,7 +18,7 @@ export default function UploadPhotos({ logIn, allEvents, token }) {
   const { info } = useToasts();
 
   const eventInfo = allEvents?.cms?.events?.items
-    ?.flatMap(eg => Object.entries(eg.subEventIds).map(([eventId, nameOrConfig]) => ({
+    ?.flatMap((eg) => Object.entries(eg.subEventIds).map(([eventId, nameOrConfig]) => ({
       programId: eg.program?.webname,
       eventGroupId: eg.id,
       eventId,
@@ -43,13 +42,14 @@ export default function UploadPhotos({ logIn, allEvents, token }) {
               <ListItem key={ei.eventId}>
                 <Link
                   onClick={() => setEvent(ei)}
-                >{ei.eventGroupId} ~ {ei.title}</Link>
+                >{ei.eventGroupId} ~ {ei.title}
+                </Link>
               </ListItem>
             ))}
           </List>
         </Content>
       </Page>
-    )
+    );
   }
 
   return (
@@ -58,7 +58,7 @@ export default function UploadPhotos({ logIn, allEvents, token }) {
         <Heading as="h2" fontSize="4xl" mb={8}>Upload Photos: {event.eventGroupId} ~ {event.title}</Heading>
         <MultiImageUpload
           uploadPhoto={async (file) => {
-            info(`Uploading ${file.name}`)
+            info(`Uploading ${file.name}`);
             const { result, error: resultError } = await tryAuthenticatedApiQuery(
               UploadPhotoMutation,
               { upload: file.src.file, ...event, thanks },
@@ -79,8 +79,10 @@ export async function getServerSideProps({ req, params }) {
   const allEvents = await apiFetch(GetAllEventsQuery);
   const token = mintToken(session);
 
-  return { props: {
-    allEvents,
-    token,
-  } };
+  return {
+    props: {
+      allEvents,
+      token,
+    },
+  };
 }

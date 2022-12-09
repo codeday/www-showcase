@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { DefaultSeo } from 'next-seo';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import Box from '@codeday/topo/Atom/Box';
-import Skelly from '@codeday/topo/Atom/Skelly';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
-import Input from '@codeday/topo/Atom/Input/Text';
-import Footer, { CustomLinks } from '@codeday/topo/Organism/Footer';
-import { CodeDay } from '@codeday/topo/Atom/Logo';
-import Button from '@codeday/topo/Atom/Button';
+import {
+  Box, Button, CodeDay, Link, Skelly, Text, TextInput as Input,
+} from '@codeday/topo/Atom';
+import {
+  CustomLinks, Footer, Header, Menu, SiteLogo,
+} from '@codeday/topo/Organism';
 
 import UiSearch from '@codeday/topocons/Icon/UiSearch';
 
@@ -17,7 +15,7 @@ export default function Page({
 }) {
   const [session, loading] = useSession();
 
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('');
   const menuItems = (
     <Menu d="inline-flex">
       <form onSubmit={(e) => {
@@ -29,7 +27,13 @@ export default function Page({
       }}
       >
         <Box d="flex">
-          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} mr={-4} />
+          <Input
+            role="search"
+            placeholder="Search Projects"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            mr={-4}
+          />
           <Button size="md" fontSize="xl" type="submit">
             <UiSearch style={{
               position: 'absolute',
@@ -42,7 +46,7 @@ export default function Page({
         </Box>
       </form>
       {!session
-        ? (<Button variant="ghost" variantColor="brand" onClick={() => signIn('auth0')}>Log In</Button>)
+        ? (<Button variant="ghost" r="brand" onClick={() => signIn('auth0')}>Log In</Button>)
         : (
           <>
             <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
@@ -77,6 +81,7 @@ export default function Page({
           underscore
           position="relative"
           zIndex="1000"
+          role="banner"
         >
           <SiteLogo>
             <a href="https://www.codeday.org/">
