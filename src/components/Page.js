@@ -32,9 +32,19 @@ export default function Page({
             placeholder="Search Projects"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            mr={-4}
+            borderTopRightRadius={0}
+            borderBottomRightRadius={0}
+            borderRight="none"
           />
-          <Button size="md" fontSize="xl" type="submit">
+          <Button
+            size="md"
+            fontSize="xl"
+            type="submit"
+            borderTopLeftRadius={0}
+            borderBottomLeftRadius={0}
+            borderWidth={1}
+            borderLeft="none"
+          >
             <UiSearch style={{
               position: 'absolute',
               left: '50%',
