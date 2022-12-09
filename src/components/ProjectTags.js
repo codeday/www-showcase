@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Link, List, Checkbox, CheckboxGroup, ListItem as Item,
+  Link, List, Checkbox, CheckboxGroup, Grid, ListItem as Item,
 } from '@codeday/topo/Atom';
 
 import { useToasts } from '@codeday/topo/utils';
@@ -78,19 +78,16 @@ export default function ProjectTags({
 
   return (
     <CheckboxGroup
-      d="grid"
-      mt={4}
-      gridTemplateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }}
-      gridGap={2}
-      {...rest}
       onChange={setSelectedTags}
       defaultValue={tags}
     >
-      {TAG_OPTIONS.map((t) => (
-        <Checkbox value={t}>
-          {t}
-        </Checkbox>
-      ))}
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }} gap={2} mt={4} {...rest}>
+        {TAG_OPTIONS.map((t) => (
+          <Checkbox value={t}>
+            {t}
+          </Checkbox>
+        ))}
+      </Grid>
     </CheckboxGroup>
   );
 }
