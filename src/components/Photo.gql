@@ -3,5 +3,11 @@ fragment PhotoFragment on ShowcasePhoto {
   thanks
   urlSmall
   url
+  program {
+    name
+  }
+  region {
+    name
+  }
 }
 

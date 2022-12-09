@@ -66,20 +66,20 @@ export default function RecordJudgingVideoClip({ onUpload, ...props }) {
                   ? <VideoPreview stream={previewStream} />
                 // eslint-disable-next-line jsx-a11y/media-has-caption
                   : <video src={mediaBlobUrl} controls autoPlay />}
-                <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">
+                <Button m={4} onClick={startRecording} disabled={(status === 'recording')} colorScheme="green">
                   Start Recording
                 </Button>
-                <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} variantColor="red">
+                <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} colorScheme="red">
                   Stop Recording
                 </Button>
                 {(mediaBlobUrl)
                   ? (
                     <Box>
-                      <Button m={4} onClick={() => onUpload(mediaBlobUrl)} variantColor="green">
+                      <Button m={4} onClick={() => onUpload(mediaBlobUrl)} colorScheme="green">
                         <Icon.UiUpload />&nbsp;Upload
                       </Button>
                       {/* todo post file contents to /api/uploadJudgeComments */}
-                      <Button m={4} onClick={clearBlobUrl} variantColor="red"><Icon.UiTrash />&nbsp;Retry</Button>
+                      <Button m={4} onClick={clearBlobUrl} colorScheme="red"><Icon.UiTrash />&nbsp;Retry</Button>
                     </Box>
                   )
                   : null}

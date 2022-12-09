@@ -46,7 +46,7 @@ export default function SetSlideOrder({ projects, availableAwards, onSubmit }) {
           </Box>
         )}
       />
-      <Button variantColor="green" onClick={() => onSubmit(items.filter((i) => i.awardName))}>Start</Button>
+      <Button colorScheme="green" onClick={() => onSubmit(items.filter((i) => i.awardName))}>Start</Button>
     </Box>
   );
 }

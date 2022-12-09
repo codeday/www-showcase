@@ -68,7 +68,7 @@ export function makeFilter(params) {
     ),
   };
 
-  if (where.type) where.type = where.type.toUpperCase();
+  if (where.type) where.type = where.type.toLowerCase() !== 'all' ? where.type.toUpperCase() : undefined;
 
   if (['labs', 'codeday'].includes(eventFilter.toLowerCase())) {
     where.program = eventFilter.toLowerCase();

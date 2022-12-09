@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Box, Button, Link, Text, TextInput as Input,
+  Box, Button, Link, Text, InputGroup, InputLeftAddon, TextInput as Input,
 } from '@codeday/topo/Atom';
-import { InputGroup, InputLeftAddon } from '@chakra-ui/core';
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { SetSlug } from './SlugPicker.gql';
@@ -41,7 +40,7 @@ export default function SlugPicker({
           <Button
             d="inline-block"
             ml={2}
-            variantColor="green"
+            colorScheme="green"
             isLoading={isLoading}
             isDisabled={isLoading || !desiredSlug || desiredSlug.replace(/-/, '').length === 0}
             onClick={async () => {

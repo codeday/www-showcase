@@ -77,7 +77,7 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
         defaultValue=""
       />
 
-      <Button mt={16} variantColor="green" onClick={doSubmit} isLoading={isSubmitting}>Create</Button>
+      <Button mt={16} colorScheme="green" onClick={doSubmit} isLoading={isSubmitting}>Create</Button>
     </form>
   );
 }

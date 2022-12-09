@@ -66,7 +66,7 @@ export default function JudgingRecord({
     <Button
       display="flex"
       variant="solid"
-      variantColor="red"
+      colorScheme="red"
       onClick={
         () => { setStatus('select'); }
       }
@@ -90,10 +90,10 @@ export default function JudgingRecord({
             retry until you get it right!)
           </Text>
           {/* eslint-enable react/no-unescaped-entities */}
-          <Button variant="solid" variantColor="purple" m={4} onClick={() => { setStatus('video'); }}>
+          <Button variant="solid" colorScheme="purple" m={4} onClick={() => { setStatus('video'); }}>
             <Icon.Camera />&nbsp;Record Video
           </Button>
-          <Button variant="solid" variantColor="purple" m={4} onClick={() => { setStatus('audio'); }}>
+          <Button variant="solid" colorScheme="purple" m={4} onClick={() => { setStatus('audio'); }}>
             <Icon.UiVolume />&nbsp;Record Audio
           </Button>
         </Box>
@@ -150,7 +150,7 @@ export default function JudgingRecord({
             {/* eslint-enable react/no-unescaped-entities */}
           </Box>
         </Grid>
-        <Button variant="ghost" variantColor="transparent" w="full" onClick={() => { setShowProjectDetails(!showProjectDetails); }}>
+        <Button variant="ghost" colorScheme="transparent" w="full" onClick={() => { setShowProjectDetails(!showProjectDetails); }}>
           {(showProjectDetails) ? <Icon.UiArrowDown /> : <Icon.UiArrowRight />}&nbsp;{(showProjectDetails) ? 'Hide' : 'Show'} Project Details
         </Button>
         {(showProjectDetails) ? <ProjectDetails bg="gray.100" p={8} rounded={5} project={project} /> : null }

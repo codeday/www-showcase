@@ -19,8 +19,8 @@ export default function Home({ projects, events }) {
           <>
             <ProjectList projects={projects} />
             <Box textAlign="center" mt={8}>
-              <Button as="a" href="/projects/codeday" m={1} size="lg" variantColor="red">Browse CodeDay</Button>
-              <Button as="a" href="/projects/labs" m={1} size="lg" variantColor="red">Browse CodeDay Labs</Button>
+              <Button as="a" href="/projects/codeday" m={1} size="lg" colorScheme="red">Browse CodeDay</Button>
+              <Button as="a" href="/projects/labs" m={1} size="lg" colorScheme="red">Browse CodeDay Labs</Button>
             </Box>
           </>
         ) : (
@@ -34,7 +34,7 @@ Home.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps() {
   const { result, error } = await tryAuthenticatedApiQuery(IndexQuery, {
     startLt: (new Date(new Date().getTime())).toISOString(),
     take: PER_PAGE * 3,

@@ -3,7 +3,6 @@ import {
   Box, Button, Select, TextInput as Input,
 } from '@codeday/topo/Atom';
 
-// import { default as Select } from '@chakra-ui/core/dist/Select';
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { AwardAdd } from './ProjectAwards.gql';

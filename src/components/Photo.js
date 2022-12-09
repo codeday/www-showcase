@@ -5,6 +5,11 @@ export default function Photo({ photo }) {
   return (
     <Box
       as="a"
+      role="img"
+      // TODO: Support for manually generated labels
+      aria-label={`A photo of ${photo.program.name}${photo.region ? ` ${photo.region.name}` : ''}.`}
+      alt={`A photo of ${photo.program.name}${photo.region ? ` ${photo.region.name}` : ''}.`}
+      key={photo.id}
       href={`/photo/${photo.id}`}
       borderWidth={1}
       shadow="sm"

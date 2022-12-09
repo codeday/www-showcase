@@ -49,7 +49,7 @@ export default function JudgingScorecard({
       <Box>
         <Text>If a project doesn't provide any detail, just give it one star.</Text>
         <Button
-          variantColor={isComplete ? 'green' : 'gray'}
+          colorScheme={isComplete ? 'green' : 'gray'}
           onClick={onNextProject}
         >
           {isComplete ? 'Next' : 'Skip and Come Back'}

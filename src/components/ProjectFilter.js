@@ -23,7 +23,7 @@ export default function ProjectFilter({
       })
       .reduce((accum, e) => ({ ...accum, ...e }), {})
     : [];
-  const [contains, setContains] = useState(additionalData.contains || null);
+  const [contains, setContains] = useState(additionalData.contains || '');
   const [awarded, setAwarded] = useState(additionalData.awarded || false);
   const [showAdditional, setShowAdditional] = React.useState(
     contains || awarded
@@ -43,6 +43,8 @@ export default function ProjectFilter({
 
   return (
     <Box
+      aria-label="Project Filter"
+      mb={4}
       display={{
         base: 'none',
         sm: 'none',
@@ -62,10 +64,10 @@ export default function ProjectFilter({
           }
         }}
       >
-        <Stack isInline marginTop={-12}>
+        <Stack isInline mt={-12} mb={2}>
           <Button
             size="sm"
-            as="a"
+            aria-label={showAdditional ? 'Collapse' : 'Expand'}
             fontSize="l"
             onClick={() => setShowAdditional(!showAdditional)}
             zIndex={1000}
@@ -75,6 +77,8 @@ export default function ProjectFilter({
           <Text fontSize="xl">Browse all</Text>
           <Select
             width="fit-content"
+            role="combobox"
+            aria-label="Project Type"
             size="sm"
             fontSize="lg"
             onChange={(e) => {
@@ -98,6 +102,7 @@ export default function ProjectFilter({
           <Text fontSize="xl">from</Text>
           <Select
             width="fit-content"
+            aria-label="Program/Event"
             size="sm"
             fontSize="lg"
             onChange={(e) => {
@@ -123,6 +128,7 @@ export default function ProjectFilter({
             && currentEvent.subEventIds && (
               <Select
                 width="fit-content"
+                aria-label="Region"
                 size="sm"
                 fontSize="lg"
                 zIndex={1000}
@@ -151,7 +157,7 @@ export default function ProjectFilter({
               type="submit"
               size="sm"
               fontSize="l"
-              variantColor="brand"
+              colorScheme="red"
               zIndex={1000}
             >
               Go
@@ -173,13 +179,14 @@ export default function ProjectFilter({
             <Checkbox
               size="lg"
               mb={3}
+              aria-label="Awarded"
               isChecked={awarded}
               onChange={(e) => setAwarded(e.target.checked)}
               borderColor="gray.300"
             >
               awarded
             </Checkbox>
-            <Button type="submit" size="sm" fontSize="l" variantColor="brand">
+            <Button type="submit" size="sm" fontSize="l" colorScheme="red">
               Go
             </Button>
           </Stack>
@@ -197,7 +204,7 @@ ProjectFilter.propTypes = {
 };
 ProjectFilter.defaultProps = {
   additional: null,
-  startProjectFilter: 'projects',
+  startProjectFilter: 'PROJECTS',
   startEventFilter: 'all',
   events: [],
 };

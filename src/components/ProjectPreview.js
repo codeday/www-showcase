@@ -16,9 +16,11 @@ export default function ProjectPreview({ project }) {
     <Box
       as="a"
       href={`/project/${project.id}`}
+      aria-label={`${project.name}, a ${PROJECT_TYPES[project.type]} created at ${project?.eventGroup?.title || project?.program?.name}`}
       borderWidth={1}
       shadow="sm"
       rounded="md"
+      key={project.id}
     >
       <Box p={2}>
         <Grid templateColumns="1fr minmax(0, 100%)" gap={8}>
@@ -32,6 +34,7 @@ export default function ProjectPreview({ project }) {
             backgroundColor={`${c}.100`}
             color={`${c}.500`}
             position="relative"
+            key="image"
           >
             {!project?.media[0] && (
               <Box
@@ -47,13 +50,13 @@ export default function ProjectPreview({ project }) {
               </Box>
             )}
           </Box>
-          <Box>
-            <Text mb={0} mr={2} color="current.textLight" fontWeight="bold">
+          <Box key="details">
+            <Text mb={0} mr={2} color="current.textLight" fontWeight="bold" key="type">
               {PROJECT_TYPES[project.type]}
             </Text>
-            <Heading mt={1} mb={0} as="h3" fontSize="xl">{project.name}</Heading>
-            <Text>{project?.eventGroup?.title || project?.program?.name}</Text>
-            <Box mt={2}>
+            <Heading mt={1} mb={0} as="h3" fontSize="xl" key="name">{project.name}</Heading>
+            <Text key="event">{project?.eventGroup?.title || project?.program?.name}</Text>
+            <Box mt={2} key="awards">
               {project.awards.map((a) => (
                 <Image src={a.info.icon.url} alt={a.info.name || a.type} h="1.8em" d="inline-block" mr={2} />
               ))}

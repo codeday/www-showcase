@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Heading, Spinner } from '@codeday/topo/Atom';
+import {
+  Box, Heading, Spinner, Button, Text,
+} from '@codeday/topo/Atom';
 import * as Icon from '@codeday/topocons/Icon';
-import { Button, Text } from '@chakra-ui/core';
 
 export function UploadPending({ ...props }) {
   return (

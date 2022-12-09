@@ -15,7 +15,7 @@ export default function Page({
 }) {
   const [session, loading] = useSession();
 
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('');
   const menuItems = (
     <Menu d="inline-flex">
       <form onSubmit={(e) => {
@@ -27,7 +27,13 @@ export default function Page({
       }}
       >
         <Box d="flex">
-          <Input placeholder="Search Projects" value={search} onChange={(e) => setSearch(e.target.value)} mr={-4} />
+          <Input
+            role="search"
+            placeholder="Search Projects"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            mr={-4}
+          />
           <Button size="md" fontSize="xl" type="submit">
             <UiSearch style={{
               position: 'absolute',
@@ -40,7 +46,7 @@ export default function Page({
         </Box>
       </form>
       {!session
-        ? (<Button variant="ghost" variantColor="brand" onClick={() => signIn('auth0')}>Log In</Button>)
+        ? (<Button variant="ghost" r="brand" onClick={() => signIn('auth0')}>Log In</Button>)
         : (
           <>
             <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
@@ -75,6 +81,7 @@ export default function Page({
           underscore
           position="relative"
           zIndex="1000"
+          role="banner"
         >
           <SiteLogo>
             <a href="https://www.codeday.org/">
