@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Button, Checkbox, Text, Select, Stack, TextInput as Input,
+  Box, Button, Checkbox, Text, Select, Option, Stack, TextInput as Input,
 } from '@codeday/topo/Atom';
 
 import { Collapse } from '@codeday/topo/Molecule';
@@ -89,14 +89,15 @@ export default function ProjectFilter({
           >
             <option value="PROJECTS">projects</option>
             <optgroup label="Categories">
-              <option value="APP">apps 📲</option>
-              <option value="GAME">games 🎮</option>
-              <option value="VR">vr projects</option>
-              <option value="HARDWARE">hardware projects ⚙️</option>
-              <option value="WEBSITE">websites 🌐</option>
-              <option value="LIBRARY">libraries 📚</option>
-              <option value="BOT">bots 🤖</option>
-              <option value="OTHER">other projects</option>
+              {/* I hate this hack but it's not my fault https://github.com/chakra-ui/chakra-ui/issues/2853 */}
+              <option style={{ backgroundColor: 'inherit' }} value="APP">apps 📲</option>
+              <option style={{ backgroundColor: 'inherit' }} value="GAME">games 🎮</option>
+              <option style={{ backgroundColor: 'inherit' }} value="VR">vr projects</option>
+              <option style={{ backgroundColor: 'inherit' }} value="HARDWARE">hardware projects ⚙️</option>
+              <option style={{ backgroundColor: 'inherit' }} value="WEBSITE">websites 🌐</option>
+              <option style={{ backgroundColor: 'inherit' }} value="LIBRARY">libraries 📚</option>
+              <option style={{ backgroundColor: 'inherit' }} value="BOT">bots 🤖</option>
+              <option style={{ backgroundColor: 'inherit' }} value="OTHER">other projects</option>
             </optgroup>
           </Select>
           <Text fontSize="xl">from</Text>
@@ -113,12 +114,12 @@ export default function ProjectFilter({
           >
             <option value="all">all events</option>
             <optgroup label="Programs">
-              <option value="codeday">CodeDay (High School)</option>
-              <option value="labs">CodeDay Labs (High School/College)</option>
+              <option style={{ backgroundColor: 'inherit' }} value="codeday">CodeDay (High School)</option>
+              <option style={{ backgroundColor: 'inherit' }} value="labs">CodeDay Labs (High School/College)</option>
             </optgroup>
             <optgroup label="Events">
               {events.map((event) => (
-                <option key={event.id} value={event.id}>
+                <option style={{ backgroundColor: 'inherit' }} key={event.id} value={event.id}>
                   {event.title}
                 </option>
               ))}

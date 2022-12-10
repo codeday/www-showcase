@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Button } from '@codeday/topo/Atom';
+import {
+  Box, Button, HStack, Text,
+} from '@codeday/topo/Atom';
 
 import { UiDownload } from '@codeday/topocons/Icon';
 import { useToasts } from '@codeday/topo/utils';
@@ -36,7 +38,10 @@ export default function ParticipationCertificate({ project, user, ...props }) {
         href={`https://showcase.codeday.org/api/certificate/${project.id}`}
         isLoading={isLoading}
       >
-        <UiDownload />  Participation Certificate
+        <HStack>
+          <UiDownload />
+          <Text>Participation Certificate</Text>
+        </HStack>
       </Button>
     </Box>
   );
