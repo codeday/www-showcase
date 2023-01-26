@@ -119,7 +119,7 @@ export default function Page({
         </Header>
         {children}
         <Box mb={16} />
-        <Footer>
+        <Footer mt={16} repository="www-showcase" branch="main">
           {session && (
             <CustomLinks>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
