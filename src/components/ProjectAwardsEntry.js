@@ -1,23 +1,25 @@
-import React, { useReducer, useState } from 'react';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Image from '@codeday/topo/Atom/Image';
-import Button from '@codeday/topo/Atom/Button';
-import Text from '@codeday/topo/Atom/Text';
+import React, { useState } from 'react';
+import {
+  Box, Button, Grid, Image, Text,
+} from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { AwardRemove } from './ProjectAwards.gql';
 
-export default function ProjectAwardsEntry({ projectId, editToken, award, onRemove, isAdmin, ...props }) {
+export default function ProjectAwardsEntry({
+  projectId, editToken, award, onRemove, isAdmin, ...props
+}) {
   const { success, error } = useToasts();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
-    <Grid templateColumns={"1fr 100%"} gap={4} alignItems="center" mb={4} {...props}>
+    <Grid templateColumns="1fr 100%" gap={4} alignItems="center" mb={4} {...props}>
       <Box
         width={16}
         height={16}
-        bg={!award?.info?.icon?.url && "gray.100"}
+        bg={!award?.info?.icon?.url && 'gray.100'}
       >
         <Image
           src={award?.info?.icon?.url}
@@ -61,5 +63,5 @@ export default function ProjectAwardsEntry({ projectId, editToken, award, onRemo
         )}
       </Box>
     </Grid>
-  )
+  );
 }

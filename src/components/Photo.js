@@ -1,11 +1,16 @@
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 
 export default function Photo({ photo }) {
   if (!photo) return <></>;
   return (
     <Box
       as="a"
-      href={photo.url}
+      role="img"
+      // TODO: Support for manually generated labels
+      aria-label={`A photo of ${photo.program.name}${photo.region ? ` ${photo.region.name}` : ''}.`}
+      alt={`A photo of ${photo.program.name}${photo.region ? ` ${photo.region.name}` : ''}.`}
+      key={photo.id}
+      href={`/photo/${photo.id}`}
       borderWidth={1}
       shadow="sm"
       rounded="md"

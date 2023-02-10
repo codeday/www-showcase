@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Text, { Link, Heading } from '@codeday/topo/Atom/Text';
-import Content from '@codeday/topo/Molecule/Content';
+import { Box, Button, Text } from '@codeday/topo/Atom';
+
+import { Content } from '@codeday/topo/Molecule';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import Page from '../components/Page';
 import ProjectList from '../components/ProjectList';
@@ -20,8 +19,8 @@ export default function Home({ projects, events }) {
           <>
             <ProjectList projects={projects} />
             <Box textAlign="center" mt={8}>
-              <Button as="a" href="/projects/codeday" m={1} size="lg" variantColor="red">Browse CodeDay</Button>
-              <Button as="a" href="/projects/labs" m={1} size="lg" variantColor="red">Browse CodeDay Labs</Button>
+              <Button as="a" href="/projects/codeday" m={1} size="lg" colorScheme="red">Browse CodeDay</Button>
+              <Button as="a" href="/projects/labs" m={1} size="lg" colorScheme="red">Browse CodeDay Labs</Button>
             </Box>
           </>
         ) : (
@@ -35,7 +34,7 @@ Home.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps() {
   const { result, error } = await tryAuthenticatedApiQuery(IndexQuery, {
     startLt: (new Date(new Date().getTime())).toISOString(),
     take: PER_PAGE * 3,
@@ -45,7 +44,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       events: result?.cms?.events?.items || [],
-      projects: (result?.showcase?.projects || []).sort(() => Math.random() > 0.5 ? -1 : 1).slice(0, PER_PAGE),
+      projects: (result?.showcase?.projects || []).sort(() => (Math.random() > 0.5 ? -1 : 1)).slice(0, PER_PAGE),
     },
     revalidate: 240,
   };

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
-import Content from '@codeday/topo/Molecule/Content';
-import Box from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
+import { Content } from '@codeday/topo/Molecule';
+import { Box, Heading, Text } from '@codeday/topo/Atom';
 import Page from '../components/Page';
 import ForceLoginPage from '../components/ForceLoginPage';
 import CreateProjectForm from '../components/CreateProjectForm';
@@ -16,16 +15,18 @@ const PRE_POST_GRACE_PERIOD = 1000 * 60 * 60 * 60;
 const PRE_POST_GRACE_PERIOD_ADMIN = 1000 * 60 * 60 * 24 * 14;
 
 function getIso(offset) {
-    return (new Date(new Date().getTime() + offset)).toISOString();
+  return (new Date(new Date().getTime() + offset)).toISOString();
 }
 
-export default function Create({ tokens, logIn, linkAccount, username }) {
+export default function Create({
+  tokens, logIn, linkAccount, username,
+}) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   if (logIn) {
-    return <ForceLoginPage />
+    return <ForceLoginPage />;
   }
 
   if (!tokens || tokens.length === 0) {
@@ -89,11 +90,11 @@ export async function getServerSideProps({ req }) {
 
   const tokens = result?.cms?.events?.items
     .filter((e) => e.program?.webname && e.id && e.subEventIds && e.title)
-    .flatMap((e) => mintAllTokens(session, e.program.webname, e.id, e.subEventIds, e.title))
+    .flatMap((e) => mintAllTokens(session, e.program.webname, e.id, e.subEventIds, e.title));
 
   return {
     props: {
       tokens,
     },
-  }
+  };
 }

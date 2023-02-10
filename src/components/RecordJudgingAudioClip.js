@@ -1,14 +1,13 @@
 import React from 'react';
-import { Heading } from '@codeday/topo/Atom/Text';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Button, Heading } from '@codeday/topo/Atom';
+
 import H5AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import * as Icon from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 
-const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false })
+const { ReactMediaRecorder } = dynamic(() => import('react-media-recorder'), { ssr: false });
 
 let statusHeading;
 export default function RecordJudgingAudioClip({ onUpload, ...props }) {
@@ -40,7 +39,7 @@ export default function RecordJudgingAudioClip({ onUpload, ...props }) {
           <Box textAlign="center" {...props}>
             {statusHeading}
             <H5AudioPlayer
-              src={(mediaBlobUrl) ? mediaBlobUrl : ''}
+              src={(mediaBlobUrl) || ''}
               autoPlay
               showJumpControls={false}
               customAdditionalControls={[]}
@@ -53,19 +52,19 @@ export default function RecordJudgingAudioClip({ onUpload, ...props }) {
                 }
               }
             />
-            <Button m={4} onClick={startRecording} disabled={(status === 'recording')} variantColor="green">
+            <Button m={4} onClick={startRecording} disabled={(status === 'recording')} colorScheme="green">
               Start Recording
             </Button>
-            <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} variantColor="red">
+            <Button m={4} onClick={stopRecording} disabled={(status !== 'recording')} colorScheme="red">
               Stop Recording
             </Button>
             {(mediaBlobUrl)
               ? (
                 <Box>
-                  <Button m={4} onClick={() => onUpload(mediaBlobUrl)} variantColor="green">
+                  <Button m={4} onClick={() => onUpload(mediaBlobUrl)} colorScheme="green">
                     <Icon.UiUpload />&nbsp;Upload
                   </Button>
-                  <Button m={4} onClick={clearBlobUrl} variantColor="red"><Icon.UiTrash />&nbsp;Retry</Button>
+                  <Button m={4} onClick={clearBlobUrl} colorScheme="red"><Icon.UiTrash />&nbsp;Retry</Button>
                 </Box>
               )
               : null}

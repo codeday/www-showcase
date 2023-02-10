@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Image from '@codeday/topo/Atom/Image';
-import Box from '@codeday/topo/Atom/Box';
+import { Box, Image, Link } from '@codeday/topo/Atom';
+
 import MediaPlay from '@codeday/topocons/Icon/MediaPlay';
 import dynamic from 'next/dynamic';
-import { Link } from '@codeday/topo/Atom/Text';
 import UiDownload from '@codeday/topocons/Icon/UiDownload';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
-  { ssr: false },
+  { ssr: false }
 );
 export default function ProjectMediaVideo({ media, openModal, ...props }) {
   return (
@@ -20,8 +19,8 @@ export default function ProjectMediaVideo({ media, openModal, ...props }) {
           <ReactHlsPlayer
             url={media.stream}
             poster={media.galleryImage}
-            controls={true}
-            autoPlay={true}
+            controls
+            autoPlay
           />
           <Box as="a" href={media.download} borderWidth={1} borderTopWidth={0} rounded="sm" p={1} d="inline-block">
             <UiDownload /> <Link>Download</Link>

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Select, Stack } from '@chakra-ui/core';
-import Text from '@codeday/topo/Atom/Text/Text';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Input from '@codeday/topo/Atom/Input/Text';
-import Checkbox from '@codeday/topo/Atom/Input/Checkbox';
-import Collapse from '@codeday/topo/Molecule/Collapse';
+import {
+  Box, Button, Checkbox, Text, Select, Option, Stack, TextInput as Input,
+} from '@codeday/topo/Atom';
+
+import { Collapse } from '@codeday/topo/Molecule';
 import { UiArrowDown, UiArrowRight } from '@codeday/topocons/Icon';
 import PropTypes from 'prop-types';
 
@@ -25,7 +23,7 @@ export default function ProjectFilter({
       })
       .reduce((accum, e) => ({ ...accum, ...e }), {})
     : [];
-  const [contains, setContains] = useState(additionalData.contains || null);
+  const [contains, setContains] = useState(additionalData.contains || '');
   const [awarded, setAwarded] = useState(additionalData.awarded || false);
   const [showAdditional, setShowAdditional] = React.useState(
     contains || awarded
@@ -45,6 +43,8 @@ export default function ProjectFilter({
 
   return (
     <Box
+      aria-label="Project Filter"
+      mb={4}
       display={{
         base: 'none',
         sm: 'none',
@@ -64,10 +64,10 @@ export default function ProjectFilter({
           }
         }}
       >
-        <Stack isInline marginTop={-12}>
+        <Stack isInline mt={-12} mb={2}>
           <Button
             size="sm"
-            as="a"
+            aria-label={showAdditional ? 'Collapse' : 'Expand'}
             fontSize="l"
             onClick={() => setShowAdditional(!showAdditional)}
             zIndex={1000}
@@ -77,6 +77,8 @@ export default function ProjectFilter({
           <Text fontSize="xl">Browse all</Text>
           <Select
             width="fit-content"
+            role="combobox"
+            aria-label="Project Type"
             size="sm"
             fontSize="lg"
             onChange={(e) => {
@@ -87,19 +89,21 @@ export default function ProjectFilter({
           >
             <option value="PROJECTS">projects</option>
             <optgroup label="Categories">
-              <option value="APP">apps 📲</option>
-              <option value="GAME">games 🎮</option>
-              <option value="VR">vr projects</option>
-              <option value="HARDWARE">hardware projects ⚙️</option>
-              <option value="WEBSITE">websites 🌐</option>
-              <option value="LIBRARY">libraries 📚</option>
-              <option value="BOT">bots 🤖</option>
-              <option value="OTHER">other projects</option>
+              {/* I hate this hack but it's not my fault https://github.com/chakra-ui/chakra-ui/issues/2853 */}
+              <option style={{ backgroundColor: 'inherit' }} value="APP">apps 📲</option>
+              <option style={{ backgroundColor: 'inherit' }} value="GAME">games 🎮</option>
+              <option style={{ backgroundColor: 'inherit' }} value="VR">vr projects</option>
+              <option style={{ backgroundColor: 'inherit' }} value="HARDWARE">hardware projects ⚙️</option>
+              <option style={{ backgroundColor: 'inherit' }} value="WEBSITE">websites 🌐</option>
+              <option style={{ backgroundColor: 'inherit' }} value="LIBRARY">libraries 📚</option>
+              <option style={{ backgroundColor: 'inherit' }} value="BOT">bots 🤖</option>
+              <option style={{ backgroundColor: 'inherit' }} value="OTHER">other projects</option>
             </optgroup>
           </Select>
           <Text fontSize="xl">from</Text>
           <Select
             width="fit-content"
+            aria-label="Program/Event"
             size="sm"
             fontSize="lg"
             onChange={(e) => {
@@ -110,12 +114,12 @@ export default function ProjectFilter({
           >
             <option value="all">all events</option>
             <optgroup label="Programs">
-              <option value="codeday">CodeDay (High School)</option>
-              <option value="labs">CodeDay Labs (High School/College)</option>
+              <option style={{ backgroundColor: 'inherit' }} value="codeday">CodeDay (High School)</option>
+              <option style={{ backgroundColor: 'inherit' }} value="labs">CodeDay Labs (High School/College)</option>
             </optgroup>
             <optgroup label="Events">
               {events.map((event) => (
-                <option key={event.id} value={event.id}>
+                <option style={{ backgroundColor: 'inherit' }} key={event.id} value={event.id}>
                   {event.title}
                 </option>
               ))}
@@ -125,6 +129,7 @@ export default function ProjectFilter({
             && currentEvent.subEventIds && (
               <Select
                 width="fit-content"
+                aria-label="Region"
                 size="sm"
                 fontSize="lg"
                 zIndex={1000}
@@ -153,14 +158,14 @@ export default function ProjectFilter({
               type="submit"
               size="sm"
               fontSize="l"
-              variantColor="brand"
+              colorScheme="red"
               zIndex={1000}
             >
               Go
             </Button>
           )}
         </Stack>
-        <Collapse isOpen={showAdditional}>
+        <Collapse in={showAdditional}>
           <Stack isInline ml="10%">
             <Text fontSize="xl">that contain</Text>
             <Input
@@ -175,13 +180,14 @@ export default function ProjectFilter({
             <Checkbox
               size="lg"
               mb={3}
+              aria-label="Awarded"
               isChecked={awarded}
               onChange={(e) => setAwarded(e.target.checked)}
               borderColor="gray.300"
             >
               awarded
             </Checkbox>
-            <Button type="submit" size="sm" fontSize="l" variantColor="brand">
+            <Button type="submit" size="sm" fontSize="l" colorScheme="red">
               Go
             </Button>
           </Stack>
@@ -199,7 +205,7 @@ ProjectFilter.propTypes = {
 };
 ProjectFilter.defaultProps = {
   additional: null,
-  startProjectFilter: 'projects',
+  startProjectFilter: 'PROJECTS',
   startEventFilter: 'all',
   events: [],
 };

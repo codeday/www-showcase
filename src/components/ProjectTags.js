@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import List, { Item } from '@codeday/topo/Atom/List';
-import { Checkbox, CheckboxGroup } from '@chakra-ui/core';
-import { apiFetch, useToasts } from '@codeday/topo/utils';
+import {
+  Link, List, Checkbox, CheckboxGroup, Grid, ListItem as Item,
+} from '@codeday/topo/Atom';
+
+import { useToasts } from '@codeday/topo/utils';
 import { EditTags } from './ProjectTags.gql';
 import { tryAuthenticatedApiQuery } from '../util/api';
 
@@ -44,11 +44,13 @@ export default function ProjectTags({
   const { error, success } = useToasts();
   const [selectedTags, setSelectedTags] = useState(tags);
 
-  if (!editToken) return (
-    <List styleType="disc" {...rest}>
-      {selectedTags.map((t) => <Item><Link href={`/projects/all/tags=${t}`}>{t}</Link></Item>)}
-    </List>
-  );
+  if (!editToken) {
+    return (
+      <List styleType="disc" {...rest}>
+        {selectedTags.map((t) => <Item><Link href={`/projects/all/tags=${t}`}>{t}</Link></Item>)}
+      </List>
+    );
+  }
 
   useEffect(() => {
     if (typeof window === 'undefined') return () => {};
@@ -76,18 +78,16 @@ export default function ProjectTags({
 
   return (
     <CheckboxGroup
-      d="grid"
-      mt={4}
-      gridTemplateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }}
-      gridGap={2} {...rest}
       onChange={setSelectedTags}
       defaultValue={tags}
     >
-      {TAG_OPTIONS.map((t) => (
-        <Checkbox value={t}>
-          {t}
-        </Checkbox>
-      ))}
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' }} gap={2} mt={4} {...rest}>
+        {TAG_OPTIONS.map((t) => (
+          <Checkbox value={t}>
+            {t}
+          </Checkbox>
+        ))}
+      </Grid>
     </CheckboxGroup>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import {
+  Box, Button, HStack, Text,
+} from '@codeday/topo/Atom';
+
 import { UiDownload } from '@codeday/topocons/Icon';
 import { useToasts } from '@codeday/topo/utils';
 import { signIn } from 'next-auth/client';
@@ -16,7 +18,7 @@ export default function ParticipationCertificate({ project, user, ...props }) {
       e.preventDefault();
       error(`Only team members can download. Ask someone listed on this page to add "${user.nickname}".`);
       return false;
-    }
+    };
   }
 
   if (!user?.nickname) {
@@ -25,7 +27,7 @@ export default function ParticipationCertificate({ project, user, ...props }) {
       error(`You need to log in first.`);
       signIn('auth0');
       return false;
-    }
+    };
   }
 
   return (
@@ -36,7 +38,10 @@ export default function ParticipationCertificate({ project, user, ...props }) {
         href={`https://showcase.codeday.org/api/certificate/${project.id}`}
         isLoading={isLoading}
       >
-        <UiDownload />  Participation Certificate
+        <HStack>
+          <UiDownload />
+          <Text>Participation Certificate</Text>
+        </HStack>
       </Button>
     </Box>
   );

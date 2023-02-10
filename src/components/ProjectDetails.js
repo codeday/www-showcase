@@ -1,26 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
+import {
+  Box, Grid, Heading, Image, Link, Text, Textarea, TextInput as Input,
+} from '@codeday/topo/Atom';
 import UiVolume from '@codeday/topocons/Icon/UiVolume';
 import EditableTextField from './EditableTextField';
 import ProjectMembers from './ProjectMembers';
 import {
-  ProjectEditName,
-  ProjectEditType,
-  ProjectEditDescription,
-  ProjectEditPriorExperience,
   ProjectEditChallengesEncountered,
   ProjectEditCodeLink,
+  ProjectEditDescription,
+  ProjectEditName,
+  ProjectEditPriorExperience,
   ProjectEditViewLink,
 } from './ProjectDetails.gql';
 import ProjectGallery from './ProjectGallery';
 import ProjectAwards from './ProjectAwards';
 import { MEDIA_TOPICS } from '../util/mediaTopics';
-import Image from '@codeday/topo/Atom/Image';
 import ProjectFeature from './ProjectFeature';
 import ProjectDelete from './ProjectDelete';
 import ProjectSubmit from './ProjectSubmit';
@@ -31,17 +28,19 @@ import ParticipationCertificate from './ParticipationCertificate';
 
 const ReactHlsPlayer = dynamic(
   () => import('react-hls-player'),
-  { ssr: false },
+  { ssr: false }
 );
 
-const TOPIC_PREFERENCES = [ MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION ];
+const TOPIC_PREFERENCES = [MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION];
 
 function makeProperLink(link) {
   if (!link) return null;
   return link.startsWith('http') ? link : `http://${link}`;
 }
 
-export default function ProjectDetails({ project, editToken, user, availableAwards, showMemberCount, ...props }) {
+export default function ProjectDetails({
+  project, editToken, user, availableAwards, showMemberCount, ...props
+}) {
   const playerRef = useRef();
   const muteRef = useRef();
   const isAdmin = user?.admin;
@@ -102,7 +101,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
         </Link>
       </>
     )] : []),
-  ]
+  ];
 
   return (
     <Box {...props}>
@@ -123,7 +122,7 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
       <Box
         color="current.textLight"
       >
-        {links.reduce((acc, x) => acc === null ? x : <>{acc},&nbsp;{x}</>, null)}
+        {links.reduce((acc, x) => (acc === null ? x : <>{acc},&nbsp;{x}</>), null)}
         {links.length > 0 && (<>&nbsp;&#8729;&nbsp;</>)}
         <SlugPicker
           d="inline-block"
@@ -175,9 +174,9 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
                 style={{ pointerEvents: 'none', borderRadius: '5px' }}
                 url={preferredVideo.stream}
                 poster={preferredVideo.galleryImage}
-                controls={true}
-                autoPlay={true}
-                muted={true}
+                controls
+                autoPlay
+                muted
                 playerRef={playerRef}
               />
             </Box>
@@ -266,7 +265,6 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
             <ParticipationCertificate project={project} user={user} />
           </Box>
 
-
           <Box mb={8}>
             <ProjectFeature
               projectId={project.id}
@@ -339,18 +337,19 @@ export default function ProjectDetails({ project, editToken, user, availableAwar
           </Box>
 
           {typeof project.members !== 'undefined' && (
-            (showMemberCount)?
-            <Heading as="h3" fontSize="xl" mb={2}>Member Count: {project.members.length}</Heading>
-              :
-              <>
-                <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
-                <ProjectMembers
-                  projectId={project.id}
-                  members={project.members}
-                  editToken={editToken}
-                  isAdmin={isAdmin}
-                />
-              </>
+            (showMemberCount)
+              ? <Heading as="h3" fontSize="xl" mb={2}>Member Count: {project.members.length}</Heading>
+              : (
+                <>
+                  <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
+                  <ProjectMembers
+                    projectId={project.id}
+                    members={project.members}
+                    editToken={editToken}
+                    isAdmin={isAdmin}
+                  />
+                </>
+              )
           )}
 
           <ProjectSubmit mt={6} editToken={editToken} project={project} />

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Button } from '@codeday/topo/Atom';
+
 import { useToasts } from '@codeday/topo/utils';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { ProjectSetFeatured } from './ProjectFeature.gql';
 
-export default function ProjectFeature({ projectId, editToken, featured, isAdmin, ...props }) {
+export default function ProjectFeature({
+  projectId, editToken, featured, isAdmin, ...props
+}) {
   const [isFeatured, setIsFeatured] = useState(featured);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
@@ -41,5 +43,5 @@ export default function ProjectFeature({ projectId, editToken, featured, isAdmin
         {isFeatured ? 'Un-Feature' : 'Feature'}
       </Button>
     </Box>
-  )
+  );
 }
