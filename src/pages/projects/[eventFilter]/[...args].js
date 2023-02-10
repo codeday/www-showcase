@@ -29,11 +29,11 @@ export default function Projects({
             <Grid templateColumns="1fr 1fr" mt={8} gap={8}>
               <Box>
                 {page > 1 && (
-                  <Link href={`/${slug}/${page - 1}${additional ? additional.join('&') : ''}`}>&laquo; Previous Page</Link>
+                  <Link href={`/${slug}/${page - 1}${additional ? '/' + additional.join('&') : ''}`}>&laquo; Previous Page</Link>
                 )}
               </Box>
               <Box textAlign="right">
-                <Link href={`/${slug}/${page + 1}${additional ? additional.join('&') : ''}`}>Next Page &raquo;</Link>
+                <Link href={`/${slug}/${page + 1}${additional ? '/' + additional.join('&') : ''}`}>Next Page &raquo;</Link>
               </Box>
             </Grid>
           </>
