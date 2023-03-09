@@ -6,6 +6,7 @@ module.exports = {
     'import/no-unresolved': ['off'],
     'require-jsdoc': ['off'],
     'import/prefer-default-export': ['off'],
+    'linebreak-style': ['off'],
   },
 
   parserOptions: {

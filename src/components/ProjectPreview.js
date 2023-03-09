@@ -9,18 +9,21 @@ import { PROJECT_TYPES } from '../util/projectTypes';
 const COLORS = [
   'orange', 'green', 'teal', 'cyan', 'blue', 'indigo', 'purple', 'pink',
 ];
-export default function ProjectPreview({ project }) {
+export default function ProjectPreview({
+  project, isLink, showEvent, children, ...props
+}) {
   const c = COLORS[create(project.id).intBetween(0, COLORS.length)];
 
   return (
     <Box
-      as="a"
-      href={`/project/${project.id}`}
+      as={isLink ? 'a' : undefined}
+      href={isLink ? `/project/${project.id}` : undefined}
       aria-label={`${project.name}, a ${PROJECT_TYPES[project.type]} created at ${project?.eventGroup?.title || project?.program?.name}`}
       borderWidth={1}
       shadow="sm"
       rounded="md"
       key={project.id}
+      {...props}
     >
       <Box p={2}>
         <Grid templateColumns="1fr minmax(0, 100%)" gap={8}>
@@ -55,12 +58,13 @@ export default function ProjectPreview({ project }) {
               {PROJECT_TYPES[project.type]}
             </Text>
             <Heading mt={1} mb={0} as="h3" fontSize="xl" key="name">{project.name}</Heading>
-            <Text key="event">{project?.eventGroup?.title || project?.program?.name}</Text>
+            {showEvent ? <Text key="event">{project?.eventGroup?.title || project?.program?.name}</Text> : undefined}
             <Box mt={2} key="awards">
               {project.awards.map((a) => (
                 <Image src={a.info.icon.url} alt={a.info.name || a.type} h="1.8em" d="inline-block" mr={2} />
               ))}
             </Box>
+            {children}
           </Box>
         </Grid>
       </Box>
@@ -69,4 +73,13 @@ export default function ProjectPreview({ project }) {
 }
 ProjectPreview.propTypes = {
   project: PropTypes.object.isRequired,
+  isLink: PropTypes.bool,
+  showEvent: PropTypes.bool,
+  children: PropTypes.element,
+};
+
+ProjectPreview.defaultProps = {
+  isLink: true,
+  showEvent: true,
+  children: undefined,
 };

@@ -1,0 +1,18 @@
+#import "../../components/ProjectPreview.gql"
+#import "../../components/ProjectDetails.gql"
+
+query PeerVoteBallotQuery($eventId: String!) {
+    showcase {
+        projects(where: {event: $eventId}) {
+            ...ProjectPreviewFragment
+            ...ProjectDetailsFragment
+        }
+    }
+    clear {
+        event(where: {id: $eventId}) {
+            region {
+                name
+            }
+        }
+    }
+}
