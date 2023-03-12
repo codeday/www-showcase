@@ -56,7 +56,9 @@ async function grantBadge({ username, badge }) {
 (async () => {
   const users = await fetchUsers(process.argv[2]);
   for (const user of users) {
-    console.log(`Granting badge ${user.badge} to ${user.username}`);
-    console.log(await grantBadge(user));
+    try {
+      console.log(`Granting badge ${user.badge} to ${user.username}`);
+      console.log(await grantBadge(user));
+    } catch (ex) { console.error(ex); }
   }
 })();
