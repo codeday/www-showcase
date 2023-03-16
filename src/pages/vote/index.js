@@ -17,7 +17,7 @@ export default function Index({ projects, loggedIn, session }) {
   if (!loggedIn) return <ForceLoginPage />;
   const projectsMadeByEvent = {};
   projects.forEach((project) => {
-    const key = `${project.eventGroup.title}, ${project.region.name}`;
+    const key = `${project.eventGroup.title}, ${project.region?.name || 'REGION'}`;
     if (projectsMadeByEvent[key] === undefined) {
       projectsMadeByEvent[key] = { eventId: project.eventId, projects: [] };
     }
@@ -85,7 +85,7 @@ export async function getServerSideProps({ req, res }) {
   return {
     props: {
       session,
-      projects: result?.showcase?.projects.filter((project) => DateTime.fromISO(project.createdAt).diffNow().days <= 30) || [],
+      projects: result?.showcase?.projects.filter((project) => DateTime.fromISO(project.createdAt).diffNow('days').values.days >= -30) || [],
       loggedIn: true,
     },
   };
