@@ -3,6 +3,7 @@ import {
   Heading, Text, Box, Button, Grid,
 } from '@codeday/topo/Atom';
 import { useToasts } from '@codeday/topo/utils';
+import { useColorModeValue } from '@codeday/topo/Theme';
 import { Content } from '@codeday/topo/Molecule';
 import { getSession } from 'next-auth/client';
 import { Modal } from 'react-responsive-modal';
@@ -53,7 +54,7 @@ export default function EventId({
                 showEvent={false}
                 d="inline-flex"
                 borderColor="green.500"
-                bg={selected ? 'green.100' : undefined}
+                bg={selected ? useColorModeValue('green.100', 'green.900') : undefined}
                 borderWidth={selected ? 5 : 0}
                 m={4}
                 onClick={(e) => {
