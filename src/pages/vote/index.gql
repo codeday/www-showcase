@@ -1,0 +1,15 @@
+query VoteIndexQuery ($username: String!) {
+    showcase {
+        projects(where: { user: $username }) {
+            createdAt
+            name
+            eventId
+            eventGroup {
+                title
+            }
+            region {
+                name
+            }
+        }
+    }
+}

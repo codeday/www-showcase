@@ -1,0 +1,29 @@
+#import "../../components/ProjectPreview.gql"
+#import "../../components/ProjectDetails.gql"
+
+query PeerVoteBallotQuery($eventId: String!) {
+    showcase {
+        projects(where: {event: $eventId}) {
+            ...ProjectPreviewFragment
+            ...ProjectDetailsFragment
+            members {
+                username
+            }
+        }
+    }
+    clear {
+        event(where: {id: $eventId}) {
+            id
+            region {
+                name
+            }
+        }
+    }
+}
+
+mutation PeerVoteSubmitJudgementQuery($eventId: String!, $projects: [String!]!) {
+    showcase {
+        peerJudgeProjects(eventId: $eventId, projects: $projects)
+    }
+
+}

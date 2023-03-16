@@ -1,0 +1,14 @@
+query GetPeerJudgingResultsQuery($eventId: String!) {
+    showcase {
+        projects(where: {event: $eventId}) {
+            id
+            name
+            members {
+                username
+            }
+            peerJudgements {
+                id
+            }
+        }
+    }
+}
