@@ -1,6 +1,7 @@
 #import "../../../components/ProjectPreview.gql"
 #import "../../../components/Photo.gql"
-query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere, $photosWhere: ShowcasePhotosWhere) {
+
+fragment CmsEvents on Query {
   cms {
     events(
       where: { startsAt_gte: $startGt, endsAt_lt: $startLt }
@@ -16,14 +17,38 @@ query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: F
       }
     }
   }
+}
 
+fragment ShowcaseProjects on ShowcaseQuery {
+  projects (take: $take, skip: $skip, where: $where) {
+    ...ProjectPreviewFragment
+  }
+}
+
+fragment ShowcasePhotos on ShowcaseQuery {
+  photos(take: $take, skip: $skip, where: $photosWhere) {
+    ...PhotoFragment
+  }
+}
+
+query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere) {
+  ...CmsEvents
   showcase {
-    projects (take: $take, skip: $skip, where: $where) {
-      ...ProjectPreviewFragment
-    }
+    ...ShowcaseProjects
+  }
+}
 
-    photos(take: $take, skip: $skip, where: $photosWhere) {
-      ...PhotoFragment
-    }
+query PhotosIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $photosWhere: ShowcasePhotosWhere) {
+  ...CmsEvents
+  showcase {
+    ...ShowcasePhotos
+  }
+}
+
+query ProjectsPhotosIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere, $photosWhere: ShowcasePhotosWhere) {
+  ...CmsEvents
+  showcase {
+    ...ShowcasePhotos
+    ...ShowcaseProjects
   }
 }

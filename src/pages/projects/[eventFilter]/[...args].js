@@ -4,7 +4,7 @@ import {
 } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../components/Page';
-import { ProjectsIndexQuery } from './projects.gql';
+import { ProjectsIndexQuery, PhotosIndexQuery, ProjectsPhotosIndexQuery } from './projects.gql';
 import { tryAuthenticatedApiQuery } from '../../../util/api';
 import ProjectList from '../../../components/ProjectList';
 import ProjectFilter from '../../../components/ProjectFilter';
@@ -55,6 +55,7 @@ export async function getStaticPaths() {
 export function makeFilter(params) {
   const eventFilter = (params?.eventFilter) ? params?.eventFilter : 'all';
   const additional = ((params?.args && params?.args[0] && isNaN(params?.args[0])) ? params?.args[0] : ((params?.args && params?.args[1]) ? params.args[1] : '')).split(',');
+  let onlyType = null;
 
   const where = {
     ...(additional
@@ -76,30 +77,43 @@ export function makeFilter(params) {
     where.eventGroup = eventFilter;
   }
 
-  return { where, eventFilter, additional };
+  if (additional.includes('photos')) onlyType = 'photos';
+  if (additional.includes('projects')) onlyType = 'projects';
+
+  return { where, eventFilter, additional, onlyType };
+}
+
+export function getGraphQuery(only) {
+  if (only === 'photos') return PhotosIndexQuery;
+  if (only === 'projects') return ProjectsIndexQuery;
+  return ProjectsPhotosIndexQuery;
 }
 
 export async function getStaticProps({ params }) {
   const page = parseInt(params?.args && !isNaN(params?.args[0]) ? params?.args[0] : (!isNaN(params?.eventFilter) ? params?.eventFilter : 1));
-  const { where, eventFilter, additional } = makeFilter(params);
+  const { where, eventFilter, additional, onlyType } = makeFilter(params);
+
   const photosWhere = [where].map(({
     event, eventGroup, program, region,
   }) => ({
     event, eventGroup, program, region,
   }))[0];
-  const { result, error } = await tryAuthenticatedApiQuery(ProjectsIndexQuery,
+  
+  const effectivePerPage = onlyType ? PER_PAGE * 2 : PER_PAGE ;
+
+  const { result, error } = await tryAuthenticatedApiQuery(getGraphQuery(onlyType),
     {
       startLt: (new Date(new Date().getTime())).toISOString(),
-      take: PER_PAGE,
-      skip: ((page - 1) * PER_PAGE) || 0,
+      take: effectivePerPage,
+      skip: ((page - 1) * effectivePerPage) || 0,
       where,
       photosWhere,
     });
   if (error) {
     console.log(error);
   }
-  const events = result?.cms?.events?.items;
-  const projects = result?.showcase?.projects;
+  const events = result?.cms?.events?.items || [];
+  const projects = result?.showcase?.projects || [];
   const photos = result?.showcase?.photos;
 
   return {
