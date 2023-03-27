@@ -39,7 +39,7 @@ function makeProperLink(link) {
 }
 
 export default function ProjectDetails({
-  project, editToken, user, availableAwards, showMemberCount, ...props
+  project, editToken, user, availableAwards, showMemberCount, showCertificate, ...props
 }) {
   const playerRef = useRef();
   const muteRef = useRef();
@@ -261,9 +261,11 @@ export default function ProjectDetails({
             />
           </Box>
 
-          <Box mb={8}>
-            <ParticipationCertificate project={project} user={user} />
-          </Box>
+          {showCertificate ? (
+            <Box mb={8}>
+              <ParticipationCertificate project={project} user={user} />
+            </Box>
+          ) : undefined}
 
           <Box mb={8}>
             <ProjectFeature
@@ -373,8 +375,10 @@ ProjectDetails.propTypes = {
   project: PropTypes.object.isRequired,
   editToken: PropTypes.string,
   showMemberCount: PropTypes.bool,
+  showCertificate: PropTypes.bool,
 };
 ProjectDetails.defaultProps = {
   editToken: null,
   showMemberCount: false,
+  showCertificate: true,
 };
