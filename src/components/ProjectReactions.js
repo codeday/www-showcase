@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from 'react-confetti';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
@@ -32,15 +32,13 @@ function ReactionButton({ type, count, onClick }) {
 }
 
 function keepClickingString(unappliedCount) {
-  if (unappliedCount >= 200) return null;
-  if (unappliedCount >= 175) return 't̷̢͂o̴̘̳̊͑ȯ̶̙̈́͜ ̸̼̘̉p̵̱̈͠o̵̱̾w̶̤̳̾ȩ̷̔̈́r̷̺͒f̸͔͘͜u̸͎͇͐͗l̷̡͒͆t̴͙̑͛';
   if (unappliedCount >= 150) return 'Approaching max power!';
   if (unappliedCount >= 125) return 'Power level increasing';
   if (unappliedCount >= 100) return '!!!!MORE MORE MORE!!!!';
   if (unappliedCount >= 75) {
     return 'More' + ('!'.repeat(Math.floor(unappliedCount - 75)));
   }
-  if (unappliedCount >= 50) return 'Feed me different emotes!';
+  if (unappliedCount >= 50) return 'Feed me more!';
   if (unappliedCount > 0 && unappliedCount < 50) {
     return 'Keep clicking' + ('!'.repeat(Math.floor(unappliedCount/5)));
   }
@@ -50,16 +48,21 @@ export default function ProjectReactions({ id, reactionCounts }) {
   const { error } = useToasts();
   const ref = useRef();
   const { width, height } = useWindowSize();
+  const [maxReactPerSend, setMaxReactPerSend] = useState(50);
+  useEffect(() => setMaxReactPerSend(40 + Math.round(Math.random() * 10)), [id]);
+
   const [numConfetti, confetti] = useReducer((prev) => prev + 1, 0);
   const addReactionReducerFn = (prev, { type, count }) => [
     ...(prev || []).filter((p) => p.type !== type),
     { type, count: count + ((prev || []).filter((p) => p.type === type)[0]?.count || 0) },
   ];
+  const [reactAtMax, setReactAtMax] = useState(false);
   const [appliedReactions, addAppliedReactions] = useReducer(addReactionReducerFn, reactionCounts || []);
   const [unappliedReactions, updateUnappliedReactions] = useReducer((prev, { action, ...rest }) => {
-    if (action === 'clear') return [];
-    if (((prev || []).filter((p) => p.type === rest.type)[0]?.count || 0) + rest.count > 50) rest.count = 0;
+    if (action === 'clear') { setReactAtMax(0); return []; }
+    if (((prev || []).filter((p) => p.type === rest.type)[0]?.count || 0) + rest.count > maxReactPerSend) rest.count = 0;
     if (rest.count > 0) confetti();
+    setReactAtMax(rest.count === 0);
     return addReactionReducerFn(prev, rest);
   }, []);
 
@@ -84,7 +87,8 @@ export default function ProjectReactions({ id, reactionCounts }) {
   }, [typeof window, unappliedReactions]);
 
   const unappliedReactionsCount = (unappliedReactions || []).map((r) => r.count).reduce((a, b) => a + b, 0);
-  
+  const maxOutReactions = maxReactPerSend * Object.entries(SUPPORTED_REACTIONS).length;
+  const maxedOut = unappliedReactionsCount >= maxOutReactions;
 
   return (
     <>
@@ -110,8 +114,8 @@ export default function ProjectReactions({ id, reactionCounts }) {
         bottom="0"
         left="0"
         right="0"
-        opacity={Math.max(0, (unappliedReactionsCount - 75)/(200-75))}
-        display={unappliedReactionsCount > 0 ? 'block' : 'none'}
+        opacity={Math.max(0, (unappliedReactionsCount - 75)/(maxOutReactions-75))}
+        transition="opacity 0.5s ease-in-out"
         background={`radial-gradient(circle at ${ref.current?.offsetLeft+(ref.current?.clientWidth/2)}px ${ref.current?.offsetTop+(ref.current?.clientHeight/2)}px, rgba(189, 0, 0, 0), rgba(189, 0, 0, 0.6), rgba(189, 0, 0, 0.8), rgba(189, 0, 0, 1))`}
         css={{ pointerEvents: 'none' }}
       />
@@ -129,11 +133,13 @@ export default function ProjectReactions({ id, reactionCounts }) {
         textTransform="uppercase"
         textAlign="center"
         fontSize="sm"
-        fontWeight={unappliedReactionsCount >= 25 ? 'bold' : 'normal'}
+        fontWeight={(reactAtMax || unappliedReactionsCount >= 25) ? 'bold' : 'normal'}
         color={unappliedReactionsCount >= 50 ? 'red.700' : 'inherit'}
         mt={-8}
       >
-        {keepClickingString(unappliedReactionsCount) || <>&nbsp;</>}
+        {reactAtMax
+          ? <Box bg="red.800" color="white" >{maxedOut ? 't̷̢͂o̴̘̳̊͑ȯ̶̙̈́͜ ̸̼̘̉p̵̱̈͠o̵̱̾w̶̤̳̾ȩ̷̔̈́r̷̺͒f̸͔͘͜u̸͎͇͐͗l̷̡͒͆t̴͙̑͛' : 'This emote is at max energy! Feed me something else!'}</Box>
+          : (keepClickingString(unappliedReactionsCount) || <>&nbsp;</>)}
       </Box>
     </>
   );
