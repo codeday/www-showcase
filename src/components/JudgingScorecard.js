@@ -21,17 +21,19 @@ export default function JudgingScorecard({
     <Box
       p={8}
       borderColor="yellow.800"
-      bg="yellow.50"
       borderWidth={2}
       rounded="sm"
       mb={8}
       {...props}
     >
-      <Heading as="h2" fontSize="xl" mb={8}>Judging &ldquo;{project.name}&rdquo; in {judgingPool.name}</Heading>
-      <Grid templateColumns="1fr 100%" gap={8} mb={8}>
+      <Heading as="h2" fontSize="xl">{judgingPool.name}</Heading>
+      <Text fontSize="sm" mb={8}>If a project doesn't provide any detail, just give it one star.</Text>
+      <Grid templateColumns={judgingPool.judgingCriteria.length >  ? '1fr 100%' : '1fr'} gap={8} mb={8}>
         {judgingPool.judgingCriteria.sort((a, b) => b.weight - a.weight).map((c) => (
           <>
-            <Text bold mb={0} style={{ whiteSpace: 'nowrap' }}>{c.name} ({Math.round(c.weight * 100)}%)</Text>
+            {judgingPool.judgingCriteria.length > 1 && (
+              <Text bold mb={0} style={{ whiteSpace: 'nowrap' }}>{c.name} ({Math.round(c.weight * 100)}%)</Text>
+            )}
             <Box>
               <JudgingScoreElement
                 projectId={project.id}
@@ -47,7 +49,6 @@ export default function JudgingScorecard({
         ))}
       </Grid>
       <Box>
-        <Text>If a project doesn't provide any detail, just give it one star.</Text>
         <Button
           colorScheme={isComplete ? 'green' : 'gray'}
           onClick={onNextProject}
