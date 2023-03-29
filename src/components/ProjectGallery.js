@@ -8,7 +8,7 @@ import ProjectMediaItemBox from './ProjectMediaItemBox';
 import ProjectMediaUpload from './ProjectMediaUpload';
 
 export default function ProjectGallery({
-  projectId, media: initialMedia, editToken, isAdmin,
+  projectId, media: initialMedia, editToken, isAdmin, preview,
 }) {
   const [modalContent, setModalContent] = useState(null);
   const [media, changeMedia] = useReducer((currentMedia, { action, media }) => {
@@ -27,7 +27,7 @@ export default function ProjectGallery({
       <Modal open={modalContent} onClose={() => setModalContent(null)}>
         {modalContent}
       </Modal>
-      {editToken && (
+      {editToken && !preview && (
         <Box p={4} mb={4} bg="blue.50" color="blue.800" borderWidth={1} borderColor="blue.600">
           The maximum file size for new uploads is 125mb. Images can be PNGs, JPEGs, or GIFs. The preferred video format
           is MP4, but MKV and MOV will usually work.<br /><br />
@@ -38,8 +38,12 @@ export default function ProjectGallery({
         </Box>
       )}
       <Grid
-        templateColumns={{ base: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' }}
-        gap={4}
+        templateColumns={
+          preview
+            ? { base: 'repeat(4, minmax(0, 1fr))', lg: 'repeat(6, minmax(0, 1fr))' }
+            : { base: 'minmax(0, 1fr)', lg: 'repeat(2, minmax(0, 1fr))' }
+          }
+        gap={preview ? 2 : 4}
       >
         {media
           .map((e, i) => ({ ...e, index: i }))
@@ -54,6 +58,7 @@ export default function ProjectGallery({
               projectId={projectId}
               key={item.id}
               onDeleted={(toDelete) => changeMedia({ action: 'delete', media: toDelete })}
+              borderWidth={2}
             >
               {(() => {
                 if (item.type === 'IMAGE') return <ProjectMediaImage openModal={setModalContent} media={item} />;
@@ -63,12 +68,14 @@ export default function ProjectGallery({
               })()}
             </ProjectMediaItemBox>
           ))}
-        <ProjectMediaUpload
-          projectId={projectId}
-          editToken={editToken}
-          isAdmin={isAdmin}
-          onAdded={(toAdd) => changeMedia({ action: 'add', media: toAdd })}
-        />
+        {editToken && !preview && (
+          <ProjectMediaUpload
+            projectId={projectId}
+            editToken={editToken}
+            isAdmin={isAdmin}
+            onAdded={(toAdd) => changeMedia({ action: 'add', media: toAdd })}
+          />
+        )}
       </Grid>
     </>
   );

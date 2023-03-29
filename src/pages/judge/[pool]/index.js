@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { getSession } from 'next-auth/client';
 import { Content } from '@codeday/topo/Molecule';
-import { Spinner, Text } from '@codeday/topo/Atom';
+import { Spinner, Text, Box } from '@codeday/topo/Atom';
 
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../components/Page';
@@ -19,41 +19,63 @@ export default function Judging({
   const [isLoading, setIsLoading] = useState(false);
   const [project, setProject] = useState(initialProject);
 
+  const onNextProject = useCallback(async (completed) => {
+    setIsLoading(true);
+    const { result, error: resultError } = await tryAuthenticatedApiQuery(
+      JudgingNextProjectQuery,
+      {},
+      token
+    );
+    if (resultError) {
+      errorToast(resultError?.response?.errors[0]?.message || resultError.message);
+    } else {
+      const remainingProjects = result?.showcase?.myJudgingPool?.projects
+        .filter((p) => p.id !== project.id);
+      if (!completed && remainingProjects.length === 0) {
+        errorToast("That's the last project!");
+      } else {
+        setProject(remainingProjects[Math.floor(Math.random() * remainingProjects.length)]);
+      }
+    }
+    setIsLoading(false);
+  }, [token, project, setIsLoading, setProject]);
+
+
   if (logIn) return <ForceLoginPage />;
   if (error) return <Page><Content><Text>Error fetching a project.</Text></Content></Page>;
   if (isLoading) return <Page><Content><Spinner /></Content></Page>;
+
+  const ProjectJudgingScorecard = (props) => (
+    <JudgingScorecard
+      project={project}
+      judgingPool={judgingPool}
+      judgingToken={token}
+      onNextProject={onNextProject}
+      {...props}
+    />
+  );
 
   return (
     <Page slug={`/judge/${poolToken}`} title="Judging">
       <Content mt={-8}>
         {project ? (
           <>
-            <JudgingScorecard
+            <Box d={{ base: 'block', lg: 'none' }}><ProjectJudgingScorecard mb={8} /></Box>
+            <ProjectDetails
               project={project}
-              judgingPool={judgingPool}
-              judgingToken={token}
-              onNextProject={async (completed) => {
-                setIsLoading(true);
-                const { result, error: resultError } = await tryAuthenticatedApiQuery(
-                  JudgingNextProjectQuery,
-                  {},
-                  token
-                );
-                if (resultError) {
-                  errorToast(resultError?.response?.errors[0]?.message || resultError.message);
-                } else {
-                  const remainingProjects = result?.showcase?.myJudgingPool?.projects
-                    .filter((p) => p.id !== project.id);
-                  if (!completed && remainingProjects.length === 0) {
-                    errorToast("That's the last project!");
-                  } else {
-                    setProject(remainingProjects[Math.floor(Math.random() * remainingProjects.length)]);
-                  }
-                }
-                setIsLoading(false);
-              }}
+              showCertificate={false}
+              showMemberCount
+              metaBox={(
+                <Box
+                  maxW="container.sm"
+                  position="sticky"
+                  top={1}
+                  d={{ base: 'none', lg: 'block' }}
+                >
+                  <ProjectJudgingScorecard mb={4} />
+                </Box>
+              )}
             />
-            <ProjectDetails project={project} showMemberCount />
           </>
         ) : (
           <Text>That's all the projects we've got for now!</Text>

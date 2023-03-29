@@ -8,6 +8,19 @@ import { tryAuthenticatedApiQuery } from '../util/api';
 
 const MAX_STARS = 5;
 
+export async function submitScore(judgingToken, projectId, judgingCriteriaId, rating) {
+  const { result, error: resultError } = await tryAuthenticatedApiQuery(
+    JudgingScorecardSubmitJudgement,
+    {
+      project: projectId,
+      judgingCriteria: judgingCriteriaId,
+      value: rating,
+    },
+    judgingToken
+  );
+  return { result, resultError };
+} 
+
 export default function JudgingScoreElement({
   onChange, judgingToken, projectId, judgingCriteriaId, initialValue,
 }) {
@@ -25,14 +38,11 @@ export default function JudgingScoreElement({
       changeRating={async (newRating) => {
         setIsSubmitting(true);
 
-        const { result, error: resultError } = await tryAuthenticatedApiQuery(
-          JudgingScorecardSubmitJudgement,
-          {
-            project: projectId,
-            judgingCriteria: judgingCriteriaId,
-            value: newRating / MAX_STARS,
-          },
-          judgingToken
+        const { result, resultError } = await submitScore(
+          judgingToken,
+          projectId,
+          judgingCriteriaId,
+          newRating/MAX_STARS
         );
 
         if (resultError) {
@@ -46,8 +56,8 @@ export default function JudgingScoreElement({
         setIsSubmitting(false);
       }}
       numberOfStars={MAX_STARS}
-      starEmptyColor={colors.yellow[200]}
-      starHoverColor={colors.yellow[600]}
+      starEmptyColor={colors.gray[200]}
+      starHoverColor={colors.yellow[300]}
       starRatedColor={colors.yellow[900]}
     />
   );

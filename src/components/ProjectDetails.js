@@ -39,7 +39,7 @@ function makeProperLink(link) {
 }
 
 export default function ProjectDetails({
-  project, editToken, user, availableAwards, showMemberCount, showCertificate, ...props
+  project, editToken, user, availableAwards, showMemberCount, showCertificate, metaBox, ...props
 }) {
   const playerRef = useRef();
   const muteRef = useRef();
@@ -181,6 +181,16 @@ export default function ProjectDetails({
               />
             </Box>
           )}
+          {(project.media?.length > 0 && !editToken) && (
+            <ProjectGallery
+              media={project.media}
+              projectId={project.id}
+              preview
+            />
+          )}
+          {(preferredMedia || preferredVideo || project.media?.length > 0) && (
+            <Box mb={4} />
+          )}
           {(project.description || editToken) && (
             <>
               <EditableTextField
@@ -213,7 +223,7 @@ export default function ProjectDetails({
           {(project.priorExperience || editToken) && (
             <>
               <Heading as="h3" fontSize="lg" mt={8}>
-                How much experience do you have? Does the project use anything you didn't create?
+                How much experience does your group have? Does the project use anything (art, music, starter kits) you didn't create?
               </Heading>
               <EditableTextField
                 component={Textarea}
@@ -244,16 +254,22 @@ export default function ProjectDetails({
             </>
           )}
 
-          {(project.media?.length > 0 || editToken) && (
+          {editToken && (
             <>
               <Heading as="h3" fontSize="2xl" mt={8}>Media</Heading>
-              <ProjectGallery media={project.media} projectId={project.id} editToken={editToken} isAdmin={isAdmin} />
+              <ProjectGallery
+                media={project.media}
+                projectId={project.id}
+                editToken={editToken}
+                isAdmin={isAdmin}
+              />
             </>
           )}
         </Box>
 
         {/* Meta Column */}
         <Box>
+          {metaBox}
           <Box mb={8}>
             <ProjectReactions
               id={project.id}
@@ -298,7 +314,9 @@ export default function ProjectDetails({
               </>
             )}
 
-            <Heading as="h3" fontSize="xl">Links</Heading>
+            {(project.viewLink || project.codeLink || editToken) && (
+              <Heading as="h3" fontSize="xl">Links</Heading>
+            )}
             {(project.viewLink || editToken) && (
               <Box>
                 {editToken && <Text d="inline-block" mb={0} mr={1} bold>View: </Text>}
@@ -338,21 +356,23 @@ export default function ProjectDetails({
             )}
           </Box>
 
-          {typeof project.members !== 'undefined' && (
+          {
             (showMemberCount)
-              ? <Heading as="h3" fontSize="xl" mb={2}>Member Count: {project.members.length}</Heading>
+              ? <Heading as="h3" fontSize="xl" mb={2}>
+                {(project.members || []).length > 1 ? <>Team of {project.members.length}</> : 'Solo team'}
+              </Heading>
               : (
                 <>
                   <Heading as="h3" fontSize="xl" mb={2}>Members</Heading>
                   <ProjectMembers
                     projectId={project.id}
-                    members={project.members}
+                    members={project.members || []}
                     editToken={editToken}
                     isAdmin={isAdmin}
                   />
                 </>
               )
-          )}
+          }
 
           <ProjectSubmit mt={6} editToken={editToken} project={project} />
 

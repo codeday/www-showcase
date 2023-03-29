@@ -6,7 +6,7 @@ import RedHeart from '@codeday/topocons/Emoji/Symbols/RedHeart';
 import ClappingHands from '@codeday/topocons/Emoji/People/ClappingHands';
 import GrinningFace from '@codeday/topocons/Emoji/People/GrinningFace';
 import Upvote from '@codeday/topocons/Emoji/Symbols/UpArrow';
-import { Box, Grid } from '@codeday/topo/Atom';
+import { Box, Grid, NumberInputStepper } from '@codeday/topo/Atom';
 import { AddReactions } from './ProjectReactions.gql';
 
 const REACTION_BUFFER_TIME = 2000;
@@ -29,6 +29,21 @@ function ReactionButton({ type, count, onClick }) {
       </Box>
     </Box>
   );
+}
+
+function keepClickingString(unappliedCount) {
+  if (unappliedCount >= 200) return null;
+  if (unappliedCount >= 175) return 't̷̢͂o̴̘̳̊͑ȯ̶̙̈́͜ ̸̼̘̉p̵̱̈͠o̵̱̾w̶̤̳̾ȩ̷̔̈́r̷̺͒f̸͔͘͜u̸͎͇͐͗l̷̡͒͆t̴͙̑͛';
+  if (unappliedCount >= 150) return 'Approaching max power!';
+  if (unappliedCount >= 125) return 'Power level increasing';
+  if (unappliedCount >= 100) return '!!!!MORE MORE MORE!!!!';
+  if (unappliedCount >= 75) {
+    return 'More' + ('!'.repeat(Math.floor(unappliedCount - 75)));
+  }
+  if (unappliedCount >= 50) return 'Feed me different emotes!';
+  if (unappliedCount > 0 && unappliedCount < 50) {
+    return 'Keep clicking' + ('!'.repeat(Math.floor(unappliedCount/5)));
+  }
 }
 
 export default function ProjectReactions({ id, reactionCounts }) {
@@ -68,6 +83,9 @@ export default function ProjectReactions({ id, reactionCounts }) {
     return () => clearTimeout(timeout);
   }, [typeof window, unappliedReactions]);
 
+  const unappliedReactionsCount = (unappliedReactions || []).map((r) => r.count).reduce((a, b) => a + b, 0);
+  
+
   return (
     <>
       {numConfetti > 0 && (
@@ -86,7 +104,18 @@ export default function ProjectReactions({ id, reactionCounts }) {
           }}
         />
       )}
-      <Grid ref={ref} templateColumns={`repeat(${displayedReactions.length}, minmax(0,1fr))`} gap={1}>
+      <Box
+        position="absolute"
+        top="0"
+        bottom="0"
+        left="0"
+        right="0"
+        opacity={Math.max(0, (unappliedReactionsCount - 75)/(200-75))}
+        display={unappliedReactionsCount > 0 ? 'block' : 'none'}
+        background={`radial-gradient(circle at ${ref.current?.offsetLeft+(ref.current?.clientWidth/2)}px ${ref.current?.offsetTop+(ref.current?.clientHeight/2)}px, rgba(189, 0, 0, 0), rgba(189, 0, 0, 0.6), rgba(189, 0, 0, 0.8), rgba(189, 0, 0, 1))`}
+        css={{ pointerEvents: 'none' }}
+      />
+      <Grid ref={ref} templateColumns={`repeat(${displayedReactions.length}, minmax(0,1fr))`} gap={1} mb={8}>
         {displayedReactions.map(({ type, count }) => (
           <ReactionButton
             key={type}
@@ -96,6 +125,16 @@ export default function ProjectReactions({ id, reactionCounts }) {
           />
         ))}
       </Grid>
+      <Box
+        textTransform="uppercase"
+        textAlign="center"
+        fontSize="sm"
+        fontWeight={unappliedReactionsCount >= 25 ? 'bold' : 'normal'}
+        color={unappliedReactionsCount >= 50 ? 'red.700' : 'inherit'}
+        mt={-8}
+      >
+        {keepClickingString(unappliedReactionsCount) || <>&nbsp;</>}
+      </Box>
     </>
   );
 }
