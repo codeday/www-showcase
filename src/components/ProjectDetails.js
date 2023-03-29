@@ -89,7 +89,6 @@ export default function ProjectDetails({
         </Link>
         <Link
           d="inline-block"
-          fontSize="lg"
           fontWeight="bold"
           textDecoration="none"
           mb={0}
