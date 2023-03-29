@@ -28,7 +28,7 @@ export default function JudgingScorecard({
     >
       <Heading as="h2" fontSize="xl">{judgingPool.name}</Heading>
       <Text fontSize="sm" mb={8}>If a project doesn't provide any detail, just give it one star.</Text>
-      <Grid templateColumns={judgingPool.judgingCriteria.length >  ? '1fr 100%' : '1fr'} gap={8} mb={8}>
+      <Grid templateColumns={judgingPool.judgingCriteria.length > 1 ? '1fr 100%' : '1fr'} gap={8} mb={8}>
         {judgingPool.judgingCriteria.sort((a, b) => b.weight - a.weight).map((c) => (
           <>
             {judgingPool.judgingCriteria.length > 1 && (
