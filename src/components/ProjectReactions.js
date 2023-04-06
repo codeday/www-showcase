@@ -9,7 +9,7 @@ import Upvote from '@codeday/topocons/Emoji/Symbols/UpArrow';
 import { Box, Grid, NumberInputStepper } from '@codeday/topo/Atom';
 import { AddReactions } from './ProjectReactions.gql';
 
-const REACTION_BUFFER_TIME = 5000;
+const REACTION_BUFFER_TIME = 3500;
 const SUPPORTED_REACTIONS = {
   CLAP: <ClappingHands />,
   GRIN: <GrinningFace />,
