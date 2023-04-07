@@ -32,13 +32,18 @@ const queryFetchMembers = `
 async function fetchUsers(season) {
   const result = await apiFetch(queryFetchMembers, { eventGroup: season }, { Authorization: `Bearer ${token}` });
   return result.showcase
-    .projects.map((p) => p.members.map((m) => p.awards.map((a) => ({
-      name: m.account.name.replace(/,/g, ''),
-      discordId: m.account.discordId,
-      email: m.account.email,
-      projectName: p.name.replace(/,/g, ''),
-      award: a.modifier ? `${a.type} - ${a.modifier}` : a.type,
-    }))))
+    .projects
+    .map((p) =>
+      p.members.filter((m) => m.account).map((m) =>
+        p.awards.map((a) => ({
+          name: m.account.name.replace(/,/g, ''),
+          discordId: m.account.discordId,
+          email: m.account.email,
+          projectName: p.name.replace(/,/g, ''),
+          award: a.modifier ? `${a.type} - ${a.modifier}` : a.type,
+        }))
+      )
+    )
     .reduce((accum, e) => [...accum, ...e], [])
     .reduce((accum, e) => [...accum, ...e], []);
 }
