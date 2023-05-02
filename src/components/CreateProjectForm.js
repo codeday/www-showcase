@@ -7,14 +7,14 @@ import {
 
 import { PROJECT_TYPES } from '../util/projectTypes';
 
-export default function CreateProjectForm({ availableTokens, isSubmitting, onSubmit }) {
+export default function CreateProjectForm({ availableTokens, isSubmitting, onSubmit, user }) {
   const { control, errors, handleSubmit } = useForm();
 
   const hasMultipleTokenOptions = Object.keys(availableTokens).length > 1;
 
   const doSubmit = handleSubmit((data) => !isSubmitting && onSubmit({
     ...data,
-    token: hasMultipleTokenOptions ? data.token : availableTokens[0].token,
+    token: hasMultipleTokenOptions ? data.token : availableTokens?.[0]?.token,
   }));
 
   return (
@@ -38,6 +38,46 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             This is only used for judging.
           </Text>
           <Text bold color="red.800" mb={0}>{errors?.token ? errors.token.message : ''}</Text>
+        </>
+      )}
+
+      {user?.admin && (
+        <>
+          <Text bold mt={4}>(admin) programId</Text>
+          <Controller
+            as={Input}
+            control={control}
+            name="programId"
+            defaultValue=""
+          />
+          <Text color="current.textLight">(Only if you want to create a project outside of the defined events.)</Text>
+
+          <Text bold mt={4}>(admin) eventGroupId</Text>
+          <Controller
+            as={Input}
+            control={control}
+            name="eventGroupId"
+            defaultValue=""
+          />
+          <Text color="current.textLight">(Only if you want to create a project outside of the defined events.)</Text>
+
+          <Text bold mt={4}>(admin) eventId</Text>
+          <Controller
+            as={Input}
+            control={control}
+            name="eventId"
+            defaultValue=""
+          />
+          <Text color="current.textLight">(Only if you want to create a project outside of the defined events. Required if any other admin field is filled.)</Text>
+
+          <Text bold mt={4}>(admin) regionId</Text>
+          <Controller
+            as={Input}
+            control={control}
+            name="regionId"
+            defaultValue=""
+          />
+          <Text color="current.textLight">(Only if you want to create a project outside of the defined events.)</Text>
         </>
       )}
 

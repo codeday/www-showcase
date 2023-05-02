@@ -5,12 +5,13 @@ const { serverRuntimeConfig } = getConfig();
 
 export function mintToken(session, programId, eventGroupId, subEventId, regionId) {
   const { nickname: u, admin: a } = session.user;
-  const createProps = programId && eventGroupId && subEventId ? {
+  const createProps = {
     e: subEventId,
     g: eventGroupId,
     p: programId,
     r: regionId,
-  } : {};
+  };
+  Object.keys(createProps).forEach(key => createProps[key] === undefined ? delete createProps[key] : {});
 
   return sign({
     a,

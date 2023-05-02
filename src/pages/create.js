@@ -19,7 +19,7 @@ function getIso(offset) {
 }
 
 export default function Create({
-  tokens, logIn, linkAccount, username,
+  tokens, logIn, linkAccount, username, user,
 }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +29,7 @@ export default function Create({
     return <ForceLoginPage />;
   }
 
-  if (!tokens || tokens.length === 0) {
+  if ((!tokens || tokens.length === 0) && !user?.admin) {
     return (
       <Page>
         <Content>
@@ -51,11 +51,19 @@ export default function Create({
           </Box>
         )}
         <CreateProjectForm
+          user={user}
           availableTokens={tokens}
           isSubmitting={isSubmitting}
-          onSubmit={async ({ token, ...params }) => {
+          onSubmit={async ({ token, programId, eventGroupId, eventId, regionId, ...params }) => {
             setIsSubmitting(true);
-            const { result, error } = await tryAuthenticatedApiQuery(CreateProjectMutation, params, token);
+            let usedToken = token;
+
+            if (user.admin && (programId || eventGroupId || eventId || regionId)) {
+              const resp = await fetch('/api/mint-token?' + new URLSearchParams({ programId, eventGroupId, eventId, regionId }));
+              usedToken = await resp.text();
+            }
+
+            const { result, error } = await tryAuthenticatedApiQuery(CreateProjectMutation, params, usedToken);
             if (result) {
               router.push(`/project/${result.showcase.createProject.id}`);
             } else {
@@ -95,6 +103,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       tokens,
+      user: session.user,
     },
   };
 }
