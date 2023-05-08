@@ -31,7 +31,7 @@ const ReactHlsPlayer = dynamic(
   { ssr: false }
 );
 
-const TOPIC_PREFERENCES = [MEDIA_TOPICS.TEAM, MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION];
+const TOPIC_PREFERENCES = [MEDIA_TOPICS.DEMO, MEDIA_TOPICS.PRESENTATION, MEDIA_TOPICS.TEAM];
 
 function makeProperLink(link) {
   if (!link) return null;
