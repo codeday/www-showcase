@@ -1,6 +1,6 @@
 import { Box } from '@codeday/topo/Atom';
 
-export default function Photo({ photo }) {
+export default function Photo({ photo, children, ...props }) {
   if (!photo) return <></>;
   return (
     <Box
@@ -21,7 +21,9 @@ export default function Photo({ photo }) {
       minH={32}
       target="_blank"
       position="relative"
+      { ...props }
     >
+      {children}
       {photo.thanks && (
         <Box fontSize="xs" bg="rgba(0, 0, 0, 0.5)" color="white" position="absolute" bottom={0}>Photo: {photo.thanks}</Box>
       )}

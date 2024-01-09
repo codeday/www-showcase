@@ -1,0 +1,17 @@
+#import "../../../components/Photo.gql"
+
+query EventPhotosQuery($eventId: String!) {
+    showcase {
+        photos(where: { event: $eventId }) {
+            ...PhotoFragment
+            createdAt
+            featured
+            eventGroup {
+                title
+            }
+            region {
+                name
+            }
+        }
+    }
+}
