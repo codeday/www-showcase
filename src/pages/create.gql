@@ -15,7 +15,7 @@ query CreateProjectQuery ($id: ID!, $start: CmsDateTime!, $end: CmsDateTime!) {
 
   cms {
     events (
-      where: { startsAt_lt: $start, endsAt_gt: $end },
+      where: { startsAt_lte: $startLt }
       order: startsAt_DESC,
       limit: 25
     ) {

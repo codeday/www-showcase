@@ -1,8 +1,8 @@
 #import "../components/ProjectPreview.gql"
-query IndexQuery ($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!) {
+query IndexQuery ($startLt: CmsDateTime!, $take: Float!) {
   cms {
     events(
-      where: { startsAt_gte: $startGt, endsAt_lt: $startLt }
+      where: { startsAt_lte: $startLt }
       order: startsAt_DESC
     ) {
       items {
