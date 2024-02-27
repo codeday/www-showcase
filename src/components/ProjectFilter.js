@@ -74,7 +74,7 @@ export default function ProjectFilter({
           >
             {showAdditional ? <UiArrowDown /> : <UiArrowRight />}
           </Button>
-          <Text fontSize="xl">Browse all</Text>
+          <Text fontSize="xl" whiteSpace="nowrap">Browse all</Text>
           <Select
             width="fit-content"
             role="combobox"
@@ -93,7 +93,7 @@ export default function ProjectFilter({
               <option style={{ backgroundColor: 'inherit' }} value="APP">apps 📲</option>
               <option style={{ backgroundColor: 'inherit' }} value="GAME">games 🎮</option>
               <option style={{ backgroundColor: 'inherit' }} value="VR">vr projects</option>
-              <option style={{ backgroundColor: 'inherit' }} value="HARDWARE">hardware projects ⚙️</option>
+              <option style={{ backgroundColor: 'inherit' }} value="HARDWARE">hardware ⚙️</option>
               <option style={{ backgroundColor: 'inherit' }} value="WEBSITE">websites 🌐</option>
               <option style={{ backgroundColor: 'inherit' }} value="LIBRARY">libraries 📚</option>
               <option style={{ backgroundColor: 'inherit' }} value="BOT">bots 🤖</option>
