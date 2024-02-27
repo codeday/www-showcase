@@ -5,7 +5,7 @@ import ProjectMember from './ProjectMember';
 import ProjectMemberAdd from './ProjectMemberAdd';
 
 export default function ProjectMembers({
-  projectId, members, editToken, isAdmin,
+  projectId, members, editToken, isAdmin, joinCode,
 }) {
   const [editedMembers, changeMembers] = useReducer((currentMembers, { action, member }) => {
     if (action === 'remove') {
@@ -33,6 +33,7 @@ export default function ProjectMembers({
       ))}
       <Box d="block" style={{ clear: 'both' }} />
       <ProjectMemberAdd
+        joinCode={joinCode}
         projectId={projectId}
         editToken={editToken}
         onMemberAdded={onMemberAdded}

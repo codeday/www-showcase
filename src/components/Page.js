@@ -2,65 +2,26 @@ import React, { useState } from 'react';
 import { DefaultSeo } from 'next-seo';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import {
-  Box, Button, CodeDay, Link, Skelly, Text, TextInput as Input,
+  Box, Button, CodeDay, Link, Skelly, Text
 } from '@codeday/topo/Atom';
 import {
   CustomLinks, Footer, Header, Menu, SiteLogo,
 } from '@codeday/topo/Organism';
 
-import UiSearch from '@codeday/topocons/Icon/UiSearch';
 
 export default function Page({
   children, title, darkHeader, slug, ...props
 }) {
   const [session, loading] = useSession();
 
-  const [search, setSearch] = useState('');
   const menuItems = (
     <Menu d="inline-flex">
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        if (search) {
-          // eslint-disable-next-line no-undef
-          window.location.href = `/projects/all/contains=${search}`;
-        }
-      }}
-      >
-        <Box d="flex">
-          <Input
-            role="search"
-            placeholder="Search Projects"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            borderTopRightRadius={0}
-            borderBottomRightRadius={0}
-            borderRight="none"
-          />
-          <Button
-            size="md"
-            fontSize="xl"
-            type="submit"
-            borderTopLeftRadius={0}
-            borderBottomLeftRadius={0}
-            borderWidth={1}
-            borderLeft="none"
-          >
-            <UiSearch style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-            />
-          </Button>
-        </Box>
-      </form>
       {!session
         ? (<Button variant="ghost" r="brand" onClick={() => signIn('auth0')}>Log In</Button>)
         : (
           <>
-            <Button variant="ghost" key="mine" as="a" href="/mine">My Projects</Button>
-            <Button variant="ghost" key="create" as="a" href="/create">New Project</Button>
+            <Button variant="ghost" key="mine" as="a" href="/mine">{session?.user?.nickname}'s Projects</Button>
+            <Button variant="ghost" key="create" as="a" href="/create">Join/New Project</Button>
           </>
         )}
     </Menu>
@@ -112,6 +73,12 @@ export default function Page({
                 Showcase
               </Text>
             </a>
+            {session?.user?.nickname && (
+              <Text mt={4} fontSize="sm">
+                Your username is:{' '}
+                <Text display="inline" fontFamily="monospace" textStyle="italic" fontWeight="bold">{session.user.nickname}</Text>
+              </Text>
+            )}
           </SiteLogo>
           <Menu>
             {loading ? <Skelly /> : menuItems}

@@ -30,7 +30,7 @@ export default function ProjectPreview({
           <Box
             height={32}
             width={32}
-            backgroundImage={`url(${project?.media[0]?.image})`}
+            backgroundImage={`url(${project?.coverImage?.image})`}
             backgroundSize="cover"
             backgroundPosition="50% 50%"
             backgroundRepeat="no-repeat"
@@ -39,7 +39,7 @@ export default function ProjectPreview({
             position="relative"
             key="image"
           >
-            {!project?.media[0] && (
+            {!project?.coverImage && (
               <Box
                 textAlign="center"
                 position="absolute"

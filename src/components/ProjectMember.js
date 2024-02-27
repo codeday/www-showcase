@@ -13,14 +13,14 @@ export default function ProjectMember({
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { success, error } = useToasts();
-  const { discordInformation, picture, name } = member.account;
+  const { picture, name } = member.account;
 
-  const [tooltipText, setTooltipText] = useState(discordInformation?.handle);
+  const [tooltipText, setTooltipText] = useState(member.username);
   return (
     <Box fontSize="lg" style={{ clear: 'both' }}>
       <Image mb={2} src={picture} alt="" float="left" mr={2} height="1.5em" rounded="full" />
       <Box float="left">
-        {discordInformation ? (
+        {editToken ? (
           <Tooltip hasArrow label={tooltipText} placement="auto" fontSize="md">
             <Text
               as="a"

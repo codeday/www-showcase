@@ -368,6 +368,7 @@ export default function ProjectDetails({
                     members={project.members || []}
                     editToken={editToken}
                     isAdmin={isAdmin}
+                    joinCode={project.joinCode}
                   />
                 </>
               )

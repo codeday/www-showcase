@@ -3,16 +3,14 @@ fragment ProjectPreviewFragment on ShowcaseProject {
   name
   type
   featured
+  coverImage {
+    image(fillBlur: true, strategy: FILL, height: 250, width: 600)
+  }
   eventGroup {
     title
   }
   program {
     name
-  }
-  media {
-    image(fillBlur: true, strategy: FILL, height: 250, width: 600)
-    type
-    topic
   }
   awards {
     type

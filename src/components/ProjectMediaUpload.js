@@ -34,9 +34,11 @@ export default function ProjectMediaUpload({
         {Object.keys(MEDIA_TOPICS).map((val) => (
           <option key={val} value={val}>{MEDIA_TOPICS[val]}</option>
         ))}
-        {isAdmin && (
-          <option value="JUDGES">Judges</option>
-        )}
+        {isAdmin && [
+          <option value="JUDGES">Judges</option>,
+          <option value="PRESENTATION">Presentation</option>,
+          <option value="TEAM">Group Photo</option>
+        ]}
       </Select>
       <Button
         disabled={isSubmitting || !topic || !fileUploadRef?.current}

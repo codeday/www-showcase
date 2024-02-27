@@ -16,6 +16,7 @@ fragment ProjectDetailsFragment on ShowcaseProject {
   codeLink
   viewLink
   featured
+  joinCode
   tags
   ...SlugPicker
   eventGroup {

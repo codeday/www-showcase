@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import { Content } from '@codeday/topo/Molecule';
-import { Box, Heading, Text } from '@codeday/topo/Atom';
+import { Box, Grid, Heading, Text, TextInput as Input, Button } from '@codeday/topo/Atom';
 import Page from '../components/Page';
 import ForceLoginPage from '../components/ForceLoginPage';
 import CreateProjectForm from '../components/CreateProjectForm';
-import { mintAllTokens } from '../util/token';
+import { mintAllTokens, mintToken } from '../util/token';
 import { tryAuthenticatedApiQuery } from '../util/api';
-import { CreateProjectMutation, CreateProjectQuery } from './create.gql';
+import { CreateProjectMutation, CreateProjectQuery, JoinProjectMutation } from './create.gql';
 
 // How long before the event starts/after the event ends will creation be allowed.
 const PRE_POST_GRACE_PERIOD = 1000 * 60 * 60 * 60;
@@ -19,59 +19,98 @@ function getIso(offset) {
 }
 
 export default function Create({
-  tokens, logIn, linkAccount, username, user,
+  tokens, token, logIn, user,
 }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [joinCode, setJoinCode] = useState('');
 
   if (logIn) {
     return <ForceLoginPage />;
   }
 
-  if ((!tokens || tokens.length === 0) && !user?.admin) {
-    return (
-      <Page>
-        <Content>
-          <Text>
-            You can't create projects right now. Try checking back during an event!
-          </Text>
-        </Content>
-      </Page>
-    );
-  }
 
   return (
     <Page slug="/create">
       <Content mt={-8}>
-        <Heading as="h2" fontSize="4xl">Create a New Project</Heading>
         {errorMessage && (
-          <Box bg="red.50" borderWidth={1} borderColor="red.900" p={8} color="red.900">
+          <Box mb={4} bg="red.50" borderWidth={1} borderColor="red.900" p={8} color="red.900">
             {errorMessage.message}
           </Box>
         )}
-        <CreateProjectForm
-          user={user}
-          availableTokens={tokens}
-          isSubmitting={isSubmitting}
-          onSubmit={async ({ token, programId, eventGroupId, eventId, regionId, ...params }) => {
-            setIsSubmitting(true);
-            let usedToken = token;
+        <Grid templateColumns={{ base: '1fr', lg: '2fr 3fr' }} gap={6}>
+          <Box>
+            <Box borderWidth={1} rounded="sm" p={4}>
+              <Heading as="h2" fontSize="2xl" mb={4}>Join an Existing Project</Heading>
+              <Text bold mt={4} mb={0}>Join Code:</Text>
+              <Input
+                placeholder="correct-horse-battery-staple"
+                onChange={(e) => setJoinCode(e.target.value)}
+                value={joinCode}
+              />
+              <Text fontSize="sm" color="current.textLight">
+                Ask your teammate who created the project for this code. It's on your project page, under "members" in a blue box.
+              </Text>
+              <Button
+                mt={2}
+                colorScheme="green"
+                disabled={joinCode.length < 6}
+                isLoading={isSubmitting}
+                onClick={async () => {
+                  setIsSubmitting(true);
+                  const { result, error } = await tryAuthenticatedApiQuery(JoinProjectMutation, { joinCode }, token);
+                  if (result) {
+                    router.push(`/project/${result.showcase.joinProject.id}`);
+                  } else {
+                    setErrorMessage({ message: 'Join code not found.' });
+                  }
+                  setIsSubmitting(false);
+                }}
+              >
+                Join
+              </Button>
+            </Box>
+          </Box>
 
-            if (user.admin && (programId || eventGroupId || eventId || regionId)) {
-              const resp = await fetch('/api/mint-token?' + new URLSearchParams({ programId, eventGroupId, eventId, regionId }));
-              usedToken = await resp.text();
-            }
+          <Box>
+            <Box borderWidth={1} rounded="sm" p={4}>
+              <Heading as="h2" fontSize="2xl">Create a New Project</Heading>
+              {((!tokens || tokens.length === 0) && !user?.admin) ? (
+                <Page>
+                  <Content>
+                    <Text>
+                      You can't create projects right now. Try checking back during an event!
+                    </Text>
+                  </Content>
+                </Page>
+              ) : (
+                <CreateProjectForm
+                  user={user}
+                  availableTokens={tokens}
+                  isSubmitting={isSubmitting}
+                  onSubmit={async ({ token, programId, eventGroupId, eventId, regionId, ...params }) => {
+                    setIsSubmitting(true);
+                    let usedToken = token;
 
-            const { result, error } = await tryAuthenticatedApiQuery(CreateProjectMutation, params, usedToken);
-            if (result) {
-              router.push(`/project/${result.showcase.createProject.id}`);
-            } else {
-              setErrorMessage(error);
-            }
-            setIsSubmitting(false);
-          }}
-        />
+                    if (user.admin && (programId || eventGroupId || eventId || regionId)) {
+                      const resp = await fetch('/api/mint-token?' + new URLSearchParams({ programId, eventGroupId, eventId, regionId }));
+                      usedToken = await resp.text();
+                    }
+
+                    const { result, error } = await tryAuthenticatedApiQuery(CreateProjectMutation, params, usedToken);
+                    if (result) {
+                      router.push(`/project/${result.showcase.createProject.id}`);
+                    } else {
+                      setErrorMessage(error);
+                    }
+                    setIsSubmitting(false);
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
+        </Grid>
       </Content>
     </Page>
   );
@@ -79,6 +118,7 @@ export default function Create({
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
+  const token = session ? mintToken(session) : null;
   if (!session?.user) {
     return {
       props: { logIn: true },
@@ -103,6 +143,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       tokens,
+      token,
       user: session.user,
     },
   };

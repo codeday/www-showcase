@@ -6,6 +6,14 @@ mutation CreateProjectMutation ($name: String!, $type: ShowcaseProjectType!, $de
   }
 }
 
+mutation JoinProjectMutation($joinCode: String!) {
+  showcase {
+    joinProject(joinCode: $joinCode) {
+      id
+    }
+  }
+}
+
 query CreateProjectQuery ($id: ID!, $start: CmsDateTime!, $end: CmsDateTime!) {
   account {
     getUser(where: { id: $id }, fresh: true ) {

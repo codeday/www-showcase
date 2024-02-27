@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  Button, Text, Textarea, Select, TextInput as Input,
+  Button, Text, Textarea, Select, TextInput as Input, Link,
 } from '@codeday/topo/Atom';
 
 import { PROJECT_TYPES } from '../util/projectTypes';
 
 export default function CreateProjectForm({ availableTokens, isSubmitting, onSubmit, user }) {
   const { control, errors, handleSubmit } = useForm();
+  const [showAdmin, setShowAdmin] = useState(false);
 
   const hasMultipleTokenOptions = Object.keys(availableTokens).length > 1;
 
@@ -33,15 +34,13 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
               <option value={t.token}>{t.name}</option>
             ))}
           </Controller>
-          <Text color="current.textLight">
-            Pick the event where you, the creator, are participating. You can work with people from anywhere.
-            This is only used for judging.
+          <Text fontSize="sm" color="current.textLight">
+            {user?.admin && <Link onClick={() => setShowAdmin(!showAdmin)}>(admin options)</Link>}
           </Text>
           <Text bold color="red.800" mb={0}>{errors?.token ? errors.token.message : ''}</Text>
         </>
       )}
-
-      {user?.admin && (
+      {user?.admin && showAdmin && (
         <>
           <Text bold mt={4}>(admin) programId</Text>
           <Controller
@@ -50,7 +49,6 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             name="programId"
             defaultValue=""
           />
-          <Text color="current.textLight">(Only if you want to create a project outside of the defined events.)</Text>
 
           <Text bold mt={4}>(admin) eventGroupId</Text>
           <Controller
@@ -59,7 +57,6 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             name="eventGroupId"
             defaultValue=""
           />
-          <Text color="current.textLight">(Only if you want to create a project outside of the defined events.)</Text>
 
           <Text bold mt={4}>(admin) eventId</Text>
           <Controller
@@ -68,7 +65,6 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             name="eventId"
             defaultValue=""
           />
-          <Text color="current.textLight">(Only if you want to create a project outside of the defined events. Required if any other admin field is filled.)</Text>
 
           <Text bold mt={4}>(admin) regionId</Text>
           <Controller
@@ -77,11 +73,10 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
             name="regionId"
             defaultValue=""
           />
-          <Text color="current.textLight">(Only if you want to create a project outside of the defined events.)</Text>
         </>
       )}
 
-      <Text bold mt={4} mb={0}>What would you like to call your project or team?</Text>
+      <Text bold mt={4} mb={0}>Project Name:</Text>
       <Controller
         as={Input}
         control={control}
@@ -95,7 +90,7 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
       />
       <Text bold color="red.800" mb={0}>{errors?.name ? errors.name.message : ''}</Text>
 
-      <Text bold mt={4} mb={0}>What type of project are you making?</Text>
+      <Text bold mt={4} mb={0}>Type of Project:</Text>
       <Controller
         as={Select}
         control={control}
@@ -109,15 +104,16 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
       </Controller>
       <Text bold color="red.800" mb={0}>{errors?.type ? errors.type.message : ''}</Text>
 
-      <Text bold mt={4} mb={0}>If you already know what you're going to make, describe it below:</Text>
+      <Text bold mt={4} mb={0}>Description:</Text>
       <Controller
         as={Textarea}
         control={control}
         name="description"
         defaultValue=""
       />
+      <Text fontSize="sm" color="current.textLight">If you don't know what you're making yet, you can leave it blank.</Text>
 
-      <Button mt={16} colorScheme="green" onClick={doSubmit} isLoading={isSubmitting}>Create</Button>
+      <Button mt={4} colorScheme="green" onClick={doSubmit} isLoading={isSubmitting}>Create</Button>
     </form>
   );
 }
