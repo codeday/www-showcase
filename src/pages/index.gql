@@ -2,7 +2,7 @@
 query IndexQuery ($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!) {
   cms {
     events(
-      where: { startsAt_gte: $startGt, endsAt_lt: $startLt }
+      where: { startsAt_gte: $startGt, startsAt_lte: $startLt }
       order: startsAt_DESC
     ) {
       items {
