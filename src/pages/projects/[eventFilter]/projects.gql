@@ -4,7 +4,7 @@
 fragment CmsEvents on Query {
   cms {
     events(
-      where: { startsAt_lte: $startLt }
+      where: { startsAt_gte: $startGt, endsAt_lt: $startLt }
       order: startsAt_DESC
     ) {
       items {
@@ -31,21 +31,21 @@ fragment ShowcasePhotos on ShowcaseQuery {
   }
 }
 
-query ProjectsIndexQuery($startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere) {
+query ProjectsIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere) {
   ...CmsEvents
   showcase {
     ...ShowcaseProjects
   }
 }
 
-query PhotosIndexQuery($startLt: CmsDateTime!, $take: Float!, $skip: Float!, $photosWhere: ShowcasePhotosWhere) {
+query PhotosIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $photosWhere: ShowcasePhotosWhere) {
   ...CmsEvents
   showcase {
     ...ShowcasePhotos
   }
 }
 
-query ProjectsPhotosIndexQuery($startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere, $photosWhere: ShowcasePhotosWhere) {
+query ProjectsPhotosIndexQuery($startGt: CmsDateTime, $startLt: CmsDateTime!, $take: Float!, $skip: Float!, $where: ShowcaseProjectsWhere, $photosWhere: ShowcasePhotosWhere) {
   ...CmsEvents
   showcase {
     ...ShowcasePhotos
