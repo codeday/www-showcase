@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Heading, Text, Box, Button, Grid, Link,
 } from '@codeday/topo/Atom';
-import { useToasts } from '@codeday/topo/utils';
+import { useTheme, useToasts } from '@codeday/topo/utils';
 import { Content } from '@codeday/topo/Molecule';
 import { getSession, useSession } from 'next-auth/client';
 import { Modal } from 'react-responsive-modal';
@@ -13,6 +13,7 @@ import Page from '../../../components/Page';
 import ProjectDetails from '../../../components/ProjectDetails';
 import { mintToken } from '../../../util/token';
 import VoteOption from '../../../components/VoteOption';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function EventId({
   event, projects, username, token,
@@ -22,8 +23,11 @@ export default function EventId({
   const [loading, setLoading] = useState(false);
   const [voted, setVoted] = useState(false);
   const { info, error, success } = useToasts();
-  const numVotes = Math.max(Math.ceil(projects.length / 10), Math.min(projects.length, 3));
+  const theme = useTheme();
+  const bg = useColorModeValue(theme.colors.white, theme.colors.black);
+
   // 10% of projects, but if that number is < 3, pick 3 instead, unless there are less than 3 projects
+  const numVotes = Math.max(Math.ceil(projects.length / 10), Math.min(projects.length, 3));
 
   if (voted) {
     return (
@@ -45,7 +49,16 @@ export default function EventId({
         </Heading>
         <Text>Select your favorite <b>top {numVotes}</b> favorite projects in any order.</Text>
         <Text mb={6}>Click submit at the bottom when done!</Text>
-        <Modal styles={{ modal: { maxWidth: '75%' } }} open={modalContent} onClose={() => setModalContent(null)}>
+        <Modal
+          styles={{
+            modal: {
+              maxWidth: '75%',
+              backgroundColor: bg,
+            }
+          }}
+          open={modalContent}
+          onClose={() =>setModalContent(null)}
+        >
           {modalContent}
         </Modal>
         <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={4}>
