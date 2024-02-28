@@ -22,19 +22,8 @@ export default function EventId({
   const [loading, setLoading] = useState(false);
   const [voted, setVoted] = useState(false);
   const { info, error, success } = useToasts();
-  const [session] = useSession();
   const numVotes = Math.max(Math.ceil(projects.length / 10), Math.min(projects.length, 3));
   // 10% of projects, but if that number is < 3, pick 3 instead, unless there are less than 3 projects
-
-  const admin = (
-    session?.user?.admin && (
-      <Text>
-        (admin:{' '}
-        <Link href={`/vote/${event.id}/results`}>results</Link>
-        )
-      </Text>
-    )
-  )
 
   if (voted) {
     return (
@@ -43,7 +32,6 @@ export default function EventId({
           <Heading textAlign="center">✅ You have voted!</Heading>
           <Text textAlign="center">
             Refresh to change your votes.
-            {admin}
           </Text>
         </Content>
       </Page>
@@ -55,7 +43,6 @@ export default function EventId({
         <Heading>
           Vote ~ {event?.region?.name}
         </Heading>
-        {admin}
         <Text>Select your favorite <b>top {numVotes}</b> favorite projects in any order.</Text>
         <Text mb={6}>Click submit at the bottom when done!</Text>
         <Modal styles={{ modal: { maxWidth: '75%' } }} open={modalContent} onClose={() => setModalContent(null)}>
