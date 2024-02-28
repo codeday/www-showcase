@@ -12,6 +12,9 @@ fragment ProjectPreviewFragment on ShowcaseProject {
   program {
     name
   }
+  region {
+    name
+  }
   awards {
     type
     modifier

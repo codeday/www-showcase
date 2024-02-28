@@ -10,7 +10,7 @@ const COLORS = [
   'orange', 'green', 'teal', 'cyan', 'blue', 'indigo', 'purple', 'pink',
 ];
 export default function ProjectPreview({
-  project, isLink, showEvent, children, ...props
+  project, isLink, showEvent, showAwards, children, ...props
 }) {
   const c = COLORS[create(project.id).intBetween(0, COLORS.length)];
 
@@ -58,12 +58,19 @@ export default function ProjectPreview({
               {PROJECT_TYPES[project.type]}
             </Text>
             <Heading mt={1} mb={0} as="h3" fontSize="xl" key="name">{project.name}</Heading>
-            {showEvent ? <Text key="event">{project?.eventGroup?.title || project?.program?.name}</Text> : undefined}
-            <Box mt={2} key="awards">
-              {project.awards.map((a) => (
-                <Image src={a.info.icon.url} alt={a.info.name || a.type} h="1.8em" d="inline-block" mr={2} />
-              ))}
-            </Box>
+            {showEvent && (
+              <Text key="event">
+                {project?.region?.name && `${project.region.name}, `}
+                {project?.eventGroup?.title || project?.program?.name}
+              </Text>
+            )}
+            {showAwards && (
+              <Box mt={2} key="awards">
+                {project.awards.map((a) => (
+                  <Image src={a.info.icon.url} alt={a.info.name || a.type} h="1.8em" d="inline-block" mr={2} />
+                ))}
+              </Box>
+            )}
             {children}
           </Box>
         </Grid>
@@ -75,11 +82,13 @@ ProjectPreview.propTypes = {
   project: PropTypes.object.isRequired,
   isLink: PropTypes.bool,
   showEvent: PropTypes.bool,
+  showAwards: PropTypes.bool,
   children: PropTypes.element,
 };
 
 ProjectPreview.defaultProps = {
   isLink: true,
   showEvent: true,
+  showAwards: true,
   children: undefined,
 };

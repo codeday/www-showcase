@@ -1,5 +1,5 @@
-#import "../../components/ProjectPreview.gql"
-#import "../../components/ProjectDetails.gql"
+#import "../../../components/ProjectPreview.gql"
+#import "../../../components/ProjectDetails.gql"
 
 query PeerVoteBallotQuery($eventId: String!) {
     showcase {
