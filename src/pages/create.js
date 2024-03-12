@@ -77,13 +77,9 @@ export default function Create({
             <Box borderWidth={1} rounded="sm" p={4}>
               <Heading as="h2" fontSize="2xl">Create a New Project</Heading>
               {((!tokens || tokens.length === 0) && !user?.admin) ? (
-                <Page>
-                  <Content>
-                    <Text>
-                      You can't create projects right now. Try checking back during an event!
-                    </Text>
-                  </Content>
-                </Page>
+                <Text>
+                    You can't create projects right now. Try checking back during an event!
+                </Text>
               ) : (
                 <CreateProjectForm
                   user={user}
