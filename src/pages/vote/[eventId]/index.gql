@@ -3,7 +3,7 @@
 
 query PeerVoteBallotQuery($eventId: String!) {
     showcase {
-        projects(where: {event: $eventId}) {
+        projects(where: {event: $eventId}, take: 200) {
             ...ProjectPreviewFragment
             ...ProjectDetailsFragment
             members {
