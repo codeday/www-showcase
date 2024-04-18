@@ -6,7 +6,7 @@ import { Box, Grid, Heading, Text, TextInput as Input, Button } from '@codeday/t
 import Page from '../components/Page';
 import ForceLoginPage from '../components/ForceLoginPage';
 import CreateProjectForm from '../components/CreateProjectForm';
-import { mintAllTokens, mintToken } from '../util/token';
+import { mintToken } from '../util/token';
 import { tryAuthenticatedApiQuery } from '../util/api';
 import { CreateProjectMutation, CreateProjectQuery, JoinProjectMutation } from './create.gql';
 
@@ -132,10 +132,15 @@ export async function getServerSideProps({ req }) {
     }
   );
 
-  const tokens = result?.cms?.events?.items
-    .filter((e) => e.program?.webname && e.id && e.subEventIds && e.title)
-    .flatMap((e) => mintAllTokens(session, e.program.webname, e.id, e.subEventIds, e.title));
-
+  const tokens = result?.clear?.events.map((event) => {
+    const groupTitle = event.cmsEventGroup?.title
+    const eventTitle = event.name
+    return {
+      id: event.id,
+      name: groupTitle ? `${groupTitle} - ${eventTitle}` : `${eventTitle}`,
+      token: mintToken(session, 'codeday', event.eventGroup?.cmsEventGroup?.id, event.id, event.region?.webname)
+    }
+  })
   return {
     props: {
       tokens,

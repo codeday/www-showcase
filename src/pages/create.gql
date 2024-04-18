@@ -14,26 +14,32 @@ mutation JoinProjectMutation($joinCode: String!) {
   }
 }
 
-query CreateProjectQuery ($id: ID!, $start: CmsDateTime!, $end: CmsDateTime!) {
+query CreateProjectQuery ($id: ID!, $start: ClearDateTime!, $end: ClearDateTime!) {
   account {
     getUser(where: { id: $id }, fresh: true ) {
       discordId
     }
   }
-
-  cms {
-    events (
-      where: { startsAt_lt: $start, endsAt_gt: $end },
-      order: startsAt_DESC,
-      limit: 25
+  clear { 
+    events(
+      where: { startDate:{ lt: $start }, endDate: { gt: $end } },
+      orderBy: { startDate: asc }
+      take: 25
     ) {
-      items {
+      id
+      name
+      region {
+        name
+        webname 
+      }
+      eventGroup {
         id
-        title
-        program {
-          webname
+        name
+        contentfulId
+        cmsEventGroup {
+          title
+          id
         }
-        subEventIds
       }
     }
   }

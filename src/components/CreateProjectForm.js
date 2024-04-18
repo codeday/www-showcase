@@ -20,9 +20,9 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
 
   return (
     <form onSubmit={doSubmit}>
+          <Text bold mt={4} mb={0}>{hasMultipleTokenOptions? `At which event are you creating your project?` : `${availableTokens[0].name}`}</Text>
       {hasMultipleTokenOptions && (
         <>
-          <Text bold mt={4} mb={0}>At which event are you creating your project?</Text>
           <Controller
             as={Select}
             control={control}
@@ -34,12 +34,13 @@ export default function CreateProjectForm({ availableTokens, isSubmitting, onSub
               <option value={t.token}>{t.name}</option>
             ))}
           </Controller>
-          <Text fontSize="sm" color="current.textLight">
-            {user?.admin && <Link onClick={() => setShowAdmin(!showAdmin)}>(admin options)</Link>}
-          </Text>
+          
           <Text bold color="red.800" mb={0}>{errors?.token ? errors.token.message : ''}</Text>
         </>
       )}
+      <Text fontSize="sm" color="current.textLight">
+            {user?.admin && <Link onClick={() => setShowAdmin(!showAdmin)}>(admin options)</Link>}
+          </Text>
       {user?.admin && showAdmin && (
         <>
           <Text bold mt={4}>(admin) programId</Text>
