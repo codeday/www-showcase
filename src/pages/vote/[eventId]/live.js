@@ -8,7 +8,7 @@ import { Progress } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import { tryAuthenticatedApiQuery } from '../../../util/api';
-import { GetAllProjectsAndStudentsQuery } from './fun.gql';
+import { GetAllProjectsAndStudentsQuery } from './live.gql';
 import { mintToken } from '../../../util/token';
 import ForceLoginPage from '../../../components/ForceLoginPage';
 import Page from '../../../components/Page';
