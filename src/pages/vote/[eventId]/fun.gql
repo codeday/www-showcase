@@ -1,0 +1,19 @@
+query GetAllProjectsAndStudentsQuery($eventId: String!) {
+    showcase {
+        projects(where: {event: $eventId}) {
+            id
+            name
+            members {
+                username
+                account {
+                    name
+                }
+            }
+            peerJudgements {
+                id
+                createdAt
+                username
+            }
+        }
+    }
+}
