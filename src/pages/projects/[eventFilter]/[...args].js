@@ -45,6 +45,13 @@ export default function Projects({
   );
 }
 
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+}
+
 export function makeFilter(params) {
   const eventFilter = (params?.eventFilter) ? params?.eventFilter : 'all';
   const additional = ((params?.args && params?.args[0] && isNaN(params?.args[0])) ? params?.args[0] : ((params?.args && params?.args[1]) ? params.args[1] : '')).split(',');
@@ -82,7 +89,7 @@ export function getGraphQuery(only) {
   return ProjectsPhotosIndexQuery;
 }
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const page = parseInt(params?.args && !isNaN(params?.args[0]) ? params?.args[0] : (!isNaN(params?.eventFilter) ? params?.eventFilter : 1));
   const { where, eventFilter, additional, onlyType } = makeFilter(params);
 

@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/named
-export { default, getServerSideProps } from './[eventFilter]/[...args]';
+export { default, getStaticProps } from './[eventFilter]/[...args]';
