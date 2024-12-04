@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/named
-export { default, getStaticPaths, getStaticProps } from './[...args]';
+export { default, getServerSideProps } from './[...args]';
