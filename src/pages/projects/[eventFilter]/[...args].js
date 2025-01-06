@@ -120,6 +120,5 @@ export async function getServerSideProps({ params }) {
       page,
       additional: additional || null,
     },
-    revalidate: 60,
   };
 }
