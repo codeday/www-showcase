@@ -31,7 +31,14 @@ export default async (req, res) => {
     return;
   }
   const participantName = overrideParticipantName || `${session.user.given_name} ${session.user.family_name}`;
-  const eventName = `${result.showcase.project.eventGroup.title}${result.showcase.project.region?.name ? `, ${result.showcase.project.region?.name}` : ''}`;
+  let eventName = 'CodeDay';
+  if (result.showcase.project.eventGroup?.title && result.showcase.project.region?.name) {
+    eventName = `${result.showcase.project.eventGroup.title}, ${result.showcase.project.region.name}`;
+  } else if (result.showcase.project.region?.name) {
+    eventName = `CodeDay ${result.showcase.project.region.name}`;
+  } else if (result.showcase.project.eventGroup?.title) {
+    eventName = result.showcase.project.eventGroup.title;
+  }
   const projectName = result.showcase.project.name;
   const doc = new PDFDocument({
     layout: 'landscape',
