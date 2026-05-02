@@ -34,6 +34,7 @@ const TAG_OPTIONS = [
   'python',
   'typescript',
   'react',
+  'roblox',
 ];
 const CHECK_BUFFER_TIME = 1000;
 
