@@ -24,7 +24,7 @@ export default function Index({ photo, isAdmin, token }) {
   return (
     <Page>
       <Content>
-        <Text bold>{photo.eventGroup.title} ({photo.region.name})</Text>
+        <Text bold>{photo.eventGroup ? `${photo.eventGroup.title}(${photo.region.name})` : photo.region.name}</Text>
         <Text>{photo.thanks ? <Text>Attribution: {photo.thanks}</Text> : null}</Text>
         <Image src={photo.url} />
         {
